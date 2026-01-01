@@ -78,10 +78,25 @@ async def get_dashboard_stats(resource_id: Optional[str] = None):
         chart_dict = {row[0]: row[1] for row in chart_res}
         chart_data = [chart_dict.get(h, 0) for h in range(24)]
         
+        # 1.5. Session Duration
+        session_dur_query = f"""
+        SELECT avg(dur) FROM (
+            SELECT session_id, dateDiff('second', min(timestamp), max(timestamp)) as dur
+            FROM telemetry 
+            {where_clause} AND timestamp >= now() - INTERVAL 24 HOUR
+            GROUP BY session_id
+        ) WHERE dur > 0
+        """
+        dur_res = client.query(session_dur_query, parameters=params).first_row[0]
+        dur_val = int(dur_res) if dur_res else 0
+        minutes = dur_val // 60
+        seconds = dur_val % 60
+        session_str = f"{minutes}m {seconds}s"
+
         return {
             "visitors": visitors,
             "views": views,
-            "session": "~", 
+            "session": session_str, 
             "bounce": f"{int(bounce_rate)}%",
             "chart_data": chart_data,
             "retention": {
