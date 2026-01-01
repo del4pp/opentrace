@@ -1,0 +1,63 @@
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Text, Boolean
+from sqlalchemy.orm import relationship
+from datetime import datetime
+from .database import Base
+
+class User(Base):
+    __tablename__ = "users"
+    id = Column(Integer, primary_key=True, index=True)
+    email = Column(String, unique=True, index=True)
+    hashed_password = Column(String)
+    is_first_login = Column(Boolean, default=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+class Resource(Base):
+    __tablename__ = "resources"
+    id = Column(Integer, primary_key=True, index=True)
+    uid = Column(String, unique=True, index=True)
+    name = Column(String)
+    type = Column(String) # 'Website' or 'Telegram Bot'
+    token = Column(String, nullable=True) # For bots
+    status = Column(String, default="Active")
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+class Campaign(Base):
+    __tablename__ = "campaigns"
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String)
+    source = Column(String)
+    medium = Column(String)
+    campaign = Column(String)
+    content = Column(String, nullable=True)
+    term = Column(String, nullable=True)
+    slug = Column(String, unique=True, index=True) # Short code for tracking
+    is_bot_link = Column(Boolean, default=False)
+    bot_id = Column(String, nullable=True) # Username or ID of the bot
+    bot_start_param = Column(String, nullable=True) # The generated iJN2r4nQk
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+class Event(Base):
+    __tablename__ = "events_config"
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String)
+    trigger = Column(String) # click, visit, submit
+    selector = Column(String) # CSS selector or URL path
+    resource_id = Column(Integer, ForeignKey("resources.id"))
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+class Tag(Base):
+    __tablename__ = "tags"
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String)
+    provider = Column(String)
+    code = Column(Text)
+    is_active = Column(Boolean, default=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+class Dashboard(Base):
+    __tablename__ = "dashboards"
+    id = Column(Integer, primary_key=True, index=True)
+    resource_id = Column(Integer, ForeignKey("resources.id"))
+    name = Column(String)
+    config = Column(Text) # JSON string of widget layout
+    created_at = Column(DateTime, default=datetime.utcnow)

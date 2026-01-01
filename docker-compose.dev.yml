@@ -1,0 +1,89 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: teleboard-postgres-dev
+    restart: always
+    environment:
+      POSTGRES_DB: teleboard
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5433:5432"  # Different port for dev
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d teleboard"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  clickhouse:
+    image: clickhouse/clickhouse-server:latest
+    container_name: teleboard-clickhouse-dev
+    restart: always
+    ports:
+      - "8124:8123"  # Different port for dev
+      - "9001:9000"  # Different port for dev
+    volumes:
+      - clickhouse_dev_data:/var/lib/clickhouse
+      - ./docker/clickhouse/scripts:/docker-entrypoint-initdb.d
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+
+  redis:
+    image: redis:7-alpine
+    container_name: teleboard-redis-dev
+    restart: always
+    ports:
+      - "6380:6379"  # Different port for dev
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: teleboard-backend-dev
+    restart: always
+    environment:
+      DATABASE_URL: postgresql+asyncpg://admin:password@postgres/teleboard
+      CLICKHOUSE_HOST: clickhouse
+      REDIS_URL: redis://redis:6379/0
+    ports:
+      - "8001:8000"  # Different port for dev
+    volumes:
+      - ./backend:/app
+      - /app/__pycache__
+    depends_on:
+      postgres:
+        condition: service_healthy
+      clickhouse:
+        condition: service_started
+      redis:
+        condition: service_started
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: teleboard-frontend-dev
+    restart: always
+    ports:
+      - "3001:3000"  # Different port for dev
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8001/api
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      - backend
+    command: npm run dev
+
+volumes:
+  postgres_dev_data:
+  clickhouse_dev_data:

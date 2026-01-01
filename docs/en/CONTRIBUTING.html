@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenTrace Analytics - Contributing Guide</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        .header { text-align: center; margin-bottom: 40px; }
+        .logo { font-size: 2em; font-weight: bold; color: #2563eb; margin-bottom: 10px; }
+        .nav { background: #f8fafc; padding: 15px; border-radius: 8px; margin-bottom: 30px; }
+        .nav a { color: #2563eb; text-decoration: none; margin: 0 15px; }
+        .nav a:hover { text-decoration: underline; }
+        .section { margin: 40px 0; }
+        .section h2 { color: #1f2937; border-bottom: 2px solid #e5e7eb; padding-bottom: 10px; }
+        .important { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; border-radius: 8px; margin: 20px 0; }
+        .success { background: #f0fdf4; border-left: 4px solid #10b981; padding: 15px; border-radius: 8px; margin: 20px 0; }
+        .code-block { background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #10b981; margin: 15px 0; font-family: 'Monaco', 'Menlo', monospace; }
+        .workflow { background: #f0f9ff; border-left: 4px solid #0ea5e9; padding: 15px; border-radius: 8px; margin: 15px 0; }
+        .file-structure { background: #1f2937; color: #e5e7eb; padding: 20px; border-radius: 8px; margin: 20px 0; font-family: 'Monaco', 'Menlo', monospace; }
+        .badge { display: inline-block; padding: 4px 8px; border-radius: 12px; font-size: 0.8em; font-weight: bold; margin: 2px; }
+        .badge.beginner { background: #dcfce7; color: #166534; }
+        .badge.intermediate { background: #fef3c7; color: #92400e; }
+        .badge.advanced { background: #fee2e2; color: #991b1b; }
+        .badge.high { background: #fee2e2; color: #991b1b; }
+        .badge.medium { background: #fef3c7; color: #92400e; }
+        .badge.low { background: #dcfce7; color: #166534; }
+        ul { padding-left: 20px; }
+        li { margin: 8px 0; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+        th { background: #f8fafc; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">🤝 OpenTrace Analytics - Contributing Guide</div>
+        <div style="color: #6b7280;">How to contribute to the project</div>
+    </div>
+
+    <div class="nav">
+        <a href="#getting-started">Getting Started</a>
+        <a href="#development">Development</a>
+        <a href="#contributing">Contributing</a>
+        <a href="#issues">Issues</a>
+        <a href="#review">Code Review</a>
+        <a href="#community">Community</a>
+    </div>
+
+    <div id="getting-started" class="section">
+        <h2>🚀 Getting Started</h2>
+
+        <h3>Prerequisites</h3>
+        <ul>
+            <li>Python 3.11+</li>
+            <li>Node.js 18+</li>
+            <li>Docker & Docker Compose</li>
+            <li>Git</li>
+        </ul>
+
+        <h3>Quick Setup</h3>
+        <div class="code-block"># 1. Fork and clone the repository<br>git clone https://github.com/your-username/opentrace.git<br>cd opentrace<br><br># 2. Start development environment<br>docker-compose up -d<br><br># 3. Install frontend dependencies<br>cd frontend && npm install<br><br># 4. Start frontend development server<br>npm run dev</div>
+
+        <h3>Development Workflow</h3>
+        <div class="workflow">
+            <ol>
+                <li><strong>Create a branch:</strong> <code>git checkout -b feature/your-feature-name</code></li>
+                <li><strong>Make changes:</strong> Write code and tests</li>
+                <li><strong>Test locally:</strong> Ensure everything works</li>
+                <li><strong>Commit changes:</strong> Write clear commit messages</li>
+                <li><strong>Push to branch:</strong> <code>git push origin feature/your-feature-name</code></li>
+                <li><strong>Create Pull Request:</strong> Describe your changes</li>
+            </ol>
+        </div>
+    </div>
+
+    <div id="development" class="section">
+        <h2>💻 Development Environment</h2>
+
+        <h3>Project Structure</h3>
+        <div class="file-structure">opentrace/<br>├── backend/           # FastAPI backend<br>│   ├── app/<br>│   │   ├── models.py      # SQLAlchemy models<br>│   │   ├── schemas/       # Pydantic schemas<br>│   │   ├── routers/       # API endpoints<br>│   │   ├── services/      # Business logic<br>│   │   ├── database.py    # DB connections<br>│   │   └── config.py      # Settings<br>│   ├── main.py            # FastAPI app<br>│   ├── requirements.txt   # Python deps<br>│   └── Dockerfile<br>├── frontend/          # Next.js frontend<br>│   ├── app/               # Next.js app directory<br>│   ├── components/        # React components<br>│   ├── context/           # React context<br>│   ├── package.json       # Node deps<br>│   └── Dockerfile<br>├── docker/            # Docker configs<br>├── nginx/             # Reverse proxy<br>└── docs/              # Documentation</div>
+
+        <h3>Running Tests</h3>
+        <div class="code-block"># Backend tests (when available)<br>cd backend<br>python -m pytest<br><br># Frontend tests (when available)<br>cd frontend<br>npm test<br><br># Linting<br>npm run lint</div>
+
+        <h3>Code Style</h3>
+        <ul>
+            <li><strong>Python:</strong> Black formatter, isort for imports</li>
+            <li><strong>JavaScript:</strong> ESLint, Prettier</li>
+            <li><strong>Commits:</strong> Conventional commits format</li>
+        </ul>
+    </div>
+
+    <div id="contributing" class="section">
+        <h2>📝 How to Contribute</h2>
+
+        <div class="important">
+            <strong>🎯 Focus Areas:</strong> We're particularly interested in contributions for:
+            <ul>
+                <li>Mobile SDKs (iOS/Android)</li>
+                <li>Advanced analytics features</li>
+                <li>CRM integrations</li>
+                <li>Multi-language support</li>
+                <li>Documentation improvements</li>
+            </ul>
+        </div>
+
+        <h3>Types of Contributions</h3>
+        <table>
+            <tr>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Difficulty</th>
+            </tr>
+            <tr>
+                <td>🐛 Bug Fixes</td>
+                <td>Fix existing issues and bugs</td>
+                <td><span class="badge beginner">Beginner</span></td>
+            </tr>
+            <tr>
+                <td>✨ Features</td>
+                <td>Implement new functionality</td>
+                <td><span class="badge intermediate">Intermediate</span></td>
+            </tr>
+            <tr>
+                <td>📚 Documentation</td>
+                <td>Improve docs, tutorials, examples</td>
+                <td><span class="badge beginner">Beginner</span></td>
+            </tr>
+            <tr>
+                <td>🎨 UI/UX</td>
+                <td>Improve user interface and experience</td>
+                <td><span class="badge intermediate">Intermediate</span></td>
+            </tr>
+            <tr>
+                <td>⚡ Performance</td>
+                <td>Optimize speed and efficiency</td>
+                <td><span class="badge advanced">Advanced</span></td>
+            </tr>
+            <tr>
+                <td>🔒 Security</td>
+                <td>Improve security and privacy</td>
+                <td><span class="badge advanced">Advanced</span></td>
+            </tr>
+        </table>
+
+        <h3>Good First Issues</h3>
+        <p>Looking for a place to start? Check these beginner-friendly tasks:</p>
+        <ul>
+            <li>🔧 Fix typos in documentation</li>
+            <li>🎨 Improve UI styling and responsiveness</li>
+            <li>📝 Add missing translations</li>
+            <li>🧪 Write unit tests for existing code</li>
+            <li>📊 Add new chart types to dashboard</li>
+        </ul>
+    </div>
+
+    <div id="issues" class="section">
+        <h2>🐛 Working with Issues</h2>
+
+        <h3>Creating Issues</h3>
+        <div class="important">
+            <strong>Before creating an issue:</strong>
+            <ul>
+                <li>Check existing issues for duplicates</li>
+                <li>Use issue templates when available</li>
+                <li>Provide clear, detailed descriptions</li>
+                <li>Include steps to reproduce bugs</li>
+                <li>Add screenshots for UI issues</li>
+            </ul>
+        </div>
+
+        <h3>Issue Labels</h3>
+        <table>
+            <tr>
+                <th>Label</th>
+                <th>Description</th>
+                <th>Priority</th>
+            </tr>
+            <tr>
+                <td><code>bug</code></td>
+                <td>Something isn't working</td>
+                <td><span class="badge high">High</span></td>
+            </tr>
+            <tr>
+                <td><code>enhancement</code></td>
+                <td>New feature or request</td>
+                <td><span class="badge medium">Medium</span></td>
+            </tr>
+            <tr>
+                <td><code>documentation</code></td>
+                <td>Documentation improvements</td>
+                <td><span class="badge low">Low</span></td>
+            </tr>
+            <tr>
+                <td><code>good first issue</code></td>
+                <td>Perfect for newcomers</td>
+                <td><span class="badge low">Low</span></td>
+            </tr>
+            <tr>
+                <td><code>help wanted</code></td>
+                <td>Community contribution needed</td>
+                <td><span class="badge medium">Medium</span></td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="review" class="section">
+        <h2>🔍 Code Review Process</h2>
+
+        <h3>Pull Request Guidelines</h3>
+        <div class="success">
+            <strong>✅ What makes a good PR:</strong>
+            <ul>
+                <li>Clear, descriptive title</li>
+                <li>Detailed description of changes</li>
+                <li>Links to related issues</li>
+                <li>Screenshots for UI changes</li>
+                <li>Tests for new functionality</li>
+                <li>Updated documentation</li>
+            </ul>
+        </div>
+
+        <h3>Commit Messages</h3>
+        <p>Use conventional commit format:</p>
+        <div class="code-block">type(scope): description<br><br>Examples:<br>feat(auth): add OAuth2 login support<br>fix(dashboard): resolve chart rendering bug<br>docs(api): update endpoint documentation</div>
+
+        <h3>Review Checklist</h3>
+        <ul>
+            <li>✅ Code follows style guidelines</li>
+            <li>✅ Tests pass and coverage maintained</li>
+            <li>✅ Documentation updated</li>
+            <li>✅ No breaking changes without discussion</li>
+            <li>✅ Security considerations addressed</li>
+            <li>✅ Performance impact evaluated</li>
+        </ul>
+    </div>
+
+    <div id="community" class="section">
+        <h2>🌍 Community Guidelines</h2>
+
+        <h3>Code of Conduct</h3>
+        <div class="important">
+            <strong>Be respectful and inclusive:</strong>
+            <ul>
+                <li>Use welcoming and inclusive language</li>
+                <li>Be respectful of differing viewpoints</li>
+                <li>Gracefully accept constructive criticism</li>
+                <li>Focus on what is best for the community</li>
+                <li>Show empathy towards other community members</li>
+            </ul>
+        </div>
+
+        <h3>Getting Help</h3>
+        <ul>
+            <li><strong>📧 Email:</strong> del4pp.dev@proton.me</li>
+            <li><strong>💬 GitHub Discussions:</strong> For questions and ideas</li>
+            <li><strong>🐛 GitHub Issues:</strong> For bugs and feature requests</li>
+            <li><strong>💻 Discord/Slack:</strong> Real-time chat (coming soon)</li>
+        </ul>
+
+        <h3>Recognition</h3>
+        <p>We appreciate all contributions! Contributors will be:</p>
+        <ul>
+            <li>📝 Listed in CONTRIBUTORS.md</li>
+            <li>🏷️ Mentioned in release notes</li>
+            <li>🎉 Featured in community updates</li>
+            <li>🎁 Receive swag for significant contributions</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>📋 Additional Resources</h2>
+        <ul>
+            <li><a href="README.html">Setup Guide</a></li>
+            <li><a href="API.html">API Documentation</a></li>
+            <li><a href="ARCHITECTURE.html">Architecture Overview</a></li>
+            <li><a href="https://github.com/your-username/opentrace/issues">GitHub Issues</a></li>
+            <li><a href="https://github.com/your-username/opentrace/discussions">GitHub Discussions</a></li>
+        </ul>
+    </div>
+
+    <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #6b7280;">
+        Thank you for contributing to OpenTrace! 🚀
+    </div>
+</body>
+</html>

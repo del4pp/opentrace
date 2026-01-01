@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenTrace Analytics - API-Dokumentation</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        .header { text-align: center; margin-bottom: 40px; }
+        .logo { font-size: 2em; font-weight: bold; color: #2563eb; margin-bottom: 10px; }
+        .nav { background: #f8fafc; padding: 15px; border-radius: 8px; margin-bottom: 30px; }
+        .nav a { color: #2563eb; text-decoration: none; margin: 0 15px; }
+        .nav a:hover { text-decoration: underline; }
+        .section { margin: 40px 0; }
+        .section h2 { color: #1f2937; border-bottom: 2px solid #e5e7eb; padding-bottom: 10px; }
+        .endpoint { background: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #2563eb; }
+        .method { font-weight: bold; color: #2563eb; font-size: 1.1em; }
+        .url { font-family: 'Monaco', 'Menlo', monospace; background: white; padding: 5px 10px; border-radius: 4px; margin: 5px 0; }
+        .json-block { background: #1f2937; color: #e5e7eb; padding: 15px; border-radius: 8px; margin: 15px 0; font-family: 'Monaco', 'Menlo', monospace; overflow-x: auto; }
+        .json-key { color: #60a5fa; }
+        .json-string { color: #34d399; }
+        .json-number { color: #fbbf24; }
+        .code-block { background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #10b981; margin: 15px 0; font-family: 'Monaco', 'Menlo', monospace; }
+        .warning { background: #fef2f2; border-left-color: #ef4444; padding: 15px; border-radius: 8px; margin: 15px 0; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+        th { background: #f8fafc; font-weight: 600; }
+        .badge { padding: 4px 8px; border-radius: 12px; font-size: 0.8em; font-weight: bold; }
+        .badge.get { background: #dcfce7; color: #166534; }
+        .badge.post { background: #fef3c7; color: #92400e; }
+        .badge.delete { background: #fee2e2; color: #991b1b; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">📋 OpenTrace Analytics - API-Dokumentation</div>
+        <div style="color: #6b7280;">Vollständiger REST API Leitfaden</div>
+    </div>
+
+    <div class="nav">
+        <a href="#overview">Übersicht</a>
+        <a href="#auth">Authentifizierung</a>
+        <a href="#analytics">Analytics</a>
+        <a href="#resources">Ressourcen</a>
+        <a href="#campaigns">Kampagnen</a>
+        <a href="#events">Ereignisse</a>
+        <a href="#tracking">Tracking</a>
+        <a href="#errors">Fehler</a>
+    </div>
+
+    <div id="overview" class="section">
+        <h2>Systemübersicht</h2>
+        <p>OpenTrace bietet eine umfassende REST API zur Verwaltung von Ressourcen, Kampagnen, Ereignissen und zum Abrufen von Analysedaten. Alle Endpunkte geben JSON-Antworten zurück.</p>
+
+        <div style="background: #f8fafc; border-left: 4px solid #2563eb; padding: 15px; border-radius: 8px; margin: 20px 0;">
+            <strong>Base URL:</strong> <code>http://your-domain.com/api</code><br>
+            <strong>Authentifizierung:</strong> Sitzungsbasiert (Admin-Login für Verwaltungsvorgänge erforderlich)
+        </div>
+    </div>
+
+    <div id="auth" class="section">
+        <h2>Authentifizierung</h2>
+
+        <div class="endpoint">
+            <div class="method">POST</div>
+            <div class="url">/api/login</div>
+            <p>Authentifiziere Admin-Benutzer</p>
+
+            <h4>Anfrage-Body:</h4>
+            <div class="json-block">{
+  "email": "admin@opentrace.io",
+  "password": "your_password"
+}</div>
+
+            <h4>Antwort:</h4>
+            <div class="json-block">{
+  "user_id": 1,
+  "email": "admin@opentrace.io",
+  "is_first_login": false
+}</div>
+        </div>
+
+        <div class="endpoint">
+            <div class="method">POST</div>
+            <div class="url">/api/change-password</div>
+            <p>Admin-Passwort ändern</p>
+
+            <h4>Anfrage-Body:</h4>
+            <div class="json-block">{
+  "user_id": 1,
+  "current_password": "old_password",
+  "new_password": "new_password"
+}</div>
+        </div>
+    </div>
+
+    <div id="analytics" class="section">
+        <h2>Analytics-Endpunkte</h2>
+
+        <div class="endpoint">
+            <div class="method">GET</div>
+            <div class="url">/api/dashboard/stats?resource_id=optional_resource_id</div>
+            <p>Echtzeit-Dashboard-Metriken für die letzten 24 Stunden abrufen</p>
+
+            <h4>Antwort:</h4>
+            <div class="json-block">{
+  "visitors": 1250,
+  "views": 3400,
+  "session": "~3m 42s",
+  "bounce": "34%",
+  "chart_data": [45, 67, 89, 123],
+  "retention": {
+    "d7": "12.5%",
+    "d30": "8.2%",
+    "new_vs_returning": {
+      "new": 65,
+      "returning": 35
+    }
+  }
+}</div>
+        </div>
+
+        <div class="endpoint">
+            <div class="method">GET</div>
+            <div class="url">/api/analytics/live?resource_id=optional_resource_id</div>
+            <p>Echtzeit-Nutzeraktivität und Standorte abrufen</p>
+
+            <h4>Antwort:</h4>
+            <div class="json-block">{
+  "online": 24,
+  "locations": [
+    {
+      "lat": 50.45,
+      "lng": 30.52,
+      "city": "Kyiv",
+      "count": 5
+    }
+  ],
+  "events": [
+    {
+      "type": "page_view",
+      "ip": "192.168.1.1",
+      "ts": "2026-01-15T10:30:00Z"
+    }
+  ]
+}</div>
+        </div>
+
+        <div class="endpoint">
+            <div class="method">GET</div>
+            <div class="url">/api/analytics/explore?resource_id=id&start=2026-01-01&end=2026-01-31</div>
+            <p>Detaillierte Analytics mit benutzerdefinierten Datumsbereichen abrufen</p>
+
+            <h4>Antwort:</h4>
+            <div class="json-block">{
+  "metrics": {
+    "visitors": 15420,
+    "views": 45680,
+    "bounce_rate": 28.5
+  },
+  "sources": [
+    {
+      "name": "Direct",
+      "val": 1200,
+      "pct": 45
+    },
+    {
+      "name": "google.com",
+      "val": 890,
+      "pct": 33
+    }
+  ]
+}</div>
+        </div>
+    </div>
+
+    <div id="resources" class="section">
+        <h2>Ressourcenverwaltung</h2>
+
+        <div class="endpoint">
+            <div class="method">GET</div>
+            <div class="url">/api/resources</div>
+            <p>Liste aller Ressourcen anzeigen</p>
+
+            <h4>Antwort:</h4>
+            <div class="json-block">[
+  {
+    "id": 1,
+    "uid": "ot_web_abc123",
+    "name": "My Website",
+    "type": "Website",
+    "status": "Active",
+    "created_at": "2026-01-01T00:00:00Z"
+  }
+]</div>
+        </div>
+
+        <div class="endpoint">
+            <div class="method">POST</div>
+            <div class="url">/api/resources</div>
+            <p>Neue Ressource erstellen</p>
+
+            <h4>Anfrage-Body:</h4>
+            <div class="json-block">{
+  "name": "New Website",
+  "type": "Website",
+  "uid": "ot_web_xyz789",
+  "status": "Active"
+}</div>
+        </div>
+
+        <div class="endpoint">
+            <div class="method">DELETE</div>
+            <div class="url">/api/resources/{resource_id}</div>
+            <p>Ressource löschen (Passwort erforderlich)</p>
+
+            <h4>Anfrage-Body:</h4>
+            <div class="json-block">{
+  "password": "admin_password"
+}</div>
+        </div>
+    </div>
+
+    <div id="tracking" class="section">
+        <h2>Datensammlung</h2>
+
+        <div class="endpoint">
+            <div class="method">POST</div>
+            <div class="url">/api/v1/collect</div>
+            <p>Tracking-Daten von Ihrer Anwendung senden</p>
+
+            <h4>Anfrage-Body:</h4>
+            <div class="json-block">{
+  "rid": "ot_web_abc123",
+  "sid": "session_123",
+  "type": "page_view",
+  "url": "https://example.com/page",
+  "ref": "https://google.com",
+  "res": "1920x1080",
+  "lang": "en-US",
+  "utm_s": "google",
+  "utm_m": "organic",
+  "utm_c": "search",
+  "meta": {
+    "custom_field": "value"
+  }
+}</div>
+
+            <h4>Antwort:</h4>
+            <div class="json-block">{
+  "status": "success"
+}</div>
+        </div>
+
+        <h3>Tracking-Code-Integration</h3>
+
+        <h4>JavaScript-Tracking</h4>
+        <p>Fügen Sie dies in den <code>&lt;head&gt;</code>-Bereich Ihrer Website ein:</p>
+        <div class="code-block">&lt;script async src="http://your-domain.com/ot.js"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data-id="your_resource_uid"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data-host="http://your-domain.com/api/v1/collect"&gt;&lt;/script&gt;</div>
+
+        <h4>Benutzerdefinierte Ereignisse</h4>
+        <div class="code-block">// Benutzerdefinierte Ereignisse tracken<br>window.ot.track('button_click', {<br>&nbsp;&nbsp;button_name: 'hero_cta',<br>&nbsp;&nbsp;page_section: 'header'<br>});<br><br>// Käufe tracken<br>window.ot.track('purchase', {<br>&nbsp;&nbsp;amount: 99.99,<br>&nbsp;&nbsp;currency: 'USD',<br>&nbsp;&nbsp;product_id: 'premium_plan'<br>});</div>
+
+        <h4>Serverseitiges Tracking</h4>
+        <div class="code-block">import requests<br><br># Vom Backend tracken<br>requests.post('http://your-domain.com/api/v1/collect', json={<br>&nbsp;&nbsp;&nbsp;&nbsp;"rid": "your_resource_id",<br>&nbsp;&nbsp;&nbsp;&nbsp;"type": "payment_success",<br>&nbsp;&nbsp;&nbsp;&nbsp;"payload": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"amount": 29,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"currency": "USD",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"plan": "pro"<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>})</div>
+    </div>
+
+    <div id="errors" class="section">
+        <h2>Fehlerantworten</h2>
+
+        <p>Alle Fehler geben standardmäßige HTTP-Statuscodes mit Fehlerdetails in JSON zurück:</p>
+
+        <div class="json-block">{
+  "detail": "Invalid credentials"
+}</div>
+
+        <table>
+            <tr>
+                <th>Statuscode</th>
+                <th>Beschreibung</th>
+            </tr>
+            <tr>
+                <td><span class="badge get">200</span></td>
+                <td>Erfolg</td>
+            </tr>
+            <tr>
+                <td><span class="badge post">400</span></td>
+                <td>Bad Request</td>
+            </tr>
+            <tr>
+                <td><span class="badge post">401</span></td>
+                <td>Unautorisiert</td>
+            </tr>
+            <tr>
+                <td><span class="badge delete">403</span></td>
+                <td>Verboten</td>
+            </tr>
+            <tr>
+                <td><span class="badge delete">404</span></td>
+                <td>Nicht gefunden</td>
+            </tr>
+            <tr>
+                <td><span class="badge delete">500</span></td>
+                <td>Interner Serverfehler</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>Sicherheitshinweise</h2>
+        <div class="warning">
+            <ul>
+                <li>Alle Verwaltungsendpunkte erfordern Admin-Authentifizierung</li>
+                <li>Datensammlungs-Endpunkt ist öffentlich aber rate-limited</li>
+                <li>Zerstörerische Operationen erfordern Passwortbestätigung</li>
+                <li>Alle Daten werden lokal auf Ihrer Infrastruktur gespeichert</li>
+            </ul>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #6b7280;">
+        Zuletzt aktualisiert: 1. Januar 2026
+    </div>
+</body>
+</html>

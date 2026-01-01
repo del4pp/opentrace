@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenTrace Analytics - Przewodnik instalacji</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        .header { text-align: center; margin-bottom: 40px; }
+        .logo { font-size: 2em; font-weight: bold; color: #2563eb; margin-bottom: 10px; }
+        .subtitle { color: #6b7280; font-size: 1.1em; }
+        .section { margin: 30px 0; }
+        .section h2 { color: #1f2937; border-bottom: 2px solid #e5e7eb; padding-bottom: 10px; }
+        .code-block { background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #2563eb; margin: 15px 0; font-family: 'Monaco', 'Menlo', monospace; }
+        .warning { background: #fef2f2; border-left-color: #ef4444; padding: 15px; border-radius: 8px; margin: 15px 0; }
+        .success { background: #f0fdf4; border-left-color: #10b981; padding: 15px; border-radius: 8px; margin: 15px 0; }
+        .btn { display: inline-block; background: #2563eb; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px; margin: 10px 0; }
+        .btn:hover { background: #1d4ed8; }
+        ul { padding-left: 20px; }
+        li { margin: 8px 0; }
+        .flag { font-size: 1.2em; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">🚀 OpenTrace Analytics</div>
+        <div class="subtitle">Prywatność na pierwszym miejscu, samodzielna platforma analityczna</div>
+    </div>
+
+    <div class="section">
+        <h2>Szybki start</h2>
+        <p><strong>OpenTrace</strong> to platforma analityczna skupiająca się na prywatności, dająca pełną suwerenność danych. Zainstaluj w 2 minuty, bez cookies, bez skryptów śledzących od firm trzecich.</p>
+
+        <h3>Wymagania systemowe</h3>
+        <ul>
+            <li>Docker i Docker Compose</li>
+            <li>Minimum 2GB RAM</li>
+            <li>Linux/Windows/MacOS</li>
+        </ul>
+
+        <h3>Instalacja</h3>
+        <ol>
+            <li><strong>Sklonuj repozytorium:</strong>
+                <div class="code-block">git clone https://github.com/your-username/opentrace.git<br>cd opentrace</div>
+            </li>
+            <li><strong>Uruchom instalator:</strong>
+                <div class="code-block">chmod +x install.sh<br>./install.sh</div>
+            </li>
+            <li><strong>Postępuj zgodnie z kreatorem:</strong>
+                <ul>
+                    <li>Wprowadź nazwę domeny lub adres IP</li>
+                    <li>Skrypt automatycznie generuje bezpieczne hasła</li>
+                </ul>
+            </li>
+            <li><strong>Dostęp do panelu:</strong>
+                <ul>
+                    <li><strong>URL:</strong> <code>http://your-domain.com</code></li>
+                    <li><strong>Login:</strong> <code>admin@opentrace.io</code></li>
+                    <li><strong>Hasło:</strong> (wyświetlane w terminalu - zapisz je!)</li>
+                </ul>
+            </li>
+        </ol>
+    </div>
+
+    <div class="section">
+        <h2>Pierwsze kroki</h2>
+
+        <h3>1. Dodaj pierwszą stronę</h3>
+        <ol>
+            <li>Przejdź do <strong>Resources</strong> → <strong>Add Resource</strong></li>
+            <li>Wybierz typ <strong>Website</strong></li>
+            <li>Wprowadź nazwę strony</li>
+            <li>Skopiuj wygenerowany kod śledzenia</li>
+        </ol>
+
+        <h3>2. Zintegruj kod śledzenia</h3>
+        <p>Dodaj ten kod w sekcji <code>&lt;head&gt;</code> swojej strony:</p>
+        <div class="code-block">&lt;!-- OpenTrace Analytics --&gt;<br>&lt;script async src="http://your-domain.com/ot.js"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data-id="ot_web_xyz123"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data-host="http://your-domain.com/api/v1/collect"&gt;&lt;/script&gt;</div>
+
+        <h3>3. Przeglądaj analitykę</h3>
+        <ul>
+            <li><strong>Dashboard:</strong> Metryki w czasie rzeczywistym za ostatnie 24 godziny</li>
+            <li><strong>Analytics:</strong> Szczegółowe raporty z własnymi zakresami dat</li>
+            <li><strong>Live:</strong> Mapa aktywności użytkowników w czasie rzeczywistym</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Konfiguracja</h2>
+
+        <h3>Zmienne środowiskowe</h3>
+        <p>Utwórz plik <code>.env</code> dla własnej konfiguracji:</p>
+        <div class="code-block">DOMAIN_NAME=your-domain.com<br>POSTGRES_USER=admin<br>POSTGRES_PASSWORD=your_secure_password<br>POSTGRES_DB=teleboard<br>SECRET_KEY=your_secret_key<br>ADMIN_INITIAL_PASSWORD=your_admin_password</div>
+
+        <h3>Zaawansowana konfiguracja</h3>
+        <p>Dla wdrożenia produkcyjnego z SSL:</p>
+        <div class="code-block"># Zainstaluj certbot dla SSL<br>sudo apt install certbot<br><br># Wygeneruj certyfikat SSL<br>sudo certbot certonly --standalone -d your-domain.com<br><br># Zaktualizuj konfigurację nginx dla SSL</div>
+    </div>
+
+    <div class="section">
+        <h2>Usługi Docker</h2>
+        <p>Aplikacja składa się z 4 głównych usług:</p>
+        <ul>
+            <li><strong>Frontend:</strong> Panel Next.js (port 3000)</li>
+            <li><strong>Backend:</strong> Serwer FastAPI (port 8000)</li>
+            <li><strong>PostgreSQL:</strong> Przechowywanie metadanych</li>
+            <li><strong>ClickHouse:</strong> Dane analityczne</li>
+            <li><strong>Redis:</strong> Pamięć podręczna w czasie rzeczywistym</li>
+        </ul>
+
+        <h3>Ręczne polecenia Docker</h3>
+        <div class="code-block"># Rozwój<br>docker-compose up -d<br><br># Produkcja<br>docker-compose -f docker-compose.prod.yml up -d<br><br># Logi<br>docker-compose logs -f backend<br><br># Przebuduj konkretną usługę<br>docker-compose up -d --build frontend</div>
+    </div>
+
+    <div class="section">
+        <h2>Rozwiązywanie problemów</h2>
+
+        <h3>Typowe problemy</h3>
+        <dl>
+            <dt><strong>Panel nie ładuje się:</strong></dt>
+            <dd>Sprawdź czy wszystkie kontenery są uruchomione: <code>docker-compose ps</code></dd>
+
+            <dt><strong>Dane analityczne nie wyświetlają się:</strong></dt>
+            <dd>Sprawdź połączenie ClickHouse: <code>docker-compose logs clickhouse</code></dd>
+
+            <dt><strong>Błędy połączenia z bazą danych:</strong></dt>
+            <dd>Upewnij się, że PostgreSQL jest uruchomiony: <code>docker-compose logs postgres</code></dd>
+        </dl>
+
+        <h3>Lokalizacja logów</h3>
+        <div class="code-block"># Logi systemowe<br>docker-compose logs backend<br><br># Logi bazy danych<br>docker-compose logs postgres<br><br># Logi danych analitycznych<br>docker-compose logs clickhouse</div>
+    </div>
+
+    <div class="section">
+        <h2>Dodatkowe zasoby</h2>
+        <ul>
+            <li><a href="API.html">Dokumentacja API</a></li>
+            <li><a href="ARCHITECTURE.html">Przegląd architektury</a></li>
+            <li><a href="CONTRIBUTING.html">Przewodnik współtwórców</a></li>
+            <li><a href="https://github.com/your-username/opentrace/issues">GitHub Issues</a></li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Wsparcie</h2>
+        <ul>
+            <li><strong>GitHub Issues:</strong> Dla błędów i próśb o funkcje</li>
+            <li><strong>Discussions:</strong> Dla pytań i wsparcia społeczności</li>
+            <li><strong>Email:</strong> del4pp.dev@proton.me (przyszłość)</li>
+        </ul>
+    </div>
+
+    <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #6b7280;">
+        <strong>OpenTrace Analytics</strong> - Platforma analityczna skupiająca się na prywatności
+    </div>
+</body>
+</html>

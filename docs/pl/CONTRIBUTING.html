@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenTrace Analytics - Przewodnik współtwórców</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        .header { text-align: center; margin-bottom: 40px; }
+        .logo { font-size: 2em; font-weight: bold; color: #2563eb; margin-bottom: 10px; }
+        .nav { background: #f8fafc; padding: 15px; border-radius: 8px; margin-bottom: 30px; }
+        .nav a { color: #2563eb; text-decoration: none; margin: 0 15px; }
+        .nav a:hover { text-decoration: underline; }
+        .section { margin: 40px 0; }
+        .section h2 { color: #1f2937; border-bottom: 2px solid #e5e7eb; padding-bottom: 10px; }
+        .important { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; border-radius: 8px; margin: 20px 0; }
+        .success { background: #f0fdf4; border-left: 4px solid #10b981; padding: 15px; border-radius: 8px; margin: 20px 0; }
+        .code-block { background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #10b981; margin: 15px 0; font-family: 'Monaco', 'Menlo', monospace; }
+        .workflow { background: #f0f9ff; border-left: 4px solid #0ea5e9; padding: 15px; border-radius: 8px; margin: 15px 0; }
+        .file-structure { background: #1f2937; color: #e5e7eb; padding: 20px; border-radius: 8px; margin: 20px 0; font-family: 'Monaco', 'Menlo', monospace; }
+        .badge { display: inline-block; padding: 4px 8px; border-radius: 12px; font-size: 0.8em; font-weight: bold; margin: 2px; }
+        .badge.beginner { background: #dcfce7; color: #166534; }
+        .badge.intermediate { background: #fef3c7; color: #92400e; }
+        .badge.advanced { background: #fee2e2; color: #991b1b; }
+        .badge.high { background: #fee2e2; color: #991b1b; }
+        .badge.medium { background: #fef3c7; color: #92400e; }
+        .badge.low { background: #dcfce7; color: #166534; }
+        ul { padding-left: 20px; }
+        li { margin: 8px 0; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+        th { background: #f8fafc; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">🤝 OpenTrace Analytics - Przewodnik współtwórców</div>
+        <div style="color: #6b7280;">Jak przyczynić się do projektu</div>
+    </div>
+
+    <div class="nav">
+        <a href="#getting-started">Rozpoczęcie</a>
+        <a href="#development">Rozwój</a>
+        <a href="#contributing">Współtworzenie</a>
+        <a href="#issues">Problemy</a>
+        <a href="#review">Recenzja kodu</a>
+        <a href="#community">Społeczność</a>
+    </div>
+
+    <div id="getting-started" class="section">
+        <h2>🚀 Rozpoczęcie pracy</h2>
+
+        <h3>Wymagania wstępne</h3>
+        <ul>
+            <li>Python 3.11+</li>
+            <li>Node.js 18+</li>
+            <li>Docker i Docker Compose</li>
+            <li>Git</li>
+        </ul>
+
+        <h3>Szybka konfiguracja</h3>
+        <div class="code-block"># 1. Sklonuj i przejdź do repozytorium<br>git clone https://github.com/your-username/opentrace.git<br>cd opentrace<br><br># 2. Uruchom środowisko programistyczne<br>docker-compose up -d<br><br># 3. Zainstaluj zależności frontend<br>cd frontend && npm install<br><br># 4. Uruchom serwer deweloperski frontend<br>npm run dev</div>
+
+        <h3>Przepływ pracy programistycznej</h3>
+        <div class="workflow">
+            <ol>
+                <li><strong>Utwórz gałąź:</strong> <code>git checkout -b feature/your-feature-name</code></li>
+                <li><strong>Wprowadź zmiany:</strong> Napisz kod i testy</li>
+                <li><strong>Przetestuj lokalnie:</strong> Upewnij się, że wszystko działa</li>
+                <li><strong>Zatwierdź zmiany:</strong> Napisz zrozumiałe komunikaty commit</li>
+                <li><strong>Wyślij do gałęzi:</strong> <code>git push origin feature/your-feature-name</code></li>
+                <li><strong>Utwórz Pull Request:</strong> Opisz swoje zmiany</li>
+            </ol>
+        </div>
+    </div>
+
+    <div id="contributing" class="section">
+        <h2>📝 Jak współtworzyć</h2>
+
+        <div class="important">
+            <strong>🎯 Obszary zainteresowania:</strong> Szczególnie interesują nas kontrybucje dla:
+            <ul>
+                <li>SDK mobilnych (iOS/Android)</li>
+                <li>Rozszerzone funkcje analityczne</li>
+                <li>Integracje CRM</li>
+                <li>Wsparcie wielojęzyczne</li>
+                <li>Poprawy dokumentacji</li>
+            </ul>
+        </div>
+
+        <h3>Typy kontrybucji</h3>
+        <table>
+            <tr>
+                <th>Typ</th>
+                <th>Opis</th>
+                <th>Trudność</th>
+            </tr>
+            <tr>
+                <td>🐛 Poprawki błędów</td>
+                <td>Napraw istniejące problemy i błędy</td>
+                <td><span class="badge beginner">Początkujący</span></td>
+            </tr>
+            <tr>
+                <td>✨ Nowe funkcje</td>
+                <td>Zaimplementuj nową funkcjonalność</td>
+                <td><span class="badge intermediate">Średni</span></td>
+            </tr>
+            <tr>
+                <td>📚 Dokumentacja</td>
+                <td>Popraw dokumentację, przewodniki, przykłady</td>
+                <td><span class="badge beginner">Początkujący</span></td>
+            </tr>
+            <tr>
+                <td>🎨 UI/UX</td>
+                <td>Popraw interfejs użytkownika i doświadczenie</td>
+                <td><span class="badge intermediate">Średni</span></td>
+            </tr>
+        </table>
+
+        <h3>Dobre pierwsze zadania</h3>
+        <p>Szukasz miejsca do rozpoczęcia? Sprawdź te zadania dla początkujących:</p>
+        <ul>
+            <li>🔧 Popraw literówki w dokumentacji</li>
+            <li>🎨 Popraw stylizację UI i responsywność</li>
+            <li>📝 Dodaj brakujące tłumaczenia</li>
+            <li>🧪 Napisz testy jednostkowe dla istniejącego kodu</li>
+            <li>📊 Dodaj nowe typy wykresów do dashboard</li>
+        </ul>
+    </div>
+
+    <div id="issues" class="section">
+        <h2>🐛 Praca z problemami</h2>
+
+        <h3>Tworzenie problemów</h3>
+        <div class="important">
+            <strong>Przed utworzeniem problemu:</strong>
+            <ul>
+                <li>Sprawdź istniejące problemy pod kątem duplikatów</li>
+                <li>Użyj szablonów problemów jeśli są dostępne</li>
+                <li>Podaj jasne, szczegółowe opisy</li>
+                <li>Dołącz kroki do reprodukcji błędów</li>
+                <li>Dodaj zrzuty ekranu dla problemów UI</li>
+            </ul>
+        </div>
+
+        <h3>Etykiety problemów</h3>
+        <table>
+            <tr>
+                <th>Etykieta</th>
+                <th>Opis</th>
+                <th>Priorytet</th>
+            </tr>
+            <tr>
+                <td><code>bug</code></td>
+                <td>Coś nie działa</td>
+                <td><span class="badge high">Wysoki</span></td>
+            </tr>
+            <tr>
+                <td><code>enhancement</code></td>
+                <td>Nowa funkcja lub prośba</td>
+                <td><span class="badge medium">Średni</span></td>
+            </tr>
+            <tr>
+                <td><code>documentation</code></td>
+                <td>Poprawy dokumentacji</td>
+                <td><span class="badge low">Niski</span></td>
+            </tr>
+            <tr>
+                <td><code>good first issue</code></td>
+                <td>Idealny dla nowicjuszy</td>
+                <td><span class="badge low">Niski</span></td>
+            </tr>
+        </table>
+    </div>
+
+    <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #6b7280;">
+        Dziękujemy za kontrybuowanie do OpenTrace! 🚀
+    </div>
+</body>
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenTrace Analytics - Посібник для контриб'юторів</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        .header { text-align: center; margin-bottom: 40px; }
+        .logo { font-size: 2em; font-weight: bold; color: #2563eb; margin-bottom: 10px; }
+        .nav { background: #f8fafc; padding: 15px; border-radius: 8px; margin-bottom: 30px; }
+        .nav a { color: #2563eb; text-decoration: none; margin: 0 15px; }
+        .nav a:hover { text-decoration: underline; }
+        .section { margin: 40px 0; }
+        .section h2 { color: #1f2937; border-bottom: 2px solid #e5e7eb; padding-bottom: 10px; }
+        .important { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; border-radius: 8px; margin: 20px 0; }
+        .success { background: #f0fdf4; border-left: 4px solid #10b981; padding: 15px; border-radius: 8px; margin: 20px 0; }
+        .code-block { background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #10b981; margin: 15px 0; font-family: 'Monaco', 'Menlo', monospace; }
+        .workflow { background: #f0f9ff; border-left: 4px solid #0ea5e9; padding: 15px; border-radius: 8px; margin: 15px 0; }
+        .file-structure { background: #1f2937; color: #e5e7eb; padding: 20px; border-radius: 8px; margin: 20px 0; font-family: 'Monaco', 'Menlo', monospace; }
+        .badge { display: inline-block; padding: 4px 8px; border-radius: 12px; font-size: 0.8em; font-weight: bold; margin: 2px; }
+        .badge.beginner { background: #dcfce7; color: #166534; }
+        .badge.intermediate { background: #fef3c7; color: #92400e; }
+        .badge.advanced { background: #fee2e2; color: #991b1b; }
+        .badge.high { background: #fee2e2; color: #991b1b; }
+        .badge.medium { background: #fef3c7; color: #92400e; }
+        .badge.low { background: #dcfce7; color: #166534; }
+        ul { padding-left: 20px; }
+        li { margin: 8px 0; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+        th { background: #f8fafc; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">🤝 OpenTrace Analytics - Посібник для контриб'юторів</div>
+        <div style="color: #6b7280;">Як зробити внесок у проект</div>
+    </div>
+
+    <div class="nav">
+        <a href="#getting-started">Початок роботи</a>
+        <a href="#development">Розробка</a>
+        <a href="#contributing">Контрибуція</a>
+        <a href="#issues">Проблеми</a>
+        <a href="#review">Рев'ю коду</a>
+        <a href="#community">Спільнота</a>
+    </div>
+
+    <div id="getting-started" class="section">
+        <h2>🚀 Початок роботи</h2>
+
+        <h3>Передумови</h3>
+        <ul>
+            <li>Python 3.11+</li>
+            <li>Node.js 18+</li>
+            <li>Docker та Docker Compose</li>
+            <li>Git</li>
+        </ul>
+
+        <h3>Швидке налаштування</h3>
+        <div class="code-block"># 1. Клонувати та перейти до репозиторію<br>git clone https://github.com/your-username/opentrace.git<br>cd opentrace<br><br># 2. Запустити середовище розробки<br>docker-compose up -d<br><br># 3. Встановити залежності фронтенду<br>cd frontend && npm install<br><br># 4. Запустити сервер розробки фронтенду<br>npm run dev</div>
+
+        <h3>Робочий процес розробки</h3>
+        <div class="workflow">
+            <ol>
+                <li><strong>Створити гілку:</strong> <code>git checkout -b feature/your-feature-name</code></li>
+                <li><strong>Зробити зміни:</strong> Написати код та тести</li>
+                <li><strong>Протестувати локально:</strong> Переконатися що все працює</li>
+                <li><strong>Зафіксувати зміни:</strong> Написати зрозумілі повідомлення комітів</li>
+                <li><strong>Відправити до гілки:</strong> <code>git push origin feature/your-feature-name</code></li>
+                <li><strong>Створити Pull Request:</strong> Описати свої зміни</li>
+            </ol>
+        </div>
+    </div>
+
+    <div id="development" class="section">
+        <h2>💻 Середовище розробки</h2>
+
+        <h3>Структура проекту</h3>
+        <div class="file-structure">opentrace/<br>├── backend/           # FastAPI бекенд<br>│   ├── app/<br>│   │   ├── models.py      # SQLAlchemy моделі<br>│   │   ├── schemas/       # Pydantic схеми<br>│   │   ├── routers/       # API ендпоінти<br>│   │   ├── services/      # Бізнес-логіка<br>│   │   ├── database.py    # Підключення до БД<br>│   │   └── config.py      # Налаштування<br>│   ├── main.py            # FastAPI додаток<br>│   ├── requirements.txt   # Python залежності<br>│   └── Dockerfile<br>├── frontend/          # Next.js фронтенд<br>│   ├── app/               # Next.js app директорія<br>│   ├── components/        # React компоненти<br>│   ├── context/           # React контекст<br>│   ├── package.json       # Node залежності<br>│   └── Dockerfile<br>├── docker/            # Docker конфігурації<br>├── nginx/             # Reverse proxy<br>└── docs/              # Документація</div>
+
+        <h3>Запуск тестів</h3>
+        <div class="code-block"># Тести бекенду (якщо доступні)<br>cd backend<br>python -m pytest<br><br># Тести фронтенду (якщо доступні)<br>cd frontend<br>npm test<br><br># Лінтинг<br>npm run lint</div>
+
+        <h3>Стиль коду</h3>
+        <ul>
+            <li><strong>Python:</strong> Black форматер, isort для імпортів</li>
+            <li><strong>JavaScript:</strong> ESLint, Prettier</li>
+            <li><strong>Коміти:</strong> Conventional commits формат</li>
+        </ul>
+    </div>
+
+    <div id="contributing" class="section">
+        <h2>📝 Як зробити внесок</h2>
+
+        <div class="important">
+            <strong>🎯 Фокусні області:</strong> Нас особливо цікавлять контрибуції для:
+            <ul>
+                <li>Мобільні SDK (iOS/Android)</li>
+                <li>Розширені функції аналітики</li>
+                <li>CRM інтеграції</li>
+                <li>Багатомовна підтримка</li>
+                <li>Покращення документації</li>
+            </ul>
+        </div>
+
+        <h3>Типи контрибуцій</h3>
+        <table>
+            <tr>
+                <th>Тип</th>
+                <th>Опис</th>
+                <th>Складність</th>
+            </tr>
+            <tr>
+                <td>🐛 Виправлення багів</td>
+                <td>Виправити існуючі проблеми та баги</td>
+                <td><span class="badge beginner">Початківець</span></td>
+            </tr>
+            <tr>
+                <td>✨ Нові функції</td>
+                <td>Реалізувати нову функціональність</td>
+                <td><span class="badge intermediate">Середній</span></td>
+            </tr>
+            <tr>
+                <td>📚 Документація</td>
+                <td>Покращити документацію, посібники, приклади</td>
+                <td><span class="badge beginner">Початківець</span></td>
+            </tr>
+            <tr>
+                <td>🎨 UI/UX</td>
+                <td>Покращити інтерфейс користувача та досвід</td>
+                <td><span class="badge intermediate">Середній</span></td>
+            </tr>
+            <tr>
+                <td>⚡ Продуктивність</td>
+                <td>Оптимізувати швидкість та ефективність</td>
+                <td><span class="badge advanced">Просунутий</span></td>
+            </tr>
+            <tr>
+                <td>🔒 Безпека</td>
+                <td>Покращити безпеку та приватність</td>
+                <td><span class="badge advanced">Просунутий</span></td>
+            </tr>
+        </table>
+
+        <h3>Хороші перші завдання</h3>
+        <p>Шукаєте з чого почати? Перегляньте ці завдання для початківців:</p>
+        <ul>
+            <li>🔧 Виправити опечатки в документації</li>
+            <li>🎨 Покращити стилізацію UI та адаптивність</li>
+            <li>📝 Додати відсутні переклади</li>
+            <li>🧪 Написати unit тести для існуючого коду</li>
+            <li>📊 Додати нові типи діаграм до dashboard</li>
+        </ul>
+    </div>
+
+    <div id="issues" class="section">
+        <h2>🐛 Робота з проблемами</h2>
+
+        <h3>Створення проблем</h3>
+        <div class="important">
+            <strong>Перед створенням проблеми:</strong>
+            <ul>
+                <li>Перевірити існуючі проблеми на дублікати</li>
+                <li>Використовувати шаблони проблем якщо доступні</li>
+                <li>Надати зрозумілі, детальні описи</li>
+                <li>Включити кроки для відтворення багів</li>
+                <li>Додати скріншоти для проблем UI</li>
+            </ul>
+        </div>
+
+        <h3>Мітки проблем</h3>
+        <table>
+            <tr>
+                <th>Мітка</th>
+                <th>Опис</th>
+                <th>Пріоритет</th>
+            </tr>
+            <tr>
+                <td><code>bug</code></td>
+                <td>Щось не працює</td>
+                <td><span class="badge high">Високий</span></td>
+            </tr>
+            <tr>
+                <td><code>enhancement</code></td>
+                <td>Нова функція або запит</td>
+                <td><span class="badge medium">Середній</span></td>
+            </tr>
+            <tr>
+                <td><code>documentation</code></td>
+                <td>Покращення документації</td>
+                <td><span class="badge low">Низький</span></td>
+            </tr>
+            <tr>
+                <td><code>good first issue</code></td>
+                <td>Ідеально для новачків</td>
+                <td><span class="badge low">Низький</span></td>
+            </tr>
+            <tr>
+                <td><code>help wanted</code></td>
+                <td>Потрібна контрибуція спільноти</td>
+                <td><span class="badge medium">Середній</span></td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="review" class="section">
+        <h2>🔍 Процес рев'ю коду</h2>
+
+        <h3>Настанови для Pull Request</h3>
+        <div class="success">
+            <strong>✅ Що робить хороший PR:</strong>
+            <ul>
+                <li>Чіткий, описовий заголовок</li>
+                <li>Детальний опис змін</li>
+                <li>Посилання на пов'язані проблеми</li>
+                <li>Скріншоти для змін UI</li>
+                <li>Тести для нової функціональності</li>
+                <li>Оновлена документація</li>
+            </ul>
+        </div>
+
+        <h3>Повідомлення комітів</h3>
+        <p>Використовувати conventional commit формат:</p>
+        <div class="code-block">type(scope): description<br><br>Приклади:<br>feat(auth): додати підтримку OAuth2 логіну<br>fix(dashboard): виправити рендеринг діаграми<br>docs(api): оновити документацію ендпоінтів</div>
+
+        <h3>Чек-лист рев'ю</h3>
+        <ul>
+            <li>✅ Код слідує правилам стилю</li>
+            <li>✅ Тести проходять та покриття збережено</li>
+            <li>✅ Документація оновлена</li>
+            <li>✅ Немає breaking changes без обговорення</li>
+            <li>✅ Розглянуто питання безпеки</li>
+            <li>✅ Оцінено вплив на продуктивність</li>
+        </ul>
+    </div>
+
+    <div id="community" class="section">
+        <h2>🌍 Настанови спільноти</h2>
+
+        <h3>Кодекс поведінки</h3>
+        <div class="important">
+            <strong>Будьте шанобливими та інклюзивними:</strong>
+            <ul>
+                <li>Використовуйте шанобливу та інклюзивну мову</li>
+                <li>Шануйте різні точки зору</li>
+                <li>Гарно приймайте конструктивну критику</li>
+                <li>Фокусуйтеся на тому що найкраще для спільноти</li>
+                <li>Проявляйте емпатію до інших членів спільноти</li>
+            </ul>
+        </div>
+
+        <h3>Отримання допомоги</h3>
+        <ul>
+            <li><strong>📧 Email:</strong> del4pp.dev@proton.me</li>
+            <li><strong>💬 GitHub Discussions:</strong> Для питань та ідей</li>
+            <li><strong>🐛 GitHub Issues:</strong> Для багів та запитів функцій</li>
+            <li><strong>💻 Discord/Slack:</strong> Для реального часу спілкування (майбутнє)</li>
+        </ul>
+
+        <h3>Визнання</h3>
+        <p>Ми цінуємо всі контрибуції! Контриб'ютори будуть:</p>
+        <ul>
+            <li>📝 Згадані в CONTRIBUTORS.md</li>
+            <li>🏷️ Згадані в release notes</li>
+            <li>🎉 Показані в community updates</li>
+            <li>🎁 Отримають swag за значні контрибуції</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>📋 Додаткові ресурси</h2>
+        <ul>
+            <li><a href="README.html">Посібник встановлення</a></li>
+            <li><a href="API.html">Документація API</a></li>
+            <li><a href="ARCHITECTURE.html">Огляд архітектури</a></li>
+            <li><a href="https://github.com/your-username/opentrace/issues">GitHub Issues</a></li>
+            <li><a href="https://github.com/your-username/opentrace/discussions">GitHub Discussions</a></li>
+        </ul>
+    </div>
+
+    <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #6b7280;">
+        Дякуємо за контрибуцію до OpenTrace! 🚀
+    </div>
+</body>
+</html>
