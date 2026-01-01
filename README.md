@@ -433,47 +433,6 @@ SECRET_KEY=your-secure-key
 
 ---
 
-## 🗺️ Development Roadmap
-
-<div align="center">
-
-### 🎯 **Current: v1.0.4 (Stable Release)** ✅
-
-[![Release](https://img.shields.io/badge/Release-v1.0.4-00D4AA?style=for-the-badge&logo=github)](https://github.com/del4pp/opentrace/releases)
-[![Status](https://img.shields.io/badge/Status-Stable-28A745?style=for-the-badge)]()
-
-</div>
-
-### 🚀 **Development Roadmap**
-
-| Quarter | Features | Status |
-|---------|----------|--------|
-| **Q1 2026** ✅ | Core Analytics, Real-time Map, ClickHouse | **COMPLETED** |
-| **Q2 2026** 🔄 | Advanced Dashboards, Custom Reports | **IN PROGRESS** |
-| **Q3 2026** 📋 | Mobile SDKs (iOS/Android), Telegram Bots | **PLANNED** |
-| **Q4 2026** 🤖 | Premium Modules Marketplace, AI Analytics | **PLANNED** |
-
-### 🎨 **Upcoming Features**
-
-<div align="center">
-
-#### 📊 **Advanced Analytics (Q2 2026)**
-[![Dashboards](https://img.shields.io/badge/Custom_Dashboards-Builder-007ACC?style=flat-square&logo=chartjs&logoColor=white)](ROADMAP.md)
-[![Reports](https://img.shields.io/badge/Automated_Reports-PDF-3DDC84?style=flat-square&logo=adobe-acrobat-reader&logoColor=white)](ROADMAP.md)
-
-#### 📱 **Mobile & Bots (Q3 2026)**
-[![iOS](https://img.shields.io/badge/iOS_SDK-Swift-007ACC?style=flat-square&logo=apple&logoColor=white)](ROADMAP.md)
-[![Android](https://img.shields.io/badge/Android_SDK-Kotlin-3DDC84?style=flat-square&logo=android&logoColor=white)](ROADMAP.md)
-[![Telegram](https://img.shields.io/badge/Telegram_Bots-API-229ED9?style=flat-square&logo=telegram&logoColor=white)](ROADMAP.md)
-
-#### 🤖 **AI & Marketplace (Q4 2026)**
-[![AI](https://img.shields.io/badge/AI_Analytics-Insights-9C27B0?style=flat-square&logo=openai&logoColor=white)](ROADMAP.md)
-[![Modules](https://img.shields.io/badge/Premium_Modules-Store-FF6B6B?style=flat-square&logo=github-marketplace&logoColor=white)](MODULES_POLICY.md)
-
-</div>
-
-> 📈 **View detailed roadmap**: [ROADMAP.md](ROADMAP.md)
-
 ---
 
 ## 💬 Community & Support
