@@ -1,13 +1,30 @@
 "use client";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from '../../context/LanguageContext';
 
 export default function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showDemo, setShowDemo] = useState(true);
     const router = useRouter();
     const { t } = useTranslation();
+
+    useEffect(() => {
+        const checkDemo = async () => {
+            try {
+                const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
+                const res = await fetch(`${apiUrl}/settings/show-demo`);
+                if (res.ok) {
+                    const data = await res.json();
+                    setShowDemo(data.show_demo);
+                }
+            } catch (err) {
+                console.error("Failed to fetch demo setting", err);
+            }
+        };
+        checkDemo();
+    }, []);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -74,10 +91,12 @@ export default function LoginPage() {
                     </button>
                 </form>
 
-                <div style={{ marginTop: '32px', textAlign: 'center', padding: '16px', background: '#f8fafc', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
-                    <p style={{ fontSize: '12px', color: '#64748b' }}>Demo access:</p>
-                    <code style={{ fontSize: '12px', color: '#0f172a', fontWeight: 700 }}>admin@opentrace.io / admin</code>
-                </div>
+                {showDemo && (
+                    <div style={{ marginTop: '32px', textAlign: 'center', padding: '16px', background: '#f8fafc', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+                        <p style={{ fontSize: '12px', color: '#64748b' }}>Demo access:</p>
+                        <code style={{ fontSize: '12px', color: '#0f172a', fontWeight: 700 }}>admin@opentrace.io / admin</code>
+                    </div>
+                )}
             </div>
         </div>
     );

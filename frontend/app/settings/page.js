@@ -11,6 +11,9 @@ export default function SettingsPage() {
     const [loadingLogs, setLoadingLogs] = useState(true);
     const [theme, setTheme] = useState('dark');
     const [notifications, setNotifications] = useState({ email: true, slack: false, alerts: true });
+    const [showDemo, setShowDemo] = useState(true);
+    const [adminEmail, setAdminEmail] = useState('');
+    const [emailLoading, setEmailLoading] = useState(false);
 
     const fetchLogs = async () => {
         try {
@@ -23,9 +26,26 @@ export default function SettingsPage() {
         }
     };
 
+    const fetchSettings = async () => {
+        try {
+            const res = await fetch(`${API_URL}/settings`);
+            if (res.ok) {
+                const data = await res.json();
+                setShowDemo(data.show_demo === 'true');
+            }
+        } catch (err) {
+            console.error("Failed to fetch settings:", err);
+        }
+    };
+
     useEffect(() => {
         fetchLogs();
+        fetchSettings();
         const interval = setInterval(fetchLogs, 10000);
+
+        // Load user email from localstorage for initial state
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        if (user.email) setAdminEmail(user.email);
 
         // Load theme
         const savedTheme = localStorage.getItem('ot_theme') || 'dark';
@@ -39,6 +59,44 @@ export default function SettingsPage() {
         setTheme(newTheme);
         localStorage.setItem('ot_theme', newTheme);
         document.documentElement.setAttribute('data-theme', newTheme);
+    };
+
+    const handleToggleDemo = async (val) => {
+        setShowDemo(val);
+        try {
+            await fetch(`${API_URL}/settings`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ key: 'show_demo', value: val ? 'true' : 'false' })
+            });
+        } catch (err) {
+            console.error("Failed to update demo setting:", err);
+        }
+    };
+
+    const handleUpdateEmail = async () => {
+        setEmailLoading(true);
+        try {
+            const res = await fetch(`${API_URL}/admin/update-email`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ new_email: adminEmail })
+            });
+
+            if (res.ok) {
+                const user = JSON.parse(localStorage.getItem('user') || '{}');
+                user.email = adminEmail;
+                localStorage.setItem('user', JSON.stringify(user));
+                alert('Email updated successfully');
+            } else {
+                alert('Failed to update email');
+            }
+        } catch (err) {
+            console.error("Update email error:", err);
+            alert('An error occurred');
+        } finally {
+            setEmailLoading(false);
+        }
     };
 
     return (
@@ -93,6 +151,51 @@ export default function SettingsPage() {
                                 {t('settings.rotate')}
                             </button>
                         </div>
+                    </div>
+                </div>
+
+                <div className="card-stat" style={{ padding: '32px' }}>
+                    <div style={{ display: 'flex', gap: '16px', marginBottom: '24px' }}>
+                        <div style={{ fontSize: '24px' }}>🛡️</div>
+                        <div>
+                            <h3 style={{ fontSize: '18px', fontWeight: 700, margin: 0 }}>Security & Access</h3>
+                            <p style={{ fontSize: '13px', color: '#64748b' }}>Manage admin account and login screen</p>
+                        </div>
+                    </div>
+
+                    <div className="form-field">
+                        <label>Admin Email</label>
+                        <div style={{ display: 'flex', gap: '12px' }}>
+                            <input
+                                className="input-lux"
+                                value={adminEmail}
+                                onChange={(e) => setAdminEmail(e.target.value)}
+                                style={{ marginBottom: 0 }}
+                            />
+                            <button
+                                className="btn-premium"
+                                style={{ whiteSpace: 'nowrap' }}
+                                onClick={handleUpdateEmail}
+                                disabled={emailLoading}
+                            >
+                                {emailLoading ? '...' : 'Update'}
+                            </button>
+                        </div>
+                    </div>
+
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '20px' }}>
+                        <div>
+                            <div style={{ fontSize: '14px', fontWeight: 600 }}>Show Demo Data</div>
+                            <div style={{ fontSize: '12px', color: '#64748b' }}>Display demo credentials on login page</div>
+                        </div>
+                        <label className="switch">
+                            <input
+                                type="checkbox"
+                                checked={showDemo}
+                                onChange={(e) => handleToggleDemo(e.target.checked)}
+                            />
+                            <span className="slider round"></span>
+                        </label>
                     </div>
                 </div>
 

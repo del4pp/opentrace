@@ -61,3 +61,9 @@ class Dashboard(Base):
     name = Column(String)
     config = Column(Text) # JSON string of widget layout
     created_at = Column(DateTime, default=datetime.utcnow)
+
+class Setting(Base):
+    __tablename__ = "settings"
+    id = Column(Integer, primary_key=True, index=True)
+    key = Column(String, unique=True, index=True)
+    value = Column(String)

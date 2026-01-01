@@ -50,6 +50,15 @@ async def startup():
         except Exception:
             pass
 
+        try:
+            res = await db.execute(select(models.Setting).where(models.Setting.key == "show_demo"))
+            show_demo = res.scalars().first()
+            if not show_demo:
+                db.add(models.Setting(key="show_demo", value="true"))
+                await db.commit()
+        except Exception:
+            pass
+
 app.include_router(auth_router)
 app.include_router(resources_router)
 app.include_router(campaigns_router)
