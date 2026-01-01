@@ -5,6 +5,12 @@ import HelpButton from '../../components/HelpButton';
 
 const API_URL = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001/api'}`;
 
+const formatNumber = (num) => {
+    if (num >= 1000000) return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+    if (num >= 1000) return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
+    return num.toLocaleString();
+};
+
 export default function EventsPage() {
     const { t } = useTranslation();
     const [showModal, setShowModal] = useState(false);
@@ -129,7 +135,7 @@ export default function EventsPage() {
                                     </td>
                                     <td style={{ padding: '20px 24px', fontFamily: 'monospace', fontSize: '13px', color: '#64748b' }}>{ev.selector}</td>
                                     <td style={{ padding: '20px 24px', textAlign: 'center' }}>
-                                        <b style={{ color: '#0f172a' }}>{ev.count || 0}</b>
+                                        <b style={{ color: '#0f172a' }}>{formatNumber(ev.count || 0)}</b>
                                     </td>
                                     <td style={{ padding: '20px 24px', fontSize: '14px', color: '#64748b' }}>{getResourceName(ev.resource_id)}</td>
                                     <td style={{ padding: '20px 24px', textAlign: 'right' }}>

@@ -6,6 +6,12 @@ import HelpButton from '../../components/HelpButton';
 
 const API_URL = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001/api'}`;
 
+const formatNumber = (num) => {
+    if (num >= 1000000) return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+    if (num >= 1000) return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
+    return num.toLocaleString();
+};
+
 export default function AnalyticsPage() {
     const { t } = useTranslation();
     const { selectedResource } = useResource();
@@ -179,7 +185,7 @@ export default function AnalyticsPage() {
                                         padding: '4px 12px',
                                         borderRadius: '6px',
                                         fontSize: '14px'
-                                    }}>{ev.val}</span>
+                                    }}>{formatNumber(ev.val)}</span>
                                 </div>
                             ))
                         )}

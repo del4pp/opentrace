@@ -82,14 +82,32 @@ export default function DashboardPage() {
                 {/* Activity Chart */}
                 <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '16px', padding: '32px' }}>
                     <h3 style={{ marginBottom: '24px', fontSize: '18px', fontWeight: 700 }}>Activity Volume</h3>
-                    <div style={{ height: '240px', display: 'flex', alignItems: 'flex-end', gap: '8px' }}>
+                    <div style={{ height: '220px', display: 'flex', alignItems: 'flex-end', gap: '8px', marginBottom: '16px' }}>
                         {loading ? (
                             <div style={{ width: '100%', textAlign: 'center', color: '#94a3b8' }}>Loading...</div>
                         ) : (
                             stats.chart_data.map((h, i) => (
-                                <div key={i} style={{ flex: 1, background: i === (stats.chart_data.length - 1) ? '#2563eb' : '#f1f5f9', height: `${h}%`, borderRadius: '4px' }}></div>
+                                <div
+                                    key={i}
+                                    title={`Volume: ${h}%`}
+                                    style={{
+                                        flex: 1,
+                                        background: i === (stats.chart_data.length - 1) ? '#2563eb' : '#f1f5f9',
+                                        height: `${Math.max(h, 2)}%`,
+                                        borderRadius: '4px',
+                                        transition: 'height 0.3s ease'
+                                    }}
+                                ></div>
                             ))
                         )}
+                    </div>
+                    {/* Time Labels */}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', color: '#94a3b8', fontSize: '11px', fontWeight: 600 }}>
+                        <span>24h ago</span>
+                        <span>18h ago</span>
+                        <span>12h ago</span>
+                        <span>6h ago</span>
+                        <span style={{ color: '#2563eb' }}>Now</span>
                     </div>
                 </div>
 

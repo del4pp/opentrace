@@ -68,15 +68,24 @@ async def get_dashboard_stats(resource_id: Optional[str] = None):
 
         # 2. Chart Data (Last 24 hours)
         chart_query = f"""
-        SELECT toHour(timestamp) as h, count(*) 
+        SELECT toStartOfHour(timestamp) as h, count(*) 
         FROM telemetry 
         {where_clause} AND timestamp >= now() - INTERVAL 24 HOUR
         GROUP BY h 
         ORDER BY h
         """
         chart_res = client.query(chart_query, parameters=params).result_rows
-        chart_dict = {row[0]: row[1] for row in chart_res}
-        chart_data = [chart_dict.get(h, 0) for h in range(24)]
+        
+        # Initialize last 24 slots
+        now = datetime.datetime.now().replace(minute=0, second=0, microsecond=0)
+        last_24_hours = [(now - datetime.timedelta(hours=i)) for i in range(23, -1, -1)]
+        
+        counts_map = {row[0].replace(minute=0, second=0, microsecond=0): row[1] for row in chart_res}
+        raw_counts = [counts_map.get(hr, 0) for hr in last_24_hours]
+        
+        # Normalize to 100% for frontend display
+        max_val = max(raw_counts) if raw_counts and max(raw_counts) > 0 else 1
+        chart_data = [int((c / max_val) * 100) for c in raw_counts]
         
         # 1.5. Session Duration
         session_dur_query = f"""
