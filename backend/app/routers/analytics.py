@@ -43,7 +43,7 @@ async def get_dashboard_stats(resource_id: Optional[str] = None):
             
         where_clause = "WHERE " + " AND ".join(filters)
         
-        # 1. Main Stats (Last 24h)
+
         stats_query = f"""
         SELECT 
             uniqExact(session_id) as visitors,
@@ -66,7 +66,7 @@ async def get_dashboard_stats(resource_id: Optional[str] = None):
         bounce_count = client.query(bounce_query, parameters=params).first_row[0]
         bounce_rate = (bounce_count / visitors * 100) if visitors > 0 else 0
 
-        # 2. Chart Data (Last 24 hours)
+
         chart_query = f"""
         SELECT toStartOfHour(timestamp) as h, count(*) 
         FROM telemetry 
@@ -87,7 +87,7 @@ async def get_dashboard_stats(resource_id: Optional[str] = None):
         max_val = max(raw_counts) if raw_counts and max(raw_counts) > 0 else 1
         chart_data = [int((c / max_val) * 100) for c in raw_counts]
         
-        # 1.5. Session Duration
+
         session_dur_query = f"""
         SELECT avg(dur) FROM (
             SELECT session_id, dateDiff('second', min(timestamp), max(timestamp)) as dur
@@ -244,7 +244,7 @@ async def explore_analytics(resource_id: Optional[str] = None, start: Optional[s
             
         where_clause = "WHERE " + " AND ".join(conditions) if conditions else "WHERE 1=1"
         
-        # 1. Base Metrics
+
         simple_metrics_query = f"""
         SELECT 
             uniqExact(session_id), 
@@ -267,7 +267,7 @@ async def explore_analytics(resource_id: Optional[str] = None, start: Optional[s
         bounces = client.query(bounce_query, parameters=params).first_row[0]
         bounce_rate = (bounces / visitors * 100) if visitors > 0 else 0
 
-        # 2. Source Breakdown
+
         source_query = f"""
         SELECT utm_source, count(*) as c
         FROM telemetry
@@ -282,7 +282,7 @@ async def explore_analytics(resource_id: Optional[str] = None, start: Optional[s
         for s in sources:
             s["pct"] = int((s["val"] / views * 100)) if views > 0 else 0
 
-        # 3. Event Breakdown
+
         event_query = f"""
         SELECT event_type, count(*) as c
         FROM telemetry

@@ -13,11 +13,11 @@ router = APIRouter(tags=["Events"])
 async def get_events(db: AsyncSession = Depends(get_db)):
     from ..database import get_clickhouse_client
     
-    # 1. Get event rules from Postgres
+
     result = await db.execute(select(models.Event).order_by(models.Event.created_at.desc()))
     rules = result.scalars().all()
     
-    # 2. Get counts from ClickHouse
+
     try:
         client = get_clickhouse_client()
         counts_res = client.query("SELECT event_type, count(*) FROM telemetry GROUP BY event_type").result_rows
@@ -25,7 +25,7 @@ async def get_events(db: AsyncSession = Depends(get_db)):
     except:
         counts_map = {}
 
-    # 3. Merge
+
     events_with_stats = []
     for r in rules:
         events_with_stats.append({

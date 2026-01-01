@@ -79,7 +79,7 @@ export default function DashboardPage() {
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '24px' }}>
-                {/* Activity Chart */}
+
                 <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '16px', padding: '32px' }}>
                     <h3 style={{ marginBottom: '24px', fontSize: '18px', fontWeight: 700 }}>Activity Volume</h3>
                     <div style={{ height: '220px', display: 'flex', alignItems: 'flex-end', gap: '8px', marginBottom: '16px' }}>
@@ -101,7 +101,7 @@ export default function DashboardPage() {
                             ))
                         )}
                     </div>
-                    {/* Time Labels */}
+
                     <div style={{ display: 'flex', justifyContent: 'space-between', color: '#94a3b8', fontSize: '11px', fontWeight: 600 }}>
                         <span>24h ago</span>
                         <span>18h ago</span>
@@ -111,11 +111,11 @@ export default function DashboardPage() {
                     </div>
                 </div>
 
-                {/* Retention Stats */}
+
                 <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '16px', padding: '32px', display: 'flex', flexDirection: 'column', gap: '32px' }}>
                     <h3 style={{ fontSize: '18px', fontWeight: 700 }}>Retention & Audience</h3>
 
-                    {/* Retention Rates */}
+
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                         <div style={{ background: '#f8fafc', padding: '16px', borderRadius: '12px' }}>
                             <div style={{ fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>Return 7d</div>
@@ -127,7 +127,7 @@ export default function DashboardPage() {
                         </div>
                     </div>
 
-                    {/* New vs Returning */}
+
                     <div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '13px', fontWeight: 600 }}>
                             <span style={{ color: '#2563eb' }}>New ({stats.retention?.new_vs_returning?.new}%)</span>

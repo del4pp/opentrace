@@ -1,5 +1,5 @@
 (function () {
-    // OpenTrace Lightweight Tracker v1.0
+
     const script = document.currentScript;
     const resourceId = script.getAttribute('data-id');
     const apiEndpoint = script.getAttribute('data-host') || 'http://localhost:8000/api/v1/collect';
@@ -45,19 +45,19 @@
         }).catch(() => { }); // Silent fail for privacy/network issues
     };
 
-    // Auto-track page view
+
     if (document.readyState === 'complete') {
         collect();
     } else {
         window.addEventListener('load', () => collect());
     }
 
-    // Global access for custom events
+
     window.ot = {
         track: (name, data) => collect(name, data)
     };
 
-    // Auto-track defined rules
+
     const initRules = async () => {
         try {
             const base = apiEndpoint.split('/api/v1/collect')[0];
@@ -74,12 +74,12 @@
                     }
                 };
 
-                // Use delegation for dynamic elements
+
                 const targetEvent = rule.trigger === 'submit' ? 'submit' : 'click';
                 document.addEventListener(targetEvent, handler, true);
             });
 
-            // Page View rules (based on path)
+
             rules.filter(r => r.trigger === 'visit').forEach(rule => {
                 if (window.location.pathname.includes(rule.selector) || rule.selector === '*') {
                     collect(rule.name);

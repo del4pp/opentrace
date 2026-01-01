@@ -71,7 +71,7 @@ export default function AnalyticsPage() {
                 <p className="subtitle">{t('analytics.subtitle')}</p>
             </div>
 
-            {/* Filter Panel */}
+
             <div className="card-stat" style={{ marginBottom: '32px', padding: '24px' }}>
                 <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-end', flexWrap: 'wrap' }}>
                     <div className="form-field" style={{ marginBottom: 0 }}>
@@ -120,7 +120,7 @@ export default function AnalyticsPage() {
                 </div>
             </div>
 
-            {/* Metrics Grid */}
+
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '24px', marginBottom: '32px' }}>
                 {[
                     { key: 'visitors', label: t('analytics.metrics.visitors'), val: stats?.metrics?.visitors || 0, color: '#2563eb' },
@@ -136,10 +136,10 @@ export default function AnalyticsPage() {
                 ))}
             </div>
 
-            {/* Charts Section */}
+
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '32px' }}>
 
-                {/* Source Breakdown */}
+
                 <div className="card-stat" style={{ padding: '32px' }}>
                     <h3 style={{ marginBottom: '24px', fontSize: '18px' }}>Traffic Sources</h3>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
@@ -161,7 +161,7 @@ export default function AnalyticsPage() {
                     </div>
                 </div>
 
-                {/* Event Breakdown */}
+
                 <div className="card-stat" style={{ padding: '32px' }}>
                     <h3 style={{ marginBottom: '24px', fontSize: '18px' }}>Tracked Events</h3>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
