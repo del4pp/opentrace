@@ -31,6 +31,8 @@
             utm_s: urlParams.get('utm_source'),
             utm_m: urlParams.get('utm_medium'),
             utm_c: urlParams.get('utm_campaign'),
+            fbclid: urlParams.get('fbclid'),
+            ttclid: urlParams.get('ttclid'),
             meta: meta
         };
 

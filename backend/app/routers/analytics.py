@@ -1,8 +1,9 @@
-from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi import APIRouter, Depends, HTTPException, Request, BackgroundTasks
 from typing import Optional, List
 import datetime
 import json
 import redis
+import httpx
 from ..database import get_clickhouse_client
 from ..config import settings
 
@@ -12,10 +13,31 @@ redis_client = redis.from_url(settings.REDIS_URL)
 async def log_system(level: str, module: str, message: str, details: str = ""):
     try:
         client = get_clickhouse_client()
-        # Parameterized insert is handled by client.insert automatically
         client.insert("system_logs", [[level, module, message, details]], column_names=["level", "module", "message", "details"])
     except:
         pass
+
+async def send_to_conversion_api(event_name: str, data: dict, fbclid: str = None, ttclid: str = None):
+    """
+    Placeholder for Conversion API (CAPI) Integration.
+    This runs in the background to not slow down the response.
+    """
+    try:
+        # 1. Prepare payload for Facebook CAPI
+        if fbclid:
+            # Placeholder for actual API call
+            # Example: httpx.post(f"https://graph.facebook.com/v11.0/{PIXEL_ID}/events", ...)
+            pass
+        
+        # 2. Prepare payload for TikTok Events API
+        if ttclid:
+            # Placeholder for actual API call
+            # Example: httpx.post("https://business-api.tiktok.com/open_api/v1.2/event/track/", ...)
+            pass
+            
+        await log_system("INFO", "CAPI", f"CAPI Triggered for {event_name}", f"FB: {fbclid}, TT: {ttclid}")
+    except Exception as e:
+        await log_system("ERROR", "CAPI", str(e))
 
 @router.get("/api/dashboard/stats")
 async def get_dashboard_stats(resource_id: Optional[str] = None):
@@ -89,16 +111,19 @@ async def get_dashboard_stats(resource_id: Optional[str] = None):
         }
 
 @router.post("/api/v1/collect")
-async def collect_telemetry(request: Request):
+async def collect_telemetry(request: Request, background_tasks: BackgroundTasks):
     try:
         data = await request.json()
         client = get_clickhouse_client()
         
         session_id = data.get("sid", data.get("session_id", "unknown"))
+        fbclid = data.get("fbclid") or ""
+        ttclid = data.get("ttclid") or ""
+        event_type = data.get("type", "page_view")
         
         payload = {
             "resource_id": str(data.get("rid", "")),
-            "event_type": data.get("type", "page_view"),
+            "event_type": event_type,
             "url": data.get("url", ""),
             "referrer": data.get("ref", ""),
             "user_agent": request.headers.get("user-agent", ""),
@@ -108,6 +133,8 @@ async def collect_telemetry(request: Request):
             "utm_source": data.get("utm_s") or "",
             "utm_medium": data.get("utm_m") or "",
             "utm_campaign": data.get("utm_c") or "",
+            "fbclid": fbclid,
+            "ttclid": ttclid,
             "session_id": session_id,
             "payload": json.dumps(data.get("meta") or {}),
         }
@@ -122,6 +149,11 @@ async def collect_telemetry(request: Request):
             }))
 
         client.insert("telemetry", [list(payload.values())], column_names=list(payload.keys()))
+        
+        # Trigger Conversion API in background if IDs are present
+        if fbclid or ttclid:
+            background_tasks.add_task(send_to_conversion_api, event_type, data, fbclid, ttclid)
+            
         return {"status": "success"}
     except Exception as e:
         await log_system("ERROR", "Telemetry", str(e))

@@ -21,6 +21,8 @@ CREATE TABLE IF NOT EXISTS telemetry (
     utm_source String,
     utm_medium String,
     utm_campaign String,
+    fbclid String,
+    ttclid String,
     session_id String,
     payload String,
     timestamp DateTime64(3) DEFAULT now64()
