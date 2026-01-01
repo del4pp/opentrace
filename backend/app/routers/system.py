@@ -52,3 +52,18 @@ async def update_admin_email(req: EmailUpdate, db: AsyncSession = Depends(get_db
     user.email = req.new_email
     await db.commit()
     return {"status": "success", "new_email": user.email}
+@router.post("/api/admin/reset-password")
+async def reset_password(db: AsyncSession = Depends(get_db)):
+    res = await db.execute(select(models.User).order_by(models.User.id))
+    user = res.scalars().first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Admin not found")
+    
+    from ..database import get_clickhouse_client
+    try:
+        client = get_clickhouse_client()
+        client.insert("system_logs", [["INFO", "AUTH", f"Password reset requested for {user.email}", "Link sent (simulated)"]], column_names=["level", "module", "message", "details"])
+    except:
+        pass
+        
+    return {"status": "success", "message": f"Reset link sent to {user.email}"}

@@ -141,7 +141,7 @@ export default function AnalyticsPage() {
 
 
                 <div className="card-stat" style={{ padding: '32px' }}>
-                    <h3 style={{ marginBottom: '24px', fontSize: '18px' }}>Traffic Sources</h3>
+                    <h3 style={{ marginBottom: '24px', fontSize: '18px' }}>{t('analytics.trafficSources')}</h3>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                         {!stats?.sources?.length ? (
                             <div style={{ color: '#94a3b8' }}>No data available for this period.</div>
@@ -163,10 +163,10 @@ export default function AnalyticsPage() {
 
 
                 <div className="card-stat" style={{ padding: '32px' }}>
-                    <h3 style={{ marginBottom: '24px', fontSize: '18px' }}>Tracked Events</h3>
+                    <h3 style={{ marginBottom: '24px', fontSize: '18px' }}>{t('analytics.trackedEvents.title')}</h3>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                         {!stats?.events?.length ? (
-                            <div style={{ color: '#94a3b8' }}>No specific events tracked in this period.</div>
+                            <div style={{ color: '#94a3b8' }}>{t('analytics.trackedEvents.empty')}</div>
                         ) : (
                             stats.events.map((ev, i) => (
                                 <div key={i} style={{

@@ -158,13 +158,13 @@ export default function SettingsPage() {
                     <div style={{ display: 'flex', gap: '16px', marginBottom: '24px' }}>
                         <div style={{ fontSize: '24px' }}>🛡️</div>
                         <div>
-                            <h3 style={{ fontSize: '18px', fontWeight: 700, margin: 0 }}>Security & Access</h3>
-                            <p style={{ fontSize: '13px', color: '#64748b' }}>Manage admin account and login screen</p>
+                            <h3 style={{ fontSize: '18px', fontWeight: 700, margin: 0 }}>{t('settings.security.title')}</h3>
+                            <p style={{ fontSize: '13px', color: '#64748b' }}>{t('settings.security.desc')}</p>
                         </div>
                     </div>
 
                     <div className="form-field">
-                        <label>Admin Email</label>
+                        <label>{t('settings.security.adminEmail')}</label>
                         <div style={{ display: 'flex', gap: '12px' }}>
                             <input
                                 className="input-lux"
@@ -178,15 +178,15 @@ export default function SettingsPage() {
                                 onClick={handleUpdateEmail}
                                 disabled={emailLoading}
                             >
-                                {emailLoading ? '...' : 'Update'}
+                                {emailLoading ? '...' : t('settings.security.update')}
                             </button>
                         </div>
                     </div>
 
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '20px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '20px', paddingBottom: '20px', borderBottom: '1px solid #f1f5f9' }}>
                         <div>
-                            <div style={{ fontSize: '14px', fontWeight: 600 }}>Show Demo Data</div>
-                            <div style={{ fontSize: '12px', color: '#64748b' }}>Display demo credentials on login page</div>
+                            <div style={{ fontSize: '14px', fontWeight: 600 }}>{t('settings.security.showDemo')}</div>
+                            <div style={{ fontSize: '12px', color: '#64748b' }}>{t('settings.security.showDemoDesc')}</div>
                         </div>
                         <label className="switch">
                             <input
@@ -196,6 +196,21 @@ export default function SettingsPage() {
                             />
                             <span className="slider round"></span>
                         </label>
+                    </div>
+
+                    <div style={{ marginTop: '20px' }}>
+                        <button
+                            className="btn-premium"
+                            style={{ width: '100%', background: '#fff', color: '#0f172a', border: '1px solid #e2e8f0' }}
+                            onClick={async () => {
+                                try {
+                                    const res = await fetch(`${API_URL}/admin/reset-password`, { method: 'POST' });
+                                    if (res.ok) alert(t('settings.security.resetSuccess'));
+                                } catch (e) { alert('Error'); }
+                            }}
+                        >
+                            {t('settings.security.resetPassword')}
+                        </button>
                     </div>
                 </div>
 

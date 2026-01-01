@@ -81,7 +81,7 @@ export default function DashboardPage() {
             <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '24px' }}>
 
                 <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '16px', padding: '32px' }}>
-                    <h3 style={{ marginBottom: '24px', fontSize: '18px', fontWeight: 700 }}>Activity Volume</h3>
+                    <h3 style={{ marginBottom: '24px', fontSize: '18px', fontWeight: 700 }}>{t('dashboard.activityVolume')}</h3>
                     <div style={{ height: '220px', display: 'flex', alignItems: 'flex-end', gap: '8px', marginBottom: '16px' }}>
                         {loading ? (
                             <div style={{ width: '100%', textAlign: 'center', color: '#94a3b8' }}>Loading...</div>
@@ -103,11 +103,11 @@ export default function DashboardPage() {
                     </div>
 
                     <div style={{ display: 'flex', justifyContent: 'space-between', color: '#94a3b8', fontSize: '11px', fontWeight: 600 }}>
-                        <span>24h ago</span>
-                        <span>18h ago</span>
-                        <span>12h ago</span>
-                        <span>6h ago</span>
-                        <span style={{ color: '#2563eb' }}>Now</span>
+                        <span>{t('dashboard.chartLabels.h24')}</span>
+                        <span>{t('dashboard.chartLabels.h18')}</span>
+                        <span>{t('dashboard.chartLabels.h12')}</span>
+                        <span>{t('dashboard.chartLabels.h6')}</span>
+                        <span style={{ color: '#2563eb' }}>{t('dashboard.chartLabels.now')}</span>
                     </div>
                 </div>
 

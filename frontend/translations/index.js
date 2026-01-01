@@ -41,6 +41,14 @@ export const translations = {
                 session: "Avg. Session",
                 bounce: "Bounce Rate"
             },
+            activityVolume: "Activity Volume",
+            chartLabels: {
+                now: "Now",
+                h6: "6h ago",
+                h12: "12h ago",
+                h18: "18h ago",
+                h24: "24h ago"
+            },
             help: {
                 title: "About Dashboard",
                 content: "The Dashboard provides a bird's-eye view of your entire infrastructure. Here you can track real-time traffic, conversion rates, and the health of your connected resources."
@@ -144,6 +152,16 @@ export const translations = {
                 module: "Module",
                 message: "Message",
                 time: "Timestamp"
+            },
+            security: {
+                title: "Security & Access",
+                desc: "Manage admin account and login screen",
+                adminEmail: "Admin Email",
+                update: "Update",
+                showDemo: "Show Demo Data",
+                showDemoDesc: "Display demo credentials on login page",
+                resetPassword: "Restore Password",
+                resetSuccess: "Reset link sent to email"
             }
         },
         integration: {
@@ -164,6 +182,12 @@ export const translations = {
             }
         },
         analytics: {
+            trackedEvents: {
+                title: "Tracked Events",
+                empty: "No specific events tracked in this period."
+            },
+            trafficSources: "Traffic Sources",
+            eventType: "Event Type",
             title: "Explorer",
             subtitle: "Analyze performance with granular filters.",
             filters: "Advanced Filters",
@@ -197,7 +221,8 @@ export const translations = {
                 subtitle: "Real-time user distribution across the globe",
                 online: "Users Online Now",
                 map: "Global Presence",
-                recent: "Recent Events"
+                recent: "Recent Events",
+                waiting: "Waiting for events..."
             }
         },
         custom: {
@@ -366,6 +391,14 @@ export const translations = {
                 session: "Сер. сесія",
                 bounce: "Показник відмов"
             },
+            activityVolume: "Обсяг активності",
+            chartLabels: {
+                now: "Зараз",
+                h6: "6г тому",
+                h12: "12г тому",
+                h18: "18г тому",
+                h24: "24г тому"
+            },
             help: {
                 title: "Про Дашборд",
                 content: "Дашборд надає загальний огляд вашої інфраструктури. Тут ви можете відстежувати трафік у реальному часі, коефіцієнти конверсії та стан підключених ресурсів."
@@ -469,6 +502,16 @@ export const translations = {
                 module: "Модуль",
                 message: "Повідомлення",
                 time: "Час"
+            },
+            security: {
+                title: "Безпека та Доступ",
+                desc: "Керування адмін-акаунтом та сторінкою входу",
+                adminEmail: "Email Адміністратора",
+                update: "Оновити",
+                showDemo: "Показувати Demo-дані",
+                showDemoDesc: "Відображати дані для входу на сторінці логіну",
+                resetPassword: "Відновити пароль",
+                resetSuccess: "Посилання для скидання надіслано на пошту"
             }
         },
         integration: {
@@ -489,6 +532,12 @@ export const translations = {
             }
         },
         analytics: {
+            trackedEvents: {
+                title: "Відстежувані події",
+                empty: "За цей період подій не зафіксовано."
+            },
+            trafficSources: "Джерела трафіку",
+            eventType: "Тип події",
             title: "Аналітика",
             subtitle: "Аналізуйте результати за допомогою детальних фільтрів.",
             filters: "Розширені фільтри",
@@ -522,7 +571,8 @@ export const translations = {
                 subtitle: "Розподіл користувачів у реальному часі",
                 online: "Онлайн зараз",
                 map: "Глобальна присутність",
-                recent: "Останні події"
+                recent: "Останні події",
+                waiting: "Очікуємо на події..."
             }
         },
         custom: {
