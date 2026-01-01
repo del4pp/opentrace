@@ -105,11 +105,11 @@ async def collect_telemetry(request: Request):
             "ip": request.client.host,
             "screen_res": data.get("res", ""),
             "lang": data.get("lang", ""),
-            "utm_source": data.get("utm_s", ""),
-            "utm_medium": data.get("utm_m", ""),
-            "utm_campaign": data.get("utm_c", ""),
+            "utm_source": data.get("utm_s") or "",
+            "utm_medium": data.get("utm_m") or "",
+            "utm_campaign": data.get("utm_c") or "",
             "session_id": session_id,
-            "payload": json.dumps(data.get("meta", {})),
+            "payload": json.dumps(data.get("meta") or {}),
         }
         
         # Live tracking in Redis

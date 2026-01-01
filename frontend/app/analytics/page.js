@@ -37,7 +37,7 @@ export default function AnalyticsPage() {
             const startStr = start.toISOString().split('T')[0];
             const endStr = end.toISOString().split('T')[0];
 
-            const res = await fetch(`${API_URL}/analytics/explore?resource_id=${selectedResource.id}&start=${startStr}&end=${endStr}`);
+            const res = await fetch(`${API_URL}/analytics/explore?resource_id=${selectedResource.uid}&start=${startStr}&end=${endStr}`);
             if (res.ok) {
                 const data = await res.json();
                 setStats(data);

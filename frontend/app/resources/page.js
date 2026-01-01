@@ -323,13 +323,13 @@ export default function ResourcesPage() {
                             <div>&lt;<span style={{ color: '#fb7185' }}>script</span></div>
                             <div style={{ paddingLeft: '20px' }}><span style={{ color: '#fbbf24' }}>async</span></div>
                             <div style={{ paddingLeft: '20px' }}>
-                                <span style={{ color: '#fbbf24' }}>src</span>="http://localhost:3000/ot.js"
+                                <span style={{ color: '#fbbf24' }}>src</span>="{(typeof window !== 'undefined' ? window.location.origin : '')}/ot.js"
                             </div>
                             <div style={{ paddingLeft: '20px' }}>
                                 <span style={{ color: '#fbbf24' }}>data-id</span>="<span style={{ color: '#34d399' }}>{selectedResource?.uid}</span>"
                             </div>
                             <div style={{ paddingLeft: '20px' }}>
-                                <span style={{ color: '#fbbf24' }}>data-host</span>="{process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001/api'}/v1/collect"
+                                <span style={{ color: '#fbbf24' }}>data-host</span>="{API_URL}/v1/collect"
                             </div>
                             <div>&gt;&lt;/<span style={{ color: '#fb7185' }}>script</span>&gt;</div>
                         </div>
@@ -345,8 +345,7 @@ export default function ResourcesPage() {
                             className="btn-premium"
                             style={{ width: '100%', marginTop: '32px' }}
                             onClick={() => {
-                                const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001/api';
-                                const code = `<!-- OpenTrace Analytics -->\n<script async src="http://localhost:3000/ot.js" data-id="${selectedResource?.uid}" data-host="${apiUrl}/v1/collect"></script>`;
+                                const code = `<!-- OpenTrace Analytics -->\n<script async src="${(typeof window !== 'undefined' ? window.location.origin : '')}/ot.js" data-id="${selectedResource?.uid}" data-host="${API_URL}/v1/collect"></script>`;
                                 navigator.clipboard.writeText(code);
                                 alert("Snippet copied to clipboard!");
                             }}

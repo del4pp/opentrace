@@ -32,7 +32,7 @@ export default function LivePage() {
     const fetchLive = async () => {
         if (!selectedResource) return;
         try {
-            const res = await fetch(`${API_URL}/analytics/live?resource_id=${selectedResource.id}`);
+            const res = await fetch(`${API_URL}/analytics/live?resource_id=${selectedResource.uid}`);
             if (res.ok) {
                 const data = await res.json();
                 setLiveData(data);

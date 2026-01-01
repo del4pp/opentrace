@@ -1,12 +1,14 @@
 "use client";
 import { useState, useEffect } from 'react';
 import { useTranslation } from '../../context/LanguageContext';
+import { useResource } from '../../context/ResourceContext';
 import HelpButton from '../../components/HelpButton';
 
 const API_URL = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001/api'}`;
 
 export default function DashboardPage() {
     const { t } = useTranslation();
+    const { selectedResource } = useResource();
     const [stats, setStats] = useState({
         visitors: 0,
         views: 0,
@@ -17,8 +19,9 @@ export default function DashboardPage() {
     const [loading, setLoading] = useState(true);
 
     const fetchStats = async () => {
+        if (!selectedResource) return;
         try {
-            const res = await fetch(`${API_URL}/dashboard/stats`);
+            const res = await fetch(`${API_URL}/dashboard/stats?resource_id=${selectedResource.uid}`);
             if (res.ok) {
                 const data = await res.json();
                 setStats(data);
@@ -32,7 +35,7 @@ export default function DashboardPage() {
 
     useEffect(() => {
         fetchStats();
-    }, []);
+    }, [selectedResource]);
 
     return (
         <div>
