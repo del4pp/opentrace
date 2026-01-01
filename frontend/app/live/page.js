@@ -5,7 +5,7 @@ import { useResource } from '../../context/ResourceContext';
 import { ComposableMap, Geographies, Geography, Marker, ZoomableGroup } from "react-simple-maps";
 
 const API_URL = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001/api'}`;
-const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
+const geoUrl = "https://raw.githubusercontent.com/euctrl-pru/eurocontrol_world_map/master/alternatives.geo.json";
 
 export default function LivePage() {
     const { t } = useTranslation();
@@ -107,7 +107,7 @@ export default function LivePage() {
                         </div>
                     </div>
 
-                    <div className="card-stat" style={{ padding: '0', height: '550px', background: '#f8fafc', overflow: 'hidden', borderRadius: '24px', position: 'relative' }}>
+                    <div className="card-stat" style={{ padding: '0', height: '550px', background: '#ffffff', overflow: 'hidden', borderRadius: '24px', position: 'relative' }}>
                         <div style={{ padding: '24px', borderBottom: '1px solid #e2e8f0', background: '#fff', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                             <h3 style={{ fontSize: '16px', fontWeight: 700 }}>{t('analytics.live.map')}</h3>
                             <div style={{ display: 'flex', gap: '8px' }}>
@@ -125,7 +125,7 @@ export default function LivePage() {
                             </div>
                         </div>
 
-                        <div style={{ width: '100%', height: 'calc(100% - 70px)', background: '#f1f5f9', position: 'relative' }}>
+                        <div style={{ width: '100%', height: 'calc(100% - 70px)', background: '#ffffff', position: 'relative' }}>
                             {/* Zoom Controls */}
                             <div style={{ position: 'absolute', bottom: '20px', right: '20px', display: 'flex', flexDirection: 'column', gap: '8px', zIndex: 10 }}>
                                 <button className="btn-premium" style={{ width: '40px', height: '40px', borderRadius: '10px', padding: 0 }} onClick={handleZoomIn}>+</button>
@@ -141,13 +141,14 @@ export default function LivePage() {
                                     <Geographies geography={geoUrl}>
                                         {({ geographies }) =>
                                             geographies.map((geo) => {
-                                                if (geo.id === "643" || geo.properties.name === "Russia") return null;
+                                                const id = geo.id || (geo.properties && (geo.properties.iso_a3 || geo.properties.ISO_A3 || geo.properties.AD0_A3));
+                                                if (id === 'RUS' || id === 'Russia' || id === '643') return null;
                                                 return (
                                                     <Geography
                                                         key={geo.rsmKey}
                                                         geography={geo}
                                                         fill="#cbd5e1"
-                                                        stroke="#f1f5f9"
+                                                        stroke="#94a3b8"
                                                         strokeWidth={0.5}
                                                         style={{
                                                             default: { outline: "none" },
@@ -181,7 +182,7 @@ export default function LivePage() {
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', overflowY: 'auto' }}>
                             {(!liveData.events || liveData.events.length === 0) ? (
                                 <div style={{ textAlign: 'center', color: '#94a3b8', fontSize: '13px', paddingTop: '20px' }}>
-                                    Waiting for events...
+                                    {t('analytics.live.waiting')}
                                 </div>
                             ) : (
                                 liveData.events.map((e, i) => (
@@ -211,6 +212,6 @@ export default function LivePage() {
                     100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
                 }
             `}</style>
-        </div>
+        </div >
     );
 }
