@@ -258,13 +258,26 @@ async def explore_analytics(resource_id: Optional[str] = None, start: Optional[s
         for s in sources:
             s["pct"] = int((s["val"] / views * 100)) if views > 0 else 0
 
+        # 3. Event Breakdown
+        event_query = f"""
+        SELECT event_type, count(*) as c
+        FROM telemetry
+        {where_clause} AND event_type != 'page_view'
+        GROUP BY event_type
+        ORDER BY c DESC
+        LIMIT 10
+        """
+        event_res = client.query(event_query, parameters=params).result_rows
+        events = [{"name": r[0], "val": r[1]} for r in event_res]
+
         return {
             "metrics": {
                 "visitors": visitors,
                 "views": views,
                 "bounce_rate": round(bounce_rate, 1)
             },
-            "sources": sources
+            "sources": sources,
+            "events": events
         }
     except Exception as e:
         print(f"Explore Error: {e}")

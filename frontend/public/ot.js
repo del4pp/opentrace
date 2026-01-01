@@ -56,4 +56,37 @@
     window.ot = {
         track: (name, data) => collect(name, data)
     };
+
+    // Auto-track defined rules
+    const initRules = async () => {
+        try {
+            const base = apiEndpoint.split('/api/v1/collect')[0];
+            const res = await fetch(`${base}/api/v1/rules/${resourceId}`);
+            if (!res.ok) return;
+            const rules = await res.json();
+
+            rules.forEach(rule => {
+                const handler = (e) => {
+                    if (rule.trigger === 'click' && e.target.closest(rule.selector)) {
+                        collect(rule.name);
+                    } else if (rule.trigger === 'submit' && e.target.matches(rule.selector)) {
+                        collect(rule.name);
+                    }
+                };
+
+                // Use delegation for dynamic elements
+                const targetEvent = rule.trigger === 'submit' ? 'submit' : 'click';
+                document.addEventListener(targetEvent, handler, true);
+            });
+
+            // Page View rules (based on path)
+            rules.filter(r => r.trigger === 'visit').forEach(rule => {
+                if (window.location.pathname.includes(rule.selector) || rule.selector === '*') {
+                    collect(rule.name);
+                }
+            });
+        } catch (e) { }
+    };
+
+    initRules();
 })();

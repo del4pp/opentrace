@@ -109,6 +109,7 @@ export default function EventsPage() {
                                 <th style={{ textAlign: 'left', padding: '16px 24px', fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>Event Definition</th>
                                 <th style={{ textAlign: 'left', padding: '16px 24px', fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>Trigger Type</th>
                                 <th style={{ textAlign: 'left', padding: '16px 24px', fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>Selector / URL</th>
+                                <th style={{ textAlign: 'center', padding: '16px 24px', fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>Count</th>
                                 <th style={{ textAlign: 'left', padding: '16px 24px', fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>Target Resource</th>
                                 <th style={{ textAlign: 'right', padding: '16px 24px', fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>Actions</th>
                             </tr>
@@ -116,7 +117,7 @@ export default function EventsPage() {
                         <tbody>
                             {events.length === 0 ? (
                                 <tr>
-                                    <td colSpan="5" style={{ padding: '40px', textAlign: 'center', color: '#94a3b8' }}>No event regulations defined. Create your first tracker.</td>
+                                    <td colSpan="6" style={{ padding: '40px', textAlign: 'center', color: '#94a3b8' }}>No event regulations defined. Create your first tracker.</td>
                                 </tr>
                             ) : events.map((ev) => (
                                 <tr key={ev.id} style={{ borderBottom: '1px solid #f1f5f9' }}>
@@ -127,6 +128,9 @@ export default function EventsPage() {
                                         </span>
                                     </td>
                                     <td style={{ padding: '20px 24px', fontFamily: 'monospace', fontSize: '13px', color: '#64748b' }}>{ev.selector}</td>
+                                    <td style={{ padding: '20px 24px', textAlign: 'center' }}>
+                                        <b style={{ color: '#0f172a' }}>{ev.count || 0}</b>
+                                    </td>
                                     <td style={{ padding: '20px 24px', fontSize: '14px', color: '#64748b' }}>{getResourceName(ev.resource_id)}</td>
                                     <td style={{ padding: '20px 24px', textAlign: 'right' }}>
                                         <button

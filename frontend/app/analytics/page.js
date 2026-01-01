@@ -155,9 +155,35 @@ export default function AnalyticsPage() {
                     </div>
                 </div>
 
-                {/* Placeholder for funnel or other chart */}
-                <div className="card-stat" style={{ padding: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#94a3b8' }}>
-                    More charts coming soon...
+                {/* Event Breakdown */}
+                <div className="card-stat" style={{ padding: '32px' }}>
+                    <h3 style={{ marginBottom: '24px', fontSize: '18px' }}>Tracked Events</h3>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                        {!stats?.events?.length ? (
+                            <div style={{ color: '#94a3b8' }}>No specific events tracked in this period.</div>
+                        ) : (
+                            stats.events.map((ev, i) => (
+                                <div key={i} style={{
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    padding: '12px 16px',
+                                    background: '#f8fafc',
+                                    borderRadius: '10px'
+                                }}>
+                                    <span style={{ fontWeight: 600, color: '#0f172a' }}>{ev.name}</span>
+                                    <span style={{
+                                        fontWeight: 800,
+                                        color: '#2563eb',
+                                        background: '#eff6ff',
+                                        padding: '4px 12px',
+                                        borderRadius: '6px',
+                                        fontSize: '14px'
+                                    }}>{ev.val}</span>
+                                </div>
+                            ))
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
