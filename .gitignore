@@ -185,5 +185,7 @@ postgres_data/
 clickhouse_data/
 
 # Temporary files
-*.tmp
 *.temp
+
+# SDK
+python-sdk/

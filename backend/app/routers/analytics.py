@@ -18,24 +18,14 @@ async def log_system(level: str, module: str, message: str, details: str = ""):
         pass
 
 async def send_to_conversion_api(event_name: str, data: dict, fbclid: str = None, ttclid: str = None):
-    """
-    Placeholder for Conversion API (CAPI) Integration.
-    This runs in the background to not slow down the response.
-    """
     try:
-        # 1. Prepare payload for Facebook CAPI
         if fbclid:
-            # Placeholder for actual API call
-            # Example: httpx.post(f"https://graph.facebook.com/v11.0/{PIXEL_ID}/events", ...)
             pass
         
-        # 2. Prepare payload for TikTok Events API
         if ttclid:
-            # Placeholder for actual API call
-            # Example: httpx.post("https://business-api.tiktok.com/open_api/v1.2/event/track/", ...)
             pass
             
-        await log_system("INFO", "CAPI", f"CAPI Triggered for {event_name}", f"FB: {fbclid}, TT: {ttclid}")
+        await log_system("INFO", "CAPI", f"CAPI Triggered: {event_name}", f"FB: {fbclid}, TT: {ttclid}")
     except Exception as e:
         await log_system("ERROR", "CAPI", str(e))
 

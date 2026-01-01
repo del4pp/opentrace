@@ -32,7 +32,6 @@ async def startup():
         try:
             await conn.execute(text("ALTER TABLE users ADD COLUMN IF NOT EXISTS is_first_login BOOLEAN DEFAULT TRUE"))
         except Exception:
-            # Column likely exists
             pass
 
     async with AsyncSession(engine) as db:
@@ -56,6 +55,13 @@ async def startup():
             if not show_demo:
                 db.add(models.Setting(key="show_demo", value="true"))
                 await db.commit()
+        except Exception:
+            pass
+
+        try:
+            from app.telemetry import send_telemetry
+            import asyncio
+            asyncio.create_task(send_telemetry())
         except Exception:
             pass
 

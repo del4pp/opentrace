@@ -460,13 +460,6 @@ SECRET_KEY=your-secure-key
 
 ---
 
-## 📜 License & Open Core Model
-
-**OpenTrace Community Edition** is licensed under the **GNU AGPLv3** with additional commercial restrictions.
-
-### Core Platform (Free & Open Source)
--   ✅ **Free Forever**: The core platform, including unlimited event tracking, is free and open source.
--   ✅ **Open Source**: You can inspect, modify, and contribute to the code.
 -   ✅ **Personal & Commercial Use**: Core features can be used commercially.
 -   ❌ **No Commercial Derivatives**: Cannot create commercial products based on the core platform.
 
@@ -559,5 +552,10 @@ Inspired by the need for privacy-first analytics in a world where data privacy i
 **OpenTrace - Universal • Self-Hosted • Privacy-First Analytics** 🚀
 
 </div>
+
+---
+
+## 🔒 Privacy & Telemetry
+OpenTrace collects anonymous usage data (installs and weekly active instances) to help us understand project growth. This data contains no personal information, IP addresses of your users, or tracking data from your resources. All telemetry is sent to `opentrace.429toomanyre.quest`.
 
 </div>
