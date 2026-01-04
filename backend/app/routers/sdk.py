@@ -89,6 +89,7 @@ async def get_tracking_script(id: str, db: AsyncSession = Depends(get_db)):
         startTime: Date.now(),
         maxScroll: 0,
         rules: {rules_json},
+        clicks: [],
         
         init: function() {{
             this.sid = localStorage.getItem('_ot_sid');
@@ -110,11 +111,18 @@ async def get_tracking_script(id: str, db: AsyncSession = Depends(get_db)):
             // Heartbeat/Time on site tracking
             var self = this;
             window.addEventListener('beforeunload', function() {{
+                self.flushHeatmap();
                 self.track('page_exit', {{
                     duration: Math.round((Date.now() - self.startTime) / 1000),
                     scroll_depth: self.maxScroll
                 }});
             }});
+        }},
+        
+        flushHeatmap: function() {{
+            if (this.clicks.length === 0) return;
+            this.track('heatmap_batch', {{ clicks: this.clicks }});
+            this.clicks = [];
         }},
         
         track: function(event, meta) {{
@@ -149,12 +157,17 @@ async def get_tracking_script(id: str, db: AsyncSession = Depends(get_db)):
         
         initRules: function() {{
             var self = this;
+            var fired = {{}};
             this.rules.forEach(function(rule) {{
                 if (rule.trigger === 'visit') {{
-                    if (window.location.pathname.includes(rule.selector) || rule.selector === '*') {{
-                        self.track(rule.name);
-                    }}
-                }} else {{
+                    var loc = window.location.href;
+                    var match = false;
+                    if (rule.selector === '*') match = true;
+                    else if (rule.selector.startsWith('~')) match = new RegExp(rule.selector.substring(1)).test(loc);
+                    else match = loc.includes(rule.selector);
+
+                    if (match) self.track(rule.name);
+                }} else if (rule.trigger === 'click' || rule.trigger === 'submit') {{
                     var targetEvent = (rule.trigger === 'submit') ? 'submit' : 'click';
                     document.addEventListener(targetEvent, function(e) {{
                         var el = e.target.closest(rule.selector);
@@ -164,11 +177,33 @@ async def get_tracking_script(id: str, db: AsyncSession = Depends(get_db)):
                     }}, true);
                 }}
             }});
+            
+            // Shared scroll observer for rules and maxScroll
+            window.addEventListener('scroll', function() {{
+                var s = Math.round((window.scrollY + window.innerHeight) / document.documentElement.scrollHeight * 100);
+                if (s > self.maxScroll) self.maxScroll = s;
+                
+                self.rules.forEach(function(rule) {{
+                    if (rule.trigger === 'scroll' && !fired[rule.name] && s >= parseInt(rule.selector)) {{
+                        fired[rule.name] = true;
+                        self.track(rule.name, {{ depth: s }});
+                    }}
+                }});
+            }}, {{ passive: true }});
         }},
         
         setupListeners: function() {{
             var self = this;
             document.addEventListener('click', function(e) {{
+                // Heatmap logic
+                self.clicks.push({{
+                    x: Math.round((e.pageX / window.innerWidth) * 1000) / 1000,
+                    y: e.pageY,
+                    t: Date.now() - self.startTime
+                }});
+                if (self.clicks.length >= 10) self.flushHeatmap();
+
+                // Event logic
                 var el = e.target.closest('a, button, [data-ot-track]');
                 if (el) {{
                     self.track('click', {{
@@ -185,11 +220,6 @@ async def get_tracking_script(id: str, db: AsyncSession = Depends(get_db)):
                     action: e.target.action
                 }});
             }}, true);
-            
-            window.addEventListener('scroll', function() {{
-                var s = Math.round((window.scrollY + window.innerHeight) / document.documentElement.scrollHeight * 100);
-                if (s > self.maxScroll) self.maxScroll = s;
-            }}, {{ passive: true }});
         }}
     }};
 

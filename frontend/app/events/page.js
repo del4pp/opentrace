@@ -232,8 +232,15 @@ export default function EventsPage() {
                                 <tr key={ev.id} style={{ borderBottom: '1px solid #f1f5f9' }}>
                                     <td style={{ padding: '20px 24px', fontWeight: 700 }}>{ev.name}</td>
                                     <td style={{ padding: '20px 24px' }}>
-                                        <span style={{ fontSize: '12px', fontWeight: 600, color: ev.trigger === 'click' ? '#ef4444' : '#2563eb', background: ev.trigger === 'click' ? '#fef2f2' : '#eff6ff', padding: '4px 8px', borderRadius: '6px' }}>
-                                            {ev.trigger.toUpperCase()}
+                                        <span style={{
+                                            fontSize: '12px',
+                                            fontWeight: 600,
+                                            color: ev.trigger === 'click' ? '#ef4444' : (ev.trigger === 'visit' ? '#2563eb' : (ev.trigger === 'scroll' ? '#f59e0b' : '#10b981')),
+                                            background: ev.trigger === 'click' ? '#fef2f2' : (ev.trigger === 'visit' ? '#eff6ff' : (ev.trigger === 'scroll' ? '#fffbeb' : '#ecfdf5')),
+                                            padding: '4px 8px',
+                                            borderRadius: '6px'
+                                        }}>
+                                            {ev.trigger.toUpperCase()} {ev.trigger === 'scroll' ? `(${ev.selector}%)` : ''}
                                         </span>
                                     </td>
                                     <td style={{ padding: '20px 24px', fontFamily: 'monospace', fontSize: '13px', color: '#64748b' }}>{ev.selector}</td>
@@ -307,13 +314,20 @@ export default function EventsPage() {
                                     <label>Trigger Type</label>
                                     <select className="select-lux" value={form.trigger} onChange={e => setForm({ ...form, trigger: e.target.value })}>
                                         <option value="click">Click</option>
-                                        <option value="visit">Page View</option>
+                                        <option value="visit">Page View (URL Contains)</option>
                                         <option value="submit">Form Submit</option>
+                                        <option value="scroll">Scroll Depth (%)</option>
                                     </select>
                                 </div>
                                 <div className="form-field">
-                                    <label>Selector / Path</label>
-                                    <input className="input-lux" value={form.selector} onChange={e => setForm({ ...form, selector: e.target.value })} placeholder=".btn-hero or /thanks" required />
+                                    <label>{form.trigger === 'scroll' ? 'Min Depth (%)' : 'Selector / Path'}</label>
+                                    <input
+                                        className="input-lux"
+                                        value={form.selector}
+                                        onChange={e => setForm({ ...form, selector: e.target.value })}
+                                        placeholder={form.trigger === 'scroll' ? '50' : (form.trigger === 'visit' ? '/thanks' : '.btn-hero')}
+                                        required
+                                    />
                                 </div>
                             </div>
 

@@ -92,6 +92,7 @@ export default function Layout({ children }) {
                 { label: t('nav.views'), href: '/dashboard' },
                 { label: t('nav.analytics'), href: '/analytics' },
                 { label: t('nav.funnels'), href: '/funnels' },
+                { label: 'Heatmaps', href: '/heatmaps' },
                 { label: t('nav.live'), href: '/live' },
             ]
         },
