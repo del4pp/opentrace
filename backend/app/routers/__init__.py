@@ -7,3 +7,4 @@ from .analytics import router as analytics_router
 from .system import router as system_router
 from .sdk import router as sdk_router
 from .event_actions import router as event_actions_router
+from .funnels import router as funnels_router

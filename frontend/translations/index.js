@@ -11,6 +11,7 @@ export const translations = {
             analytics: "Explorer",
             live: "Live View",
             customAnalytics: "Custom Reports",
+            funnels: "Conversion Funnels",
             docs: "API Documentation",
             signIn: "Sign In",
             features: "Features",
@@ -430,6 +431,26 @@ export const translations = {
             cancel: "Cancel",
             delete: "Delete"
         },
+        funnels: {
+            title: "Conversion Funnels",
+            subtitle: "Analyze user journeys and drop-offs",
+            create: "Create Funnel",
+            builder: "Funnel Builder",
+            compare: "Compare Funnels",
+            stats: {
+                conversion: "Conversion Rate",
+                dropoff: "Drop-off",
+                ttc: "Time to Convert",
+                sessions: "Total Sessions",
+                steps: "Steps"
+            },
+            fields: {
+                name: "Funnel Name",
+                stepName: "Step Name",
+                type: "Trigger Type",
+                value: "Value (URL or Event Name)"
+            }
+        },
         common: {
             actions: "Actions",
             delete: "Delete"
@@ -447,6 +468,7 @@ export const translations = {
             analytics: "Аналітика",
             live: "Live-режим",
             customAnalytics: "Звіти",
+            funnels: "Воронки конверсій",
             docs: "Документація API",
             signIn: "Увійти",
             features: "Можливості",
@@ -865,6 +887,26 @@ export const translations = {
             admin_password: "Пароль адміністратора",
             cancel: "Скасувати",
             delete: "Видалити"
+        },
+        funnels: {
+            title: "Воронки конверсій",
+            subtitle: "Аналіз шляхів користувачів та відтоку",
+            create: "Створити воронку",
+            builder: "Конструктор воронки",
+            compare: "Порівняти воронки",
+            stats: {
+                conversion: "Конверсія",
+                dropoff: "Відтік",
+                ttc: "Час до конверсії",
+                sessions: "Всього сесій",
+                steps: "Кроки"
+            },
+            fields: {
+                name: "Назва воронки",
+                stepName: "Назва кроку",
+                type: "Тип тригера",
+                value: "Значення (URL або подія)"
+            }
         },
         common: {
             actions: "Дії",
