@@ -69,12 +69,21 @@ export default function FunnelStats() {
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
                     {data.steps.map((step, idx) => (
-                        <div key={idx}>
+                        <div key={idx} style={{
+                            background: step.is_goal ? 'rgba(37, 99, 235, 0.05)' : 'transparent',
+                            padding: step.is_goal ? '24px' : '0',
+                            borderRadius: '16px',
+                            border: step.is_goal ? '1px solid rgba(37, 99, 235, 0.2)' : 'none',
+                            margin: step.is_goal ? '0 -12px' : '0'
+                        }}>
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                                    <div style={{ width: '32px', height: '32px', background: '#0f172a', color: '#fff', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', fontWeight: 800 }}>{idx + 1}</div>
+                                    <div style={{ width: '32px', height: '32px', background: step.is_goal ? '#2563eb' : '#0f172a', color: '#fff', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', fontWeight: 800 }}>{idx + 1}</div>
                                     <div>
-                                        <div style={{ fontWeight: 800 }}>{step.name}</div>
+                                        <div style={{ fontWeight: 800, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                            {step.name}
+                                            {step.is_goal && <span style={{ fontSize: '9px', background: '#2563eb', color: '#fff', padding: '2px 6px', borderRadius: '4px', textTransform: 'uppercase' }}>Goal</span>}
+                                        </div>
                                         <div style={{ fontSize: '12px', color: '#64748b' }}>{step.count} users reached</div>
                                     </div>
                                 </div>

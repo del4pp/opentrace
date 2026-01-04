@@ -44,8 +44,9 @@ export default function FunnelBuilder() {
     };
 
     const saveFunnel = async () => {
-        if (!name || steps.some(s => !s.name || !s.value)) {
-            alert("Please fill all fields");
+        // More flexible validation: value can be 0 or empty only if it's the conversion_value
+        if (!name || steps.some(s => !s.name || s.type === '' || (s.type === 'page_view' && s.value === ''))) {
+            alert("Please fill all required fields (Step Name and URL/Event)");
             return;
         }
         try {
@@ -59,7 +60,7 @@ export default function FunnelBuilder() {
     };
 
     return (
-        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
             <h1 style={{ fontSize: '32px', fontWeight: 800, marginBottom: '8px' }}>{t('funnels.builder')}</h1>
             <p className="subtitle" style={{ marginBottom: '40px' }}>Mapping the golden path to conversion</p>
 
@@ -82,8 +83,8 @@ export default function FunnelBuilder() {
 
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                         {steps.map((step, idx) => (
-                            <div key={idx} style={{ position: 'relative', display: 'grid', gridTemplateColumns: '40px 1fr 1fr 1fr 120px 40px', gap: '12px', alignItems: 'center', background: 'var(--bg-subtle)', padding: '24px', borderRadius: '16px', border: '1px solid var(--border)' }}>
-                                <div style={{ fontSize: '24px', fontWeight: 900, color: 'var(--border)', display: 'flex', alignItems: 'center', height: '100%' }}>{idx + 1}</div>
+                            <div key={idx} style={{ position: 'relative', display: 'grid', gridTemplateColumns: '40px 1fr 1fr 1fr 100px 80px 40px', gap: '12px', alignItems: 'center', background: step.is_goal ? 'rgba(37, 99, 235, 0.05)' : 'var(--bg-subtle)', padding: '24px', borderRadius: '16px', border: step.is_goal ? '1px solid #2563eb' : '1px solid var(--border)' }}>
+                                <div style={{ fontSize: '24px', fontWeight: 900, color: step.is_goal ? '#2563eb' : 'var(--border)', display: 'flex', alignItems: 'center', height: '100%' }}>{idx + 1}</div>
                                 <div className="form-field" style={{ marginBottom: 0 }}>
                                     <label style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{t('funnels.fields.stepName')}</label>
                                     <input className="input-lux" value={step.name} onChange={e => updateStep(idx, 'name', e.target.value)} placeholder="Entry" />
@@ -109,13 +110,25 @@ export default function FunnelBuilder() {
                                     )}
                                 </div>
                                 <div className="form-field" style={{ marginBottom: 0 }}>
-                                    <label style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Value ($)</label>
+                                    <label style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Value</label>
                                     <input
                                         type="number"
                                         className="input-lux"
                                         value={step.conversion_value || 0}
                                         onChange={e => updateStep(idx, 'conversion_value', parseInt(e.target.value) || 0)}
                                         placeholder="0"
+                                    />
+                                </div>
+                                <div className="form-field" style={{ marginBottom: 0, textAlign: 'center' }}>
+                                    <label style={{ fontSize: '11px', color: 'var(--text-muted)', display: 'block', marginBottom: '8px' }}>Goal?</label>
+                                    <input
+                                        type="checkbox"
+                                        checked={step.is_goal || false}
+                                        onChange={e => {
+                                            // Ensure only one goal exists
+                                            const newSteps = steps.map((s, i) => ({ ...s, is_goal: i === idx ? e.target.checked : false }));
+                                            setSteps(newSteps);
+                                        }}
                                     />
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'center' }}>

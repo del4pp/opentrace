@@ -110,5 +110,6 @@ class FunnelStep(Base):
     value = Column(String) # URL snippet or Event name
     order = Column(Integer)
     conversion_value = Column(Integer, default=0) # Value in local currency
+    is_goal = Column(Boolean, default=False) # Mark as the main conversion step
 
     funnel = relationship("Funnel", back_populates="steps")
