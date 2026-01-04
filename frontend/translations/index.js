@@ -916,12 +916,14 @@ export const translations = {
     pl: {
         nav: {
             dashboard: "Panel",
+            views: "Widok ogólny",
             resources: "Zasoby",
             campaigns: "Linki kampanii",
             events: "Śledzenie zdarzeń",
             tags: "Menedżer tagów",
             settings: "Ustawienia",
             analytics: "Eksplorator",
+            funnels: "Lejki konwersji",
             live: "Widok Live",
             customAnalytics: "Raporty",
             docs: "Dokumentacja API",
@@ -1228,12 +1230,14 @@ export const translations = {
     de: {
         nav: {
             dashboard: "Dashboard",
+            views: "Übersicht",
             resources: "Ressourcen",
             campaigns: "Kampagnen-Links",
             events: "Event-Tracking",
             tags: "Tag-Manager",
             settings: "Einstellungen",
             analytics: "Analyse",
+            funnels: "Conversion-Trichter",
             live: "Echtzeit",
             customAnalytics: "Berichte",
             docs: "API-Dokumentation",

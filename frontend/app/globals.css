@@ -60,8 +60,9 @@ body {
 .main-view {
   flex: 1;
   margin-left: var(--sidebar-w);
-  padding: 48px;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   background: var(--bg);
   transition: margin-left 0.3s ease;
 }
@@ -382,16 +383,17 @@ h2 {
 .top-bar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 16px 32px;
-  background: rgba(255, 255, 255, 0.8);
+  justify-content: center;
+  height: 72px;
+  background: var(--bg);
+  opacity: 0.98;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
-  z-index: 50;
-  margin-bottom: 32px;
+  z-index: 100;
+  margin-bottom: 40px;
 }
 
 .resource-switcher {
@@ -472,11 +474,11 @@ h2 {
   transition: .4s;
 }
 
-input:checked + .slider {
+input:checked+.slider {
   background-color: var(--primary);
 }
 
-input:checked + .slider:before {
+input:checked+.slider:before {
   transform: translateX(20px);
 }
 

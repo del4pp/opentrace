@@ -204,33 +204,34 @@ export default function Layout({ children }) {
             <main className="main-view">
                 {/* Top Bar with Resource Switcher */}
                 <div className="top-bar">
-                    <div className="resource-switcher">
-                        <div style={{ fontSize: '12px', color: '#64748b', fontWeight: 600, marginRight: '12px' }}>Resource:</div>
-                        <select
-                            className="resource-select"
-                            value={selectedResource?.id || ''}
-                            onChange={(e) => selectResource(e.target.value)}
-                        >
-                            {resLoading ? (
-                                <option>Loading...</option>
-                            ) : resources.length > 0 ? (
-                                resources.map(r => (
-                                    <option key={r.id} value={r.id}>
-                                        {r.name} ({r.type})
-                                    </option>
-                                ))
-                            ) : (
-                                <option value="">No resources found</option>
-                            )}
-                        </select>
-                    </div>
-                    <div style={{ flex: 1 }}></div>
-                    <div suppressHydrationWarning style={{ fontSize: '13px', fontWeight: 600, color: '#64748b' }}>
-                        {new Date().toLocaleDateString()}
+                    <div style={{ maxWidth: '1200px', margin: '0 auto', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 24px' }}>
+                        <div className="resource-switcher">
+                            <div style={{ fontSize: '12px', color: '#64748b', fontWeight: 600, marginRight: '12px' }}>Resource:</div>
+                            <select
+                                className="resource-select"
+                                value={selectedResource?.id || ''}
+                                onChange={(e) => selectResource(e.target.value)}
+                            >
+                                {resLoading ? (
+                                    <option>Loading...</option>
+                                ) : resources.length > 0 ? (
+                                    resources.map(r => (
+                                        <option key={r.id} value={r.id}>
+                                            {r.name} ({r.type})
+                                        </option>
+                                    ))
+                                ) : (
+                                    <option value="">No resources found</option>
+                                )}
+                            </select>
+                        </div>
+                        <div suppressHydrationWarning style={{ fontSize: '13px', fontWeight: 600, color: '#64748b' }}>
+                            {new Date().toLocaleDateString()}
+                        </div>
                     </div>
                 </div>
 
-                <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
+                <div style={{ maxWidth: '1200px', margin: '40px auto', padding: '0 24px', width: '100%' }}>
                     {children}
                 </div>
             </main>
