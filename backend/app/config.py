@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     SECRET_KEY: str = "supersecretkey"
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
+    NEXT_PUBLIC_API_URL: str = "http://localhost:8000/api"
 
     class Config:
         env_file = ".env"
