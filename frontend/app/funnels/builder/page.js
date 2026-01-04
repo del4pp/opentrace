@@ -97,24 +97,24 @@ export default function FunnelBuilder() {
                                 <div style={{ fontSize: '24px', fontWeight: 900, color: step.is_goal ? '#2563eb' : 'var(--border)', display: 'flex', alignItems: 'center', height: '44px' }}>{idx + 1}</div>
 
                                 <div className="form-field" style={{ marginBottom: 0, display: 'flex', flexDirection: 'column' }}>
-                                    <label style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '8px', fontWeight: 700, textTransform: 'uppercase' }}>{t('funnels.fields.stepName')}</label>
-                                    <input className="input-lux" style={{ height: '44px' }} value={step.name} onChange={e => updateStep(idx, 'name', e.target.value)} placeholder="Entry" />
+                                    <label style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '8px', fontWeight: 700, textTransform: 'uppercase', height: '14px' }}>{t('funnels.fields.stepName')}</label>
+                                    <input className="input-lux" style={{ height: '44px', marginBottom: 0 }} value={step.name} onChange={e => updateStep(idx, 'name', e.target.value)} placeholder="Entry" />
                                 </div>
 
                                 <div className="form-field" style={{ marginBottom: 0, display: 'flex', flexDirection: 'column' }}>
-                                    <label style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '8px', fontWeight: 700, textTransform: 'uppercase' }}>{t('funnels.fields.type')}</label>
-                                    <select className="select-lux" style={{ height: '44px' }} value={step.type} onChange={e => updateStep(idx, 'type', e.target.value)}>
+                                    <label style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '8px', fontWeight: 700, textTransform: 'uppercase', height: '14px' }}>{t('funnels.fields.type')}</label>
+                                    <select className="select-lux" style={{ height: '44px', marginBottom: 0 }} value={step.type} onChange={e => updateStep(idx, 'type', e.target.value)}>
                                         <option value="page_view">Page View</option>
                                         <option value="event">Event Trigger</option>
                                     </select>
                                 </div>
 
                                 <div className="form-field" style={{ marginBottom: 0, display: 'flex', flexDirection: 'column' }}>
-                                    <label style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '8px', fontWeight: 700, textTransform: 'uppercase' }}>{t('funnels.fields.value')}</label>
+                                    <label style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '8px', fontWeight: 700, textTransform: 'uppercase', height: '14px' }}>{t('funnels.fields.value')}</label>
                                     {step.type === 'page_view' ? (
-                                        <input className="input-lux" style={{ height: '44px' }} value={step.value} onChange={e => updateStep(idx, 'value', e.target.value)} placeholder="/pricing" />
+                                        <input className="input-lux" style={{ height: '44px', marginBottom: 0 }} value={step.value} onChange={e => updateStep(idx, 'value', e.target.value)} placeholder="/pricing" />
                                     ) : (
-                                        <select className="select-lux" style={{ height: '44px' }} value={step.value} onChange={e => updateStep(idx, 'value', e.target.value)}>
+                                        <select className="select-lux" style={{ height: '44px', marginBottom: 0 }} value={step.value} onChange={e => updateStep(idx, 'value', e.target.value)}>
                                             <option value="">Select Event...</option>
                                             {events.map(ev => (
                                                 <option key={ev.id} value={ev.name}>{ev.name}</option>
@@ -124,11 +124,11 @@ export default function FunnelBuilder() {
                                 </div>
 
                                 <div className="form-field" style={{ marginBottom: 0, display: 'flex', flexDirection: 'column' }}>
-                                    <label style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '8px', fontWeight: 700, textTransform: 'uppercase' }}>{t('funnels.fields.stepValue')}</label>
+                                    <label style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '8px', fontWeight: 700, textTransform: 'uppercase', height: '14px' }}>{t('funnels.fields.stepValue')}</label>
                                     <input
                                         type="number"
                                         className="input-lux"
-                                        style={{ height: '44px', paddingRight: '8px' }}
+                                        style={{ height: '44px', marginBottom: 0, paddingRight: '8px' }}
                                         value={step.conversion_value || 0}
                                         onChange={e => updateStep(idx, 'conversion_value', parseInt(e.target.value) || 0)}
                                         placeholder="0"
@@ -136,11 +136,11 @@ export default function FunnelBuilder() {
                                 </div>
 
                                 <div className="form-field" style={{ marginBottom: 0, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                    <label style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '8px', fontWeight: 700, textTransform: 'uppercase' }}>{t('funnels.fields.isGoal')}</label>
+                                    <label style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '8px', fontWeight: 700, textTransform: 'uppercase', height: '14px' }}>{t('funnels.fields.isGoal')}</label>
                                     <div style={{ height: '44px', display: 'flex', alignItems: 'center' }}>
                                         <input
                                             type="checkbox"
-                                            style={{ width: '22px', height: '22px', cursor: 'pointer' }}
+                                            style={{ width: '22px', height: '22px', cursor: 'pointer', marginBottom: 0 }}
                                             checked={step.is_goal || false}
                                             onChange={e => {
                                                 const newSteps = steps.map((s, i) => ({ ...s, is_goal: i === idx ? e.target.checked : false }));
