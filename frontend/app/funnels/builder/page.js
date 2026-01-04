@@ -83,8 +83,18 @@ export default function FunnelBuilder() {
 
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                         {steps.map((step, idx) => (
-                            <div key={idx} style={{ position: 'relative', display: 'grid', gridTemplateColumns: '40px 1fr 1fr 1fr 100px 80px 40px', gap: '12px', alignItems: 'center', background: step.is_goal ? 'rgba(37, 99, 235, 0.05)' : 'var(--bg-subtle)', padding: '24px', borderRadius: '16px', border: step.is_goal ? '1px solid #2563eb' : '1px solid var(--border)' }}>
-                                <div style={{ fontSize: '24px', fontWeight: 900, color: step.is_goal ? '#2563eb' : 'var(--border)', display: 'flex', alignItems: 'center', height: '100%' }}>{idx + 1}</div>
+                            <div key={idx} style={{
+                                position: 'relative',
+                                display: 'grid',
+                                gridTemplateColumns: '40px 1fr 1fr 1fr 100px 80px 40px',
+                                gap: '12px',
+                                alignItems: 'end', // Align all inputs and labels at the bottom
+                                background: step.is_goal ? 'rgba(37, 99, 235, 0.05)' : 'var(--bg-subtle)',
+                                padding: '24px',
+                                borderRadius: '16px',
+                                border: step.is_goal ? '1px solid #2563eb' : '1px solid var(--border)'
+                            }}>
+                                <div style={{ fontSize: '24px', fontWeight: 900, color: step.is_goal ? '#2563eb' : 'var(--border)', display: 'flex', alignItems: 'center', height: '42px' }}>{idx + 1}</div>
                                 <div className="form-field" style={{ marginBottom: 0 }}>
                                     <label style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{t('funnels.fields.stepName')}</label>
                                     <input className="input-lux" value={step.name} onChange={e => updateStep(idx, 'name', e.target.value)} placeholder="Entry" />
@@ -110,7 +120,7 @@ export default function FunnelBuilder() {
                                     )}
                                 </div>
                                 <div className="form-field" style={{ marginBottom: 0 }}>
-                                    <label style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Value</label>
+                                    <label style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{t('funnels.fields.stepValue')}</label>
                                     <input
                                         type="number"
                                         className="input-lux"
@@ -120,18 +130,18 @@ export default function FunnelBuilder() {
                                     />
                                 </div>
                                 <div className="form-field" style={{ marginBottom: 0, textAlign: 'center' }}>
-                                    <label style={{ fontSize: '11px', color: 'var(--text-muted)', display: 'block', marginBottom: '8px' }}>Goal?</label>
+                                    <label style={{ fontSize: '11px', color: 'var(--text-muted)', display: 'block', marginBottom: '14px' }}>{t('funnels.fields.isGoal')}</label>
                                     <input
                                         type="checkbox"
+                                        style={{ width: '20px', height: '20px', cursor: 'pointer' }}
                                         checked={step.is_goal || false}
                                         onChange={e => {
-                                            // Ensure only one goal exists
                                             const newSteps = steps.map((s, i) => ({ ...s, is_goal: i === idx ? e.target.checked : false }));
                                             setSteps(newSteps);
                                         }}
                                     />
                                 </div>
-                                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                <div style={{ display: 'flex', justifyContent: 'center', height: '42px', alignItems: 'center' }}>
                                     <button onClick={() => removeStep(idx)} style={{ background: 'none', border: 'none', cursor: 'pointer', opacity: 0.3, fontSize: '18px', color: 'var(--text)' }}>✕</button>
                                 </div>
                             </div>

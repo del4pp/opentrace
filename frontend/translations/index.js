@@ -448,7 +448,9 @@ export const translations = {
                 name: "Funnel Name",
                 stepName: "Step Name",
                 type: "Trigger Type",
-                value: "Value (URL or Event Name)"
+                value: "Value (URL or Event Name)",
+                stepValue: "Conversion Value ($)",
+                isGoal: "Goal?"
             }
         },
         common: {
@@ -905,7 +907,9 @@ export const translations = {
                 name: "Назва воронки",
                 stepName: "Назва кроку",
                 type: "Тип тригера",
-                value: "Значення (URL або подія)"
+                value: "Значення (URL або подія)",
+                stepValue: "Цінність ($)",
+                isGoal: "Ціль?"
             }
         },
         common: {
