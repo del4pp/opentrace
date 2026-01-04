@@ -89,7 +89,11 @@ async def get_funnel_stats(id: int, db: AsyncSession = Depends(get_db)):
     # We need resource_uid for ClickHouse
     res_obj = await db.execute(select(models.Resource).where(models.Resource.id == funnel.resource_id))
     resource = res_obj.scalars().first()
-    rid = resource.uid if resource else ""
+    if not resource:
+        print(f"Error: Resource not found for funnel {id}")
+        return {"funnel_name": funnel.name, "steps": [], "total_sessions": 0, "overall_conversion": 0, "avg_ttc": 0, "error": "Resource not found"}
+        
+    rid = resource.uid
 
     ch = get_clickhouse_client()
     
@@ -112,23 +116,30 @@ async def get_funnel_stats(id: int, db: AsyncSession = Depends(get_db)):
     
     try:
         ch_res = ch.query(query).result_rows
+        print(f"Funnel {id} results: {ch_res}")
     except Exception as e:
         print(f"ClickHouse Funnel Error: {e}")
         ch_res = []
     
     level_counts = {row[0]: row[1] for row in ch_res}
     
+    # Calculate step stats
     step_stats = []
-    # Total unique sessions that started the funnel (at least step 1)
+    # Total unique sessions that reached at least the first step
     total_starts = sum(c for lvl, c in level_counts.items() if lvl >= 1)
     
     for i in range(len(steps)):
         step_index = i + 1
+        # Count sessions that reached at least this step
         count = sum(c for lvl, c in level_counts.items() if lvl >= step_index)
         
-        prev_count = sum(c for lvl, c in level_counts.items() if lvl >= i) if i > 0 else count
-        dropoff = round((1 - (count / prev_count)) * 100, 1) if prev_count > 0 and i > 0 else 0
-        
+        # Dropoff calculation (relative to previous step)
+        if i == 0:
+            dropoff = 0
+        else:
+            prev_count = sum(c for lvl, c in level_counts.items() if lvl >= i)
+            dropoff = round((1 - (count / prev_count)) * 100, 1) if prev_count > 0 else 100
+            
         step_stats.append({
             "name": steps[i].name,
             "count": count,
@@ -138,7 +149,7 @@ async def get_funnel_stats(id: int, db: AsyncSession = Depends(get_db)):
 
     # 3. Calculate Time to Convert (TTC) for the whole funnel
     ttc = 0
-    if len(steps) > 1 and total_starts > 0:
+    if len(steps) > 1 and total_starts > 0 and step_stats[-1]['count'] > 0:
         ttc_query = f"""
         SELECT avg(diff) FROM (
             SELECT 
@@ -149,13 +160,14 @@ async def get_funnel_stats(id: int, db: AsyncSession = Depends(get_db)):
             FROM telemetry
             WHERE resource_id = '{rid}'
             GROUP BY session_id
-            HAVING start_ts > '1970-01-01 00:00:00' AND end_ts > start_ts
+            HAVING start_ts > '1970-01-01 00:00:00' AND end_ts >= start_ts
         )
         """
         try:
             ttc_res = ch.query(ttc_query).first_row
             ttc = round(ttc_res[0], 1) if ttc_res and ttc_res[0] else 0
-        except:
+        except Exception as e:
+            print(f"TTC Error: {e}")
             ttc = 0
 
     return {

@@ -30,6 +30,13 @@ export default function FunnelStats() {
 
     if (loading) return <div style={{ textAlign: 'center', padding: '100px' }}>Calibrating funnel physics...</div>;
     if (!data) return <div style={{ textAlign: 'center', padding: '100px' }}>Funnel data unavailable</div>;
+    if (data.total_sessions === 0) return (
+        <div style={{ textAlign: 'center', padding: '100px', background: 'var(--bg-subtle)', borderRadius: '24px', border: '1px solid var(--border)' }}>
+            <span style={{ fontSize: '48px', marginBottom: '24px', display: 'block' }}>📉</span>
+            <h3 style={{ fontSize: '20px', fontWeight: 800, marginBottom: '8px' }}>No funnel data detected yet</h3>
+            <p style={{ color: 'var(--text-muted)', maxWidth: '400px', margin: '0 auto' }}>We haven't recorded any sessions that match the starting step of this funnel in the last 30 days.</p>
+        </div>
+    );
 
     return (
         <div>

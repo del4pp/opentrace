@@ -180,6 +180,7 @@ async def collect_telemetry(request: Request, background_tasks: BackgroundTasks)
         
         if payload["resource_id"] and session_id:
             redis_key = f"ot:active:{payload['resource_id']}:{session_id}"
+            heartbeat_key = f"ot:heartbeat:{payload['resource_id']}:{session_id}"
             session_data = {"ip": payload["ip"], "url": payload["url"], "ts": str(datetime.datetime.now()), "fbclid": fbclid, "ttclid": ttclid}
             existing_data = redis_client.get(redis_key)
             if existing_data:
@@ -189,6 +190,7 @@ async def collect_telemetry(request: Request, background_tasks: BackgroundTasks)
                     if not session_data["ttclid"] and existing_session.get("ttclid"): session_data["ttclid"] = existing_session["ttclid"]
                 except: pass
             redis_client.setex(redis_key, 1800, json.dumps(session_data))
+            redis_client.setex(heartbeat_key, 300, "1") # 5 min heartbeat
 
         client.insert("telemetry", [list(payload.values())], column_names=list(payload.keys()))
         background_tasks.add_task(send_to_conversion_api, event_type, data, fbclid, ttclid)
@@ -201,10 +203,16 @@ async def collect_telemetry(request: Request, background_tasks: BackgroundTasks)
 async def get_live_analytics(resource_id: Optional[str] = None, db: AsyncSession = Depends(get_db)):
     try:
         r_pattern = resource_id if resource_id and resource_id != 'undefined' else '*'
-        pattern = f"ot:active:{r_pattern}:*"
+        pattern = f"ot:heartbeat:{r_pattern}:*"
         keys = redis_client.keys(pattern)
         count = len(keys)
         
+        # If no heartbeats, check active sessions (fallback)
+        if count == 0:
+            pattern_full = f"ot:active:{r_pattern}:*"
+            keys_full = redis_client.keys(pattern_full)
+            count = len(keys_full)
+
         client = get_clickhouse_client()
         params = {}
         filters = ["1=1"]
