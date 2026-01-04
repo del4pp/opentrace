@@ -10,13 +10,14 @@ export const translations = {
             settings: "Settings",
             analytics: "Explorer",
             live: "Live View",
+            funnels: "Funnels",
             customAnalytics: "Custom Reports",
             docs: "API Documentation",
             signIn: "Sign In",
             features: "Features",
             modules: "Modules",
             groups: {
-                analytics: "Insights",
+                analytics: "Insights & Funnels",
                 tracking: "Data Collection",
                 system: "Configuration"
             }
@@ -208,6 +209,26 @@ export const translations = {
                 installed: "Installed",
                 available: "Available",
                 premium: "Premium"
+            }
+        },
+        funnels: {
+            title: "Conversion Funnels",
+            subtitle: "Analyze user journeys and drop-offs",
+            create: "Create Funnel",
+            builder: "Funnel Builder",
+            compare: "Compare Funnels",
+            stats: {
+                conversion: "Conversion Rate",
+                dropoff: "Drop-off",
+                ttc: "Time to Convert",
+                sessions: "Total Sessions",
+                steps: "Steps"
+            },
+            fields: {
+                name: "Funnel Name",
+                stepName: "Step Name",
+                type: "Trigger Type",
+                value: "Value (URL or Event Name)"
             }
         },
         analytics: {
@@ -444,15 +465,16 @@ export const translations = {
             events: "Трекінг подій",
             tags: "Тег Менеджер",
             settings: "Налаштування",
-            analytics: "Аналітика",
-            live: "Live-режим",
+            analytics: "Експлорер",
+            live: "Live перегляд",
+            funnels: "Воронки",
             customAnalytics: "Звіти",
             docs: "Документація API",
             signIn: "Увійти",
             features: "Можливості",
             modules: "Модулі",
             groups: {
-                analytics: "Аналітика",
+                analytics: "Аналітика та Воронки",
                 tracking: "Збір даних",
                 system: "Налаштування"
             }
@@ -644,6 +666,26 @@ export const translations = {
                 installed: "Встановлено",
                 available: "Доступно",
                 premium: "Преміум"
+            }
+        },
+        funnels: {
+            title: "Воронки конверсії",
+            subtitle: "Аналізуйте шлях користувача та відтік",
+            create: "Створити воронку",
+            builder: "Конструктор воронки",
+            compare: "Порівняти воронки",
+            stats: {
+                conversion: "Конверсія",
+                dropoff: "Відтік",
+                ttc: "Час до конверсії",
+                sessions: "Всього сесій",
+                steps: "Кроки"
+            },
+            fields: {
+                name: "Назва воронки",
+                stepName: "Назва кроку",
+                type: "Тип тригера",
+                value: "Значення (URL або подія)"
             }
         },
         analytics: {

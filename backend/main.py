@@ -13,8 +13,8 @@ from app.routers import (
     tags_router,
     analytics_router,
     system_router,
-    sdk_router,
-    event_actions_router
+    event_actions_router,
+    funnels_router
 )
 
 app = FastAPI(title="OpenTrace Analytics API")
@@ -96,3 +96,4 @@ app.include_router(analytics_router)
 app.include_router(system_router)
 app.include_router(sdk_router)
 app.include_router(event_actions_router)
+app.include_router(funnels_router)

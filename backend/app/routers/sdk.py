@@ -53,6 +53,16 @@ async def get_tracking_script(id: str, db: AsyncSession = Depends(get_db)):
 
     tag_logic = "".join(tag_injections)
     
+    # Get dynamic events (rules)
+    events_res = await db.execute(
+        select(models.Event)
+        .where(models.Event.resource_id == resource.id)
+    )
+    dynamic_events = events_res.scalars().all()
+    rules_json = [{"name": e.name, "trigger": e.trigger, "selector": e.selector} for e in dynamic_events]
+    import json
+    rules_code = json.dumps(rules_json)
+    
     # Modern SDK logic
     js_code = f"""
 (function() {{
@@ -138,6 +148,23 @@ async def get_tracking_script(id: str, db: AsyncSession = Depends(get_db)):
         
         setupListeners: function() {{
             var self = this;
+            var rules = {rules_code};
+            
+            // Setup dynamic rules
+            rules.forEach(function(rule) {{
+                if (rule.trigger === 'visit') {{
+                    if (window.location.pathname.includes(rule.selector) || rule.selector === '*') {{
+                        self.track(rule.name);
+                    }}
+                }} else {{
+                    document.addEventListener(rule.trigger === 'submit' ? 'submit' : 'click', function(e) {{
+                        if (e.target.closest(rule.selector) || e.target.matches(rule.selector)) {{
+                            self.track(rule.name);
+                        }}
+                    }}, true);
+                }}
+            }});
+
             document.addEventListener('click', function(e) {{
                 var el = e.target.closest('a, button, [data-ot-track]');
                 if (el) {{

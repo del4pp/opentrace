@@ -112,3 +112,27 @@ class PasswordResetRequest(BaseModel):
 class PasswordResetConfirm(BaseModel):
     token: str
     new_password: str
+
+class FunnelStepBase(BaseModel):
+    name: str
+    type: str
+    value: str
+    order: int
+
+class FunnelStepCreate(FunnelStepBase): pass
+class FunnelStep(FunnelStepBase):
+    id: int
+    class Config: from_attributes = True
+
+class FunnelBase(BaseModel):
+    name: str
+    resource_id: int
+
+class FunnelCreate(FunnelBase):
+    steps: List[FunnelStepCreate]
+
+class Funnel(FunnelBase):
+    id: int
+    created_at: datetime
+    steps: List[FunnelStep]
+    class Config: from_attributes = True
