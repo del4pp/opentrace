@@ -194,14 +194,20 @@ h2 {
 }
 
 .btn-premium {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: var(--text);
-  color: #fff;
-  padding: 10px 20px;
+  color: #fff !important;
+  padding: 10px 24px;
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
   border: none;
   transition: 0.2s;
+  text-decoration: none !important;
+  font-size: 14px;
+  height: 42px;
 }
 
 .btn-premium:hover {

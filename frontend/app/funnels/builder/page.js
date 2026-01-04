@@ -94,7 +94,7 @@ export default function FunnelBuilder() {
                 </div>
 
                 <div style={{ marginTop: '40px', display: 'flex', gap: '16px' }}>
-                    <button onClick={() => router.push('/funnels')} className="btn-premium" style={{ background: '#fff', color: '#0f172a', border: '1px solid #e2e8f0', flex: 1 }}>
+                    <button onClick={() => router.push('/funnels')} className="btn-premium" style={{ background: 'var(--bg)', color: 'var(--text) !important', border: '1px solid var(--border)', flex: 1 }}>
                         Cancel
                     </button>
                     <button onClick={saveFunnel} className="btn-premium" style={{ flex: 1 }}>
