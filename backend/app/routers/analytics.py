@@ -288,6 +288,7 @@ async def explore_analytics(resource_id: Optional[str] = None, start: Optional[s
     except Exception as e:
         print(f"Explore Error: {e}")
         return {"metrics": {"visitors": 0, "views": 0, "bounce_rate": 0}, "sources": [], "error": str(e)}
+
 @router.get("/api/analytics/heatmap/urls")
 async def get_heatmap_urls(resource_id: str):
     try:
@@ -301,15 +302,18 @@ async def get_heatmap_urls(resource_id: str):
 async def get_heatmap_data(resource_id: str, url: str):
     try:
         client = get_clickhouse_client()
-        query = "SELECT payload FROM telemetry WHERE event_type = 'heatmap_batch' AND resource_id = {rid:String} AND url = {url:String}"
+        query = "SELECT payload, screen_res FROM telemetry WHERE event_type = 'heatmap_batch' AND resource_id = {rid:String} AND url = {url:String}"
         res = client.query(query, parameters={"rid": resource_id, "url": url}).result_rows
         
         all_clicks = []
         for row in res:
             try:
                 data = json.loads(row[0])
+                res_val = row[1]
                 if "clicks" in data:
-                    all_clicks.extend(data["clicks"])
+                    for c in data["clicks"]:
+                        c["res"] = res_val
+                        all_clicks.append(c)
             except: continue
         return all_clicks
     except: return []
