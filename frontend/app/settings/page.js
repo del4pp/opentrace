@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from '../../context/LanguageContext';
 import HelpButton from '../../components/HelpButton';
 
-const API_URL = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001/api'}`;
+const API_URL = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api'}`;
 
 export default function SettingsPage() {
     const { t } = useTranslation();
@@ -204,9 +204,21 @@ export default function SettingsPage() {
                             style={{ width: '100%', background: '#fff', color: '#0f172a', border: '1px solid #e2e8f0' }}
                             onClick={async () => {
                                 try {
-                                    const res = await fetch(`${API_URL}/admin/reset-password`, { method: 'POST' });
-                                    if (res.ok) alert(t('settings.security.resetSuccess'));
-                                } catch (e) { alert('Error'); }
+                                    const res = await fetch(`${API_URL}/forgot-password`, {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({ email: adminEmail })
+                                    });
+                                    if (res.ok) {
+                                        const data = await res.json();
+                                        alert(data.message || 'Password reset link sent to ' + adminEmail);
+                                    } else {
+                                        const errorData = await res.json().catch(() => ({ detail: 'Failed to send reset link' }));
+                                        alert(errorData.detail || 'Failed to send reset link. Please check email server configuration.');
+                                    }
+                                } catch (e) {
+                                    alert('Error sending reset link: ' + e.message);
+                                }
                             }}
                         >
                             {t('settings.security.resetPassword')}

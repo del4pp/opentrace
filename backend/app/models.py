@@ -34,6 +34,7 @@ class Campaign(Base):
     is_bot_link = Column(Boolean, default=False)
     bot_id = Column(String, nullable=True) # Username or ID of the bot
     bot_start_param = Column(String, nullable=True) # The generated iJN2r4nQk
+    resource_id = Column(Integer, ForeignKey("resources.id"), nullable=True) # Link to resource
     created_at = Column(DateTime, default=datetime.utcnow)
 
 class Event(Base):
@@ -45,6 +46,17 @@ class Event(Base):
     resource_id = Column(Integer, ForeignKey("resources.id"))
     created_at = Column(DateTime, default=datetime.utcnow)
 
+class EventAction(Base):
+    __tablename__ = "event_actions"
+    id = Column(Integer, primary_key=True, index=True)
+    event_id = Column(Integer, ForeignKey("events_config.id"))
+    action_type = Column(String) # 'facebook_conversion', 'tiktok_conversion'
+    config = Column(Text) # JSON string with API credentials and settings
+    is_active = Column(Boolean, default=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    event = relationship("Event")
+
 class Tag(Base):
     __tablename__ = "tags"
     id = Column(Integer, primary_key=True, index=True)
@@ -52,6 +64,7 @@ class Tag(Base):
     provider = Column(String)
     code = Column(Text)
     is_active = Column(Boolean, default=True)
+    resource_id = Column(Integer, ForeignKey("resources.id"), nullable=True) # Link to resource
     created_at = Column(DateTime, default=datetime.utcnow)
 
 class Dashboard(Base):
@@ -67,3 +80,14 @@ class Setting(Base):
     id = Column(Integer, primary_key=True, index=True)
     key = Column(String, unique=True, index=True)
     value = Column(String)
+
+class PasswordResetToken(Base):
+    __tablename__ = "password_reset_tokens"
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    token = Column(String, unique=True, index=True)
+    expires_at = Column(DateTime)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    is_used = Column(Boolean, default=False)
+
+    user = relationship("User")

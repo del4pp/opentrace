@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
-from typing import List
+from typing import List, Optional
 from .. import models
 from ..schemas import schemas
 from ..database import get_db
@@ -10,8 +10,11 @@ from ..security import check_admin_auth
 router = APIRouter(tags=["Tags"])
 
 @router.get("/api/tags", response_model=List[schemas.Tag])
-async def get_tags(db: AsyncSession = Depends(get_db)):
-    result = await db.execute(select(models.Tag).order_by(models.Tag.created_at.desc()))
+async def get_tags(resource_id: Optional[int] = None, db: AsyncSession = Depends(get_db)):
+    query = select(models.Tag)
+    if resource_id:
+        query = query.where(models.Tag.resource_id == resource_id)
+    result = await db.execute(query.order_by(models.Tag.created_at.desc()))
     return result.scalars().all()
 
 @router.post("/api/tags", response_model=schemas.Tag)

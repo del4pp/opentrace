@@ -25,6 +25,9 @@ class ResourceBase(BaseModel):
     status: str = "Active"
 
 class ResourceCreate(ResourceBase): pass
+class ResourceUpdate(BaseModel):
+    name: Optional[str] = None
+    status: Optional[str] = None
 class Resource(ResourceBase):
     id: int
     created_at: datetime
@@ -41,6 +44,7 @@ class CampaignBase(BaseModel):
     is_bot_link: bool = False
     bot_id: Optional[str] = None
     bot_start_param: Optional[str] = None
+    resource_id: Optional[int] = None
 
 class CampaignCreate(CampaignBase): pass
 class Campaign(CampaignBase):
@@ -60,11 +64,24 @@ class Event(EventBase):
     created_at: datetime
     class Config: from_attributes = True
 
+class EventActionBase(BaseModel):
+    event_id: int
+    action_type: str
+    config: str
+    is_active: bool = True
+
+class EventActionCreate(EventActionBase): pass
+class EventAction(EventActionBase):
+    id: int
+    created_at: datetime
+    class Config: from_attributes = True
+
 class TagBase(BaseModel):
     name: str
     provider: str
     code: str
     is_active: bool = True
+    resource_id: Optional[int] = None
 
 class TagCreate(TagBase): pass
 class Tag(TagBase):
@@ -88,3 +105,10 @@ class LoginResponse(BaseModel):
     user_id: int
     email: str
     is_first_login: bool
+
+class PasswordResetRequest(BaseModel):
+    email: EmailStr
+
+class PasswordResetConfirm(BaseModel):
+    token: str
+    new_password: str

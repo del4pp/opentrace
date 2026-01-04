@@ -1,12 +1,14 @@
 "use client";
 import { useState, useEffect } from 'react';
 import { useTranslation } from '../../context/LanguageContext';
+import { useResource } from '../../context/ResourceContext';
 import HelpButton from '../../components/HelpButton';
 
-const API_URL = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001/api'}`;
+const API_URL = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api'}`;
 
 export default function TagsPage() {
     const { t } = useTranslation();
+    const { selectedResource } = useResource();
     const [showModal, setShowModal] = useState(false);
     const [loading, setLoading] = useState(true);
     const [tags, setTags] = useState([]);
@@ -19,8 +21,10 @@ export default function TagsPage() {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     const fetchTags = async () => {
+        if (!selectedResource) return;
+        setLoading(true);
         try {
-            const res = await fetch(`${API_URL}/tags`);
+            const res = await fetch(`${API_URL}/tags?resource_id=${selectedResource.id}`);
             if (res.ok) setTags(await res.json());
         } catch (err) { console.error(err); }
         finally { setLoading(false); }
@@ -28,7 +32,7 @@ export default function TagsPage() {
 
     useEffect(() => {
         fetchTags();
-    }, []);
+    }, [selectedResource]);
 
     const handleAdd = async (e) => {
         e.preventDefault();
@@ -36,7 +40,7 @@ export default function TagsPage() {
             const res = await fetch(`${API_URL}/tags`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(form)
+                body: JSON.stringify({ ...form, resource_id: selectedResource?.id })
             });
             if (res.ok) {
                 await fetchTags();
@@ -136,10 +140,10 @@ export default function TagsPage() {
 
             <div style={{ marginTop: '40px', padding: '32px', background: '#0f172a', borderRadius: '16px', color: '#fff', position: 'relative', overflow: 'hidden' }}>
                 <div style={{ position: 'relative', zIndex: 1 }}>
-                    <h3 style={{ color: '#fff', marginBottom: '12px' }}>Standard Container Snippet</h3>
-                    <p style={{ color: '#94a3b8', fontSize: '14px', marginBottom: '24px' }}>Incorporate this script into your site's <code>&lt;head&gt;</code>. All active tags above will be served dynamically.</p>
+                    <h3 style={{ color: '#fff', marginBottom: '12px' }}>{t('tags.snippet.title')}</h3>
+                    <p style={{ color: '#94a3b8', fontSize: '14px', marginBottom: '24px' }}>{t('tags.snippet.description')}</p>
                     <div style={{ background: 'rgba(255,255,255,0.05)', padding: '20px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', fontFamily: 'monospace', fontSize: '13px', color: '#34d399' }}>
-                        &lt;script src="https://api.opentrace.io/sdk/t.js?id=OT-CONTAINER-PRIME" async&gt;&lt;/script&gt;
+                        &lt;script src="{API_URL.replace('/api', '')}/sdk/t.js?id=OT-CONTAINER-PRIME" async&gt;&lt;/script&gt;
                     </div>
                 </div>
             </div>
@@ -187,11 +191,11 @@ export default function TagsPage() {
             {showDeleteModal && (
                 <div className="modal-overlay" onClick={() => setShowDeleteModal(false)}>
                     <div className="modal-content" style={{ maxWidth: '400px' }} onClick={e => e.stopPropagation()}>
-                        <h2 style={{ marginBottom: '16px', color: '#ef4444' }}>Confirm Deletion</h2>
-                        <p style={{ marginBottom: '24px', color: '#64748b' }}>Please enter administrator password to delete this tag.</p>
+                        <h2 style={{ marginBottom: '16px', color: '#ef4444' }}>{t('modals.delete_confirm')}</h2>
+                        <p style={{ marginBottom: '24px', color: '#64748b' }}>{t('modals.delete_message')}</p>
                         <form onSubmit={handleDelete}>
                             <div className="form-field">
-                                <label>Admin Password</label>
+                                <label>{t('modals.admin_password')}</label>
                                 <input
                                     type="password"
                                     className="input-lux"
@@ -202,9 +206,9 @@ export default function TagsPage() {
                                 />
                             </div>
                             <div style={{ display: 'flex', gap: '12px', marginTop: '32px' }}>
-                                <button type="button" className="btn-premium" style={{ background: '#fff', color: '#0f172a', border: '1px solid #e2e8f0', flex: 1 }} onClick={() => setShowDeleteModal(false)}>Cancel</button>
+                                <button type="button" className="btn-premium" style={{ background: '#fff', color: '#0f172a', border: '1px solid #e2e8f0', flex: 1 }} onClick={() => setShowDeleteModal(false)}>{t('modals.cancel')}</button>
                                 <button type="submit" className="btn-premium" style={{ flex: 1, background: '#ef4444', borderColor: '#ef4444', color: '#fff' }}>
-                                    {deleteData.loading ? 'Deleting...' : 'Delete Tag'}
+                                    {deleteData.loading ? '...' : t('modals.delete')}
                                 </button>
                             </div>
                         </form>

@@ -3,7 +3,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 
 const ResourceContext = createContext();
 
-const API_URL = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001/api'}`;
+const API_URL = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api'}`;
 
 export function ResourceProvider({ children }) {
     const [resources, setResources] = useState([]);

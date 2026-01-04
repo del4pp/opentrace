@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
-from typing import List
+from typing import List, Optional
 from .. import models
 from ..schemas import schemas
 from ..database import get_db
@@ -10,11 +10,14 @@ from ..security import check_admin_auth
 router = APIRouter(tags=["Events"])
 
 @router.get("/api/events")
-async def get_events(db: AsyncSession = Depends(get_db)):
+async def get_events(resource_id: Optional[int] = None, db: AsyncSession = Depends(get_db)):
     from ..database import get_clickhouse_client
     
-
-    result = await db.execute(select(models.Event).order_by(models.Event.created_at.desc()))
+    query = select(models.Event)
+    if resource_id:
+        query = query.where(models.Event.resource_id == resource_id)
+        
+    result = await db.execute(query.order_by(models.Event.created_at.desc()))
     rules = result.scalars().all()
     
 

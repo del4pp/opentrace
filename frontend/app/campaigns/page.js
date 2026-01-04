@@ -1,12 +1,14 @@
 "use client";
 import { useState, useEffect } from 'react';
 import { useTranslation } from '../../context/LanguageContext';
+import { useResource } from '../../context/ResourceContext';
 import HelpButton from '../../components/HelpButton';
 
-const API_URL = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001/api'}`;
+const API_URL = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api'}`;
 
 export default function CampaignsPage() {
     const { t } = useTranslation();
+    const { selectedResource } = useResource();
     const [showModal, setShowModal] = useState(false);
     const [loading, setLoading] = useState(true);
     const [campaigns, setCampaigns] = useState([]);
@@ -29,8 +31,10 @@ export default function CampaignsPage() {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     const fetchCampaigns = async () => {
+        if (!selectedResource) return;
+        setLoading(true);
         try {
-            const res = await fetch(`${API_URL}/campaigns`);
+            const res = await fetch(`${API_URL}/campaigns?resource_id=${selectedResource.id}`);
             if (res.ok) setCampaigns(await res.json());
         } catch (err) { console.error(err); }
         finally { setLoading(false); }
@@ -49,7 +53,7 @@ export default function CampaignsPage() {
     useEffect(() => {
         fetchCampaigns();
         fetchBots();
-    }, []);
+    }, [selectedResource]);
 
     const generateRandomString = (length) => {
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -68,7 +72,8 @@ export default function CampaignsPage() {
         const payload = {
             ...form,
             slug: slug,
-            bot_start_param: bot_start_param
+            bot_start_param: bot_start_param,
+            resource_id: selectedResource?.id
         };
 
         try {
@@ -266,11 +271,11 @@ export default function CampaignsPage() {
             {showDeleteModal && (
                 <div className="modal-overlay" onClick={() => setShowDeleteModal(false)}>
                     <div className="modal-content" style={{ maxWidth: '400px' }} onClick={e => e.stopPropagation()}>
-                        <h2 style={{ marginBottom: '16px', color: '#ef4444' }}>Confirm Deletion</h2>
-                        <p style={{ marginBottom: '24px', color: '#64748b' }}>Please enter administrator password to delete this campaign.</p>
+                        <h2 style={{ marginBottom: '16px', color: '#ef4444' }}>{t('modals.delete_confirm')}</h2>
+                        <p style={{ marginBottom: '24px', color: '#64748b' }}>{t('modals.delete_message')}</p>
                         <form onSubmit={handleDelete}>
                             <div className="form-field">
-                                <label>Admin Password</label>
+                                <label>{t('modals.admin_password')}</label>
                                 <input
                                     type="password"
                                     className="input-lux"
@@ -281,9 +286,9 @@ export default function CampaignsPage() {
                                 />
                             </div>
                             <div style={{ display: 'flex', gap: '12px', marginTop: '32px' }}>
-                                <button type="button" className="btn-premium" style={{ background: '#fff', color: '#0f172a', border: '1px solid #e2e8f0', flex: 1 }} onClick={() => setShowDeleteModal(false)}>Cancel</button>
+                                <button type="button" className="btn-premium" style={{ background: '#fff', color: '#0f172a', border: '1px solid #e2e8f0', flex: 1 }} onClick={() => setShowDeleteModal(false)}>{t('modals.cancel')}</button>
                                 <button type="submit" className="btn-premium" style={{ flex: 1, background: '#ef4444', borderColor: '#ef4444', color: '#fff' }}>
-                                    {deleteData.loading ? 'Deleting...' : 'Delete Campaign'}
+                                    {deleteData.loading ? '...' : t('modals.delete')}
                                 </button>
                             </div>
                         </form>

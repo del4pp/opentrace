@@ -5,3 +5,5 @@ from .events import router as events_router
 from .tags import router as tags_router
 from .analytics import router as analytics_router
 from .system import router as system_router
+from .sdk import router as sdk_router
+from .event_actions import router as event_actions_router

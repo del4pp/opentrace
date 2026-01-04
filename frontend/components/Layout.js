@@ -10,35 +10,80 @@ export default function Layout({ children }) {
     const router = useRouter();
     const { t, lang, setLanguage } = useTranslation();
     const { resources, selectedResource, selectResource, loading: resLoading } = useResource();
-
-    if (pathname === '/login' || pathname === '/') {
-        return <>{children}</>;
-    }
-
-    const handleLogout = () => {
-        // Clear any auth tokens/state here if needed
-        window.location.href = '/login';
-    };
-
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isChecking, setIsChecking] = useState(true);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+    const isPublicPage = pathname === '/login' || pathname === '/' || pathname.startsWith('/forgot-password') || pathname.startsWith('/reset-password');
 
     useEffect(() => {
         const savedTheme = localStorage.getItem('ot_theme') || 'dark';
         document.documentElement.setAttribute('data-theme', savedTheme);
 
-        // Check if user is forced to change password
-        const u = localStorage.getItem('user');
-        if (u) {
-            try {
-                const user = JSON.parse(u);
-                if (user.is_first_login && pathname !== '/profile') {
-                    router.push('/profile');
+        const checkAuth = () => {
+            const user = localStorage.getItem('user');
+            const token = localStorage.getItem('access_token');
+
+            if (!user || !token) {
+                if (!isPublicPage) {
+                    router.push('/login');
+                    return;
                 }
-            } catch (e) {
-                console.error("Auth check failed", e);
+                setIsAuthenticated(false);
+            } else {
+                try {
+                    const userData = JSON.parse(user);
+                    if (userData && userData.user_id) {
+                        setIsAuthenticated(true);
+                        if (userData.is_first_login && pathname !== '/profile' && !isPublicPage) {
+                            router.replace('/profile');
+                        }
+                    } else {
+                        localStorage.removeItem('user');
+                        localStorage.removeItem('access_token');
+                        if (!isPublicPage) {
+                            router.push('/login');
+                            return;
+                        }
+                        setIsAuthenticated(false);
+                    }
+                } catch (e) {
+                    localStorage.removeItem('user');
+                    localStorage.removeItem('access_token');
+                    setIsAuthenticated(false);
+                    if (!isPublicPage) {
+                        router.push('/login');
+                        return;
+                    }
+                }
             }
-        }
-    }, [pathname, router]);
+            setIsChecking(false);
+        };
+
+        checkAuth();
+    }, [pathname, router, isPublicPage]);
+
+    if (isPublicPage) {
+        return <>{children}</>;
+    }
+
+    if (isChecking) {
+        return (
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+                <div>Loading...</div>
+            </div>
+        );
+    }
+
+    if (!isAuthenticated) {
+        return null;
+    }
+
+    const handleLogout = () => {
+        localStorage.removeItem('user');
+        localStorage.removeItem('access_token');
+        window.location.href = '/login';
+    };
 
     const navGroups = [
         {
@@ -65,6 +110,10 @@ export default function Layout({ children }) {
             ]
         }
     ];
+
+    if (isChecking) {
+        return null;
+    }
 
     return (
         <div className="app-shell">

@@ -45,6 +45,8 @@ services:
     image: redis:7-alpine
     container_name: teleboard-redis
     restart: always
+    volumes:
+      - redis_data:/data
 
   backend:
     build:
@@ -52,6 +54,7 @@ services:
       dockerfile: Dockerfile
     container_name: teleboard-backend
     restart: always
+    env_file: .env
     environment:
       DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-admin}:${POSTGRES_PASSWORD}@postgres/${POSTGRES_DB:-teleboard}
       CLICKHOUSE_HOST: clickhouse
@@ -80,3 +83,4 @@ services:
 volumes:
   postgres_data:
   clickhouse_data:
+  redis_data:

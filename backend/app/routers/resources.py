@@ -22,6 +22,22 @@ async def create_resource(resource: schemas.ResourceCreate, db: AsyncSession = D
     await db.refresh(db_resource)
     return db_resource
 
+@router.put("/api/resources/{resource_id}", response_model=schemas.Resource)
+async def update_resource(resource_id: int, resource_update: schemas.ResourceUpdate, db: AsyncSession = Depends(get_db)):
+    result = await db.execute(select(models.Resource).where(models.Resource.id == resource_id))
+    db_resource = result.scalar_one_or_none()
+
+    if not db_resource:
+        raise HTTPException(status_code=404, detail="Resource not found")
+
+    update_data = resource_update.dict(exclude_unset=True)
+    for field, value in update_data.items():
+        setattr(db_resource, field, value)
+
+    await db.commit()
+    await db.refresh(db_resource)
+    return db_resource
+
 @router.delete("/api/resources/{resource_id}")
 async def delete_resource(resource_id: int, req: schemas.DeleteRequest, db: AsyncSession = Depends(get_db)):
     if not await check_admin_auth(req.password, db):

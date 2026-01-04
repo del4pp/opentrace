@@ -60,7 +60,7 @@ export const translations = {
             add: "Add Resource",
             help: {
                 title: "Resource Management",
-                content: "Resources are the core of your tracking. Add your websites or Telegram bots here to receive a unique Tracking ID. You can manage tokens and status for each resource independently."
+                content: "Resources are the core of your tracking. Register your websites, bots, or apps to get a unique Tracking ID. Our advanced SDK (v1.1) automatically tracks clicks, form submissions, session duration, and scroll depth. It also captures marketing IDs (FBCLID/TTCLID) to enable precise server-side Conversion API (CAPI) tracking."
             },
             table: {
                 name: "Resource Name",
@@ -103,7 +103,7 @@ export const translations = {
             add: "Add Event",
             help: {
                 title: "Event Regulation",
-                content: "Configure what actions to track. You can define specific button clicks or page visits as key events. All data is enriched with geo and technical metadata automatically."
+                content: "Configure what actions to track. Define key events like clicks or form submissions. These events are not just for analytics — they serve as triggers for server-side Conversion APIs (CAPI) to Facebook, TikTok, and more."
             },
             table: {
                 name: "Event Name",
@@ -124,6 +124,10 @@ export const translations = {
                 name: "Tag Name",
                 provider: "Provider",
                 active: "Is Active"
+            },
+            snippet: {
+                title: "Standard Container Snippet",
+                description: "Incorporate this script into your site's <head>. All active tags above will be served dynamically."
             }
         },
         settings: {
@@ -187,6 +191,10 @@ export const translations = {
                 empty: "No specific events tracked in this period."
             },
             trafficSources: "Traffic Sources",
+            osBreakdown: "Operating Systems",
+            browserBreakdown: "Browsers",
+            deviceBreakdown: "Device Types",
+            topReferrers: "Top Referrers",
             eventType: "Event Type",
             title: "Explorer",
             subtitle: "Analyze performance with granular filters.",
@@ -347,6 +355,59 @@ export const translations = {
                 resources: "Resources",
                 community: "Community"
             }
+        },
+        forgot_password: {
+            title: "Reset Password",
+            desc: "Enter your email to receive a reset link.",
+            email: "Email Address",
+            submit: "Send Reset Link",
+            back: "Back to Login",
+            new_pass_title: "Set New Password",
+            new_pass: "New Password",
+            confirm_pass: "Confirm New Password",
+            reset_btn: "Reset Password",
+            success: "Password reset successfully!"
+        },
+        auth: {
+            title: "Authorization",
+            subtitle: "Log in to your control panel",
+            email: "Email Address",
+            password: "Your Password",
+            submit: "Sign In",
+            login_failed: "Login failed",
+            invalid_credentials: "Invalid credentials",
+            forgot_link: "Forgot password?",
+            login: {
+                title: "Authorization",
+                subtitle: "Log in to your control panel",
+                email: "Email Address",
+                password: "Your Password",
+                submit: "Sign In",
+                forgot: "Forgot password?"
+            }
+        },
+        profile: {
+            title: "Profile Settings",
+            alert_first_login: "Security Alert: You are using a temporary password. You must change it to proceed.",
+            change_password: "Change Password",
+            current: "Current Password",
+            new: "New Password",
+            confirm: "Confirm New Password",
+            submit: "Update Password",
+            success: "Password changed successfully!",
+            mismatch: "New passwords do not match",
+            logged_in_as: "Logged in as"
+        },
+        modals: {
+            delete_confirm: "Confirm Deletion",
+            delete_message: "Please enter administrator password to delete this item.",
+            admin_password: "Admin Password",
+            cancel: "Cancel",
+            delete: "Delete"
+        },
+        common: {
+            actions: "Actions",
+            delete: "Delete"
         }
     },
     ua: {
@@ -410,7 +471,7 @@ export const translations = {
             add: "Додати ресурс",
             help: {
                 title: "Керування ресурсами",
-                content: "Ресурси — це основа вашого трекінгу. Додайте сюди свої сайти або Telegram-боти, щоб отримати унікальний Tracking ID. Ви можете керувати токенами та статусом кожного ресурсу незалежно."
+                content: "Ресурси — це основа вашого трекінгу. Додайте сюди ваші сайти, боти або додатки, щоб отримати унікальний Tracking ID. Наш SDK (v1.1) автоматично відстежує кліки, відправку форм, тривалість сесії та глибину скролу. Також він захоплює маркетингові ID (FBCLID/TTCLID) для точного серверного відстеження конверсій (CAPI)."
             },
             table: {
                 name: "Назва ресурсу",
@@ -453,7 +514,7 @@ export const translations = {
             add: "Додати подію",
             help: {
                 title: "Регулювання подій",
-                content: "Налаштуйте, які дії відстежувати. Ви можете визначити кліки по кнопках або відвідування сторінок як ключові події. Всі дані автоматично збагачуються ГЕО та технічними метаданими."
+                content: "Налаштуйте, які дії відстежувати. Визначайте ключові події, такі як кліки або відправка форм. Ці події служать не лише для аналітики, а й як тригери для серверної передачі конверсій (CAPI) у Facebook, TikTok та інші сервіси."
             },
             table: {
                 name: "Назва події",
@@ -474,6 +535,10 @@ export const translations = {
                 name: "Назва тегу",
                 provider: "Провайдер",
                 active: "Активний"
+            },
+            snippet: {
+                title: "Стандартний контейнер",
+                description: "Вставте цей скрипт у <head> вашого сайту. Всі активні теги вище будуть завантажуватися динамічно."
             }
         },
         settings: {
@@ -537,6 +602,10 @@ export const translations = {
                 empty: "За цей період подій не зафіксовано."
             },
             trafficSources: "Джерела трафіку",
+            osBreakdown: "Операційні системи",
+            browserBreakdown: "Браузери",
+            deviceBreakdown: "Типи пристроїв",
+            topReferrers: "Джерела (Referrers)",
             eventType: "Тип події",
             title: "Аналітика",
             subtitle: "Аналізуйте результати за допомогою детальних фільтрів.",
@@ -697,6 +766,59 @@ export const translations = {
                 resources: "Ресурси",
                 community: "Спільнота"
             }
+        },
+        forgot_password: {
+            title: "Відновлення паролю",
+            desc: "Введіть email для отримання посилання.",
+            email: "Електронна пошта",
+            submit: "Надіслати посилання",
+            back: "Назад до входу",
+            new_pass_title: "Встановити новий пароль",
+            new_pass: "Новий пароль",
+            confirm_pass: "Підтвердити пароль",
+            reset_btn: "Змінити пароль",
+            success: "Пароль успішно змінено!"
+        },
+        auth: {
+            title: "Авторизація",
+            subtitle: "Увійдіть до панелі керування",
+            email: "Електронна пошта",
+            password: "Ваш пароль",
+            submit: "Увійти",
+            login_failed: "Помилка входу",
+            invalid_credentials: "Невірні дані",
+            forgot_link: "Забули пароль?",
+            login: {
+                title: "Авторизація",
+                subtitle: "Увійдіть до панелі керування",
+                email: "Електронна пошта",
+                password: "Ваш пароль",
+                submit: "Увійти",
+                forgot: "Забули пароль?"
+            }
+        },
+        profile: {
+            title: "Налаштування профілю",
+            alert_first_login: "Попередження безпеки: Ви використовуєте тимчасовий пароль. Будь ласка, змініть його.",
+            change_password: "Змінити пароль",
+            current: "Поточний пароль",
+            new: "Новий пароль",
+            confirm: "Підтвердити новий пароль",
+            submit: "Оновити пароль",
+            success: "Пароль успішно змінено!",
+            mismatch: "Паролі не співпадають",
+            logged_in_as: "Ви увійшли як"
+        },
+        modals: {
+            delete_confirm: "Підтвердження видалення",
+            delete_message: "Введіть пароль адміністратора для видалення.",
+            admin_password: "Пароль адміністратора",
+            cancel: "Скасувати",
+            delete: "Видалити"
+        },
+        common: {
+            actions: "Дії",
+            delete: "Видалити"
         }
     },
     pl: {
@@ -815,6 +937,10 @@ export const translations = {
                 name: "Nazwa tagu",
                 provider: "Dostawca",
                 active: "Aktywny"
+            },
+            snippet: {
+                title: "Standardowy kontener",
+                description: "Wstaw ten skrypt do <head> swojej strony. Wszystkie aktywne tagi powyżej będą ładowane dynamicznie."
             }
         },
         settings: {
@@ -1123,6 +1249,10 @@ export const translations = {
                 name: "Tag-Name",
                 provider: "Anbieter",
                 active: "Aktiv"
+            },
+            snippet: {
+                title: "Standard-Container",
+                description: "Fügen Sie dieses Skript in den <head> Ihrer Website ein. Alle oben aktiven Tags werden dynamisch bereitgestellt."
             }
         },
         settings: {

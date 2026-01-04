@@ -4,7 +4,7 @@ import { useTranslation } from '../../context/LanguageContext';
 import { useResource } from '../../context/ResourceContext';
 import HelpButton from '../../components/HelpButton';
 
-const API_URL = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001/api'}`;
+const API_URL = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api'}`;
 
 export default function DashboardPage() {
     const { t } = useTranslation();
@@ -14,7 +14,9 @@ export default function DashboardPage() {
         views: 0,
         session: "0m 0s",
         bounce: "0%",
-        chart_data: []
+        online: 0,
+        chart_data: [],
+        audience: {}
     });
     const [loading, setLoading] = useState(true);
 
@@ -35,14 +37,31 @@ export default function DashboardPage() {
 
     useEffect(() => {
         fetchStats();
+        const interval = setInterval(fetchStats, 10000); // Pulse every 10s
+        return () => clearInterval(interval);
     }, [selectedResource]);
 
     return (
         <div>
             <div style={{ marginBottom: '40px' }}>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <h1 style={{ fontSize: '32px', fontWeight: 800 }}>{t('dashboard.title')}</h1>
-                    <HelpButton title={t('dashboard.help.title')} content={t('dashboard.help.content')} />
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <h1 style={{ fontSize: '32px', fontWeight: 800 }}>{t('dashboard.title')}</h1>
+                        <HelpButton title={t('dashboard.help.title')} content={t('dashboard.help.content')} />
+                        <div style={{
+                            marginLeft: '24px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            background: '#f0fdf4',
+                            padding: '6px 16px',
+                            borderRadius: '100px',
+                            border: '1px solid #dcfce7',
+                            gap: '8px'
+                        }}>
+                            <span style={{ width: '8px', height: '8px', background: '#22c55e', borderRadius: '50%', animation: 'pulse 2s infinite' }}></span>
+                            <span style={{ fontSize: '13px', fontWeight: 700, color: '#166534' }}>{stats.online} ONLINE</span>
+                        </div>
+                    </div>
                 </div>
                 <p className="subtitle">{t('dashboard.subtitle')}</p>
             </div>
@@ -113,8 +132,19 @@ export default function DashboardPage() {
 
 
                 <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '16px', padding: '32px', display: 'flex', flexDirection: 'column', gap: '32px' }}>
-                    <h3 style={{ fontSize: '18px', fontWeight: 700 }}>Retention & Audience</h3>
+                    <h3 style={{ fontSize: '18px', fontWeight: 700 }}>Audience & Devices</h3>
 
+                    {/* New Device Breakdown */}
+                    <div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '13px', fontWeight: 600 }}>
+                            <span style={{ color: '#0f172a' }}>Mobile ({stats.audience?.Mobile || 0}%)</span>
+                            <span style={{ color: '#0f172a' }}>Desktop ({stats.audience?.Desktop || 0}%)</span>
+                        </div>
+                        <div style={{ height: '8px', width: '100%', background: '#f1f5f9', borderRadius: '100px', overflow: 'hidden', display: 'flex' }}>
+                            <div style={{ width: `${stats.audience?.Mobile || 0}%`, background: '#2563eb' }}></div>
+                            <div style={{ width: `${stats.audience?.Desktop || 0}%`, background: '#cbd5e1' }}></div>
+                        </div>
+                    </div>
 
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                         <div style={{ background: '#f8fafc', padding: '16px', borderRadius: '12px' }}>
@@ -126,7 +156,6 @@ export default function DashboardPage() {
                             <div style={{ fontSize: '24px', fontWeight: 800, marginTop: '4px' }}>{stats.retention?.d30 || '-'}</div>
                         </div>
                     </div>
-
 
                     <div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '13px', fontWeight: 600 }}>

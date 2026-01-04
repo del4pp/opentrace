@@ -4,7 +4,7 @@ import { useTranslation } from '../../context/LanguageContext';
 import { useResource } from '../../context/ResourceContext';
 import { ComposableMap, Geographies, Geography, Marker, ZoomableGroup } from "react-simple-maps";
 
-const API_URL = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001/api'}`;
+const API_URL = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api'}`;
 const geoUrl = "https://raw.githubusercontent.com/euctrl-pru/eurocontrol_world_map/master/alternatives.geo.json";
 
 export default function LivePage() {

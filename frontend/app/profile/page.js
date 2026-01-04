@@ -1,18 +1,28 @@
 "use client";
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTranslation } from '../../context/LanguageContext';
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
 
 export default function ProfilePage() {
     const router = useRouter();
+    const { t } = useTranslation();
     const [user, setUser] = useState(null);
     const [formData, setFormData] = useState({ current: '', newPass: '', confirm: '' });
     const [msg, setMsg] = useState('');
 
     useEffect(() => {
-        const u = localStorage.getItem('user');
-        if (u) {
-            setUser(JSON.parse(u));
-        } else {
+        try {
+            const u = localStorage.getItem('user');
+            if (u) {
+                setUser(JSON.parse(u));
+            } else {
+                router.push('/login');
+            }
+        } catch (e) {
+            console.error("Failed to parse user data", e);
+            localStorage.removeItem('user');
             router.push('/login');
         }
     }, [router]);
@@ -22,12 +32,12 @@ export default function ProfilePage() {
         setMsg('');
 
         if (formData.newPass !== formData.confirm) {
-            setMsg('New passwords do not match');
+            setMsg(t('profile.mismatch') || 'Passwords do not match');
             return;
         }
 
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001/api'}/change-password`, {
+            const res = await fetch(`${API_URL}/change-password`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -41,12 +51,12 @@ export default function ProfilePage() {
                 const newUser = { ...user, is_first_login: false };
                 localStorage.setItem('user', JSON.stringify(newUser));
                 setUser(newUser);
-                alert("Password changed successfully!");
-                // If it was forced first login, redirect to dashboard now
+                alert(t('profile.success') || 'Password changed successfully');
+
                 router.push('/dashboard');
             } else {
                 const err = await res.json();
-                setMsg(err.detail || 'Error changing password');
+                setMsg(err.detail || 'Error');
             }
         } catch (e) {
             setMsg('Network error');
@@ -57,55 +67,58 @@ export default function ProfilePage() {
 
     return (
         <div className="fade-in">
-            <h1 style={{ marginBottom: '24px' }}>Profile Settings</h1>
+            <h1 style={{ marginBottom: '24px' }}>{t('profile.title')}</h1>
 
             {user.is_first_login && (
                 <div style={{ background: '#fff1f2', color: '#be123c', padding: '16px', borderRadius: '8px', marginBottom: '24px', border: '1px solid #fda4af' }}>
-                    <strong>Security Alert:</strong> You are using a temporary password. You must change it to proceed.
+                    <strong>Security Alert:</strong> {t('profile.alert_first_login')}
                 </div>
             )}
 
             <div className="card-stat" style={{ maxWidth: '500px', padding: '32px' }}>
-                <h3 style={{ marginBottom: '24px' }}>Change Password</h3>
+                <h3 style={{ marginBottom: '24px' }}>{t('profile.change_password')}</h3>
                 {msg && <div style={{ marginBottom: '16px', color: '#ef4444', fontWeight: 600 }}>{msg}</div>}
 
                 <form onSubmit={handleSubmit}>
                     <div className="form-field">
-                        <label>Current Password</label>
+                        <label>{t('profile.current')}</label>
                         <input
                             type="password"
                             className="input-lux"
                             value={formData.current}
                             onChange={e => setFormData({ ...formData, current: e.target.value })}
                             required
+                            autoComplete="current-password"
                         />
                     </div>
                     <div className="form-field">
-                        <label>New Password</label>
+                        <label>{t('profile.new')}</label>
                         <input
                             type="password"
                             className="input-lux"
                             value={formData.newPass}
                             onChange={e => setFormData({ ...formData, newPass: e.target.value })}
                             required
+                            autoComplete="new-password"
                         />
                     </div>
                     <div className="form-field">
-                        <label>Confirm New Password</label>
+                        <label>{t('profile.confirm')}</label>
                         <input
                             type="password"
                             className="input-lux"
                             value={formData.confirm}
                             onChange={e => setFormData({ ...formData, confirm: e.target.value })}
                             required
+                            autoComplete="new-password"
                         />
                     </div>
-                    <button className="btn-premium" style={{ width: '100%' }}>Update Password</button>
+                    <button className="btn-premium" style={{ width: '100%' }}>{t('profile.submit')}</button>
                 </form>
             </div>
 
             <div style={{ marginTop: '32px', color: '#64748b', fontSize: '13px' }}>
-                Logged in as <strong>{user.email}</strong>
+                {t('profile.logged_in_as')} <strong>{user.email}</strong>
             </div>
         </div>
     );

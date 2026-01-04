@@ -3,11 +3,12 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from '../../context/LanguageContext';
 import HelpButton from '../../components/HelpButton';
 
-const API_URL = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001/api'}`;
+const API_URL = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api'}`;
 
 export default function ResourcesPage() {
     const { t } = useTranslation();
     const [showModal, setShowModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showSetupModal, setShowSetupModal] = useState(false);
     const [selectedResource, setSelectedResource] = useState(null);
@@ -22,12 +23,32 @@ export default function ResourcesPage() {
         bundleId: ''
     });
 
+    const [editResource, setEditResource] = useState({
+        id: null,
+        name: '',
+        status: 'Active'
+    });
+
     const fetchResources = async () => {
         try {
-            const res = await fetch(`${API_URL}/resources`);
+            const token = localStorage.getItem('access_token');
+            const headers = {
+                'Content-Type': 'application/json'
+            };
+            if (token) {
+                headers['Authorization'] = `Bearer ${token}`;
+            }
+
+            const res = await fetch(`${API_URL}/resources`, { headers });
             if (res.ok) {
                 const data = await res.json();
                 setResources(data);
+            } else if (res.status === 401) {
+                localStorage.removeItem('user');
+                localStorage.removeItem('access_token');
+                window.location.href = '/login';
+            } else {
+                console.error("Failed to fetch resources:", res.status);
             }
         } catch (err) {
             console.error("Failed to fetch resources:", err);
@@ -74,6 +95,39 @@ export default function ResourcesPage() {
         } catch (err) {
             alert("Error saving resource");
         }
+    };
+
+    const handleEdit = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await fetch(`${API_URL}/resources/${editResource.id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: editResource.name,
+                    status: editResource.status
+                })
+            });
+
+            if (res.ok) {
+                await fetchResources();
+                setShowEditModal(false);
+                setEditResource({ id: null, name: '', status: 'Active' });
+            } else {
+                alert("Error updating resource");
+            }
+        } catch (err) {
+            alert("Error updating resource");
+        }
+    };
+
+    const handleEditClick = (res) => {
+        setEditResource({
+            id: res.id,
+            name: res.name,
+            status: res.status
+        });
+        setShowEditModal(true);
     };
 
     const handleDeleteClick = (res) => {
@@ -185,6 +239,12 @@ export default function ResourcesPage() {
                                                 </button>
                                             )}
                                             <button
+                                                onClick={() => handleEditClick(item)}
+                                                style={{ background: 'none', border: 'none', color: '#059669', fontSize: '12px', fontWeight: 700, cursor: 'pointer' }}
+                                            >
+                                                Edit
+                                            </button>
+                                            <button
                                                 onClick={() => handleDeleteClick(item)}
                                                 style={{ background: 'none', border: 'none', color: '#f43f5e', fontSize: '12px', fontWeight: 700, cursor: 'pointer' }}
                                             >
@@ -271,6 +331,47 @@ export default function ResourcesPage() {
                 </div>
             )}
 
+            {showEditModal && (
+                <div className="modal-overlay" onClick={() => setShowEditModal(false)}>
+                    <div className="modal-content" style={{ maxWidth: '500px' }} onClick={e => e.stopPropagation()}>
+                        <h2 style={{ marginBottom: '24px' }}>Edit Resource</h2>
+                        <form onSubmit={handleEdit}>
+                            <div className="form-field">
+                                <label>Name</label>
+                                <input
+                                    className="input-lux"
+                                    value={editResource.name}
+                                    onChange={e => setEditResource({ ...editResource, name: e.target.value })}
+                                    placeholder="Resource name"
+                                    required
+                                    style={{ marginBottom: 0 }}
+                                />
+                            </div>
+                            <div className="form-field">
+                                <label>Status</label>
+                                <select
+                                    className="select-lux"
+                                    value={editResource.status}
+                                    onChange={e => setEditResource({ ...editResource, status: e.target.value })}
+                                >
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                </select>
+                            </div>
+
+                            <div style={{ display: 'flex', gap: '12px', marginTop: '32px' }}>
+                                <button type="button" className="btn-premium" style={{ background: '#fff', color: '#0f172a', border: '1px solid #e2e8f0', flex: 1 }} onClick={() => setShowEditModal(false)}>
+                                    Cancel
+                                </button>
+                                <button type="submit" className="btn-premium" style={{ flex: 1 }}>
+                                    Update Resource
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
             {showDeleteModal && (
                 <div className="modal-overlay" onClick={() => setShowDeleteModal(false)}>
                     <div className="modal-content" style={{ maxWidth: '400px' }} onClick={e => e.stopPropagation()}>
@@ -319,17 +420,11 @@ export default function ResourcesPage() {
                             position: 'relative',
                             lineHeight: '1.6'
                         }}>
-                            <div style={{ color: '#38bdf8' }}>&lt;!-- OpenTrace Analytics --&gt;</div>
+                            <div style={{ color: '#38bdf8' }}>&lt;!-- OpenTrace Tracking --&gt;</div>
                             <div>&lt;<span style={{ color: '#fb7185' }}>script</span></div>
                             <div style={{ paddingLeft: '20px' }}><span style={{ color: '#fbbf24' }}>async</span></div>
                             <div style={{ paddingLeft: '20px' }}>
-                                <span style={{ color: '#fbbf24' }}>src</span>="{(typeof window !== 'undefined' ? window.location.origin : '')}/ot.js"
-                            </div>
-                            <div style={{ paddingLeft: '20px' }}>
-                                <span style={{ color: '#fbbf24' }}>data-id</span>="<span style={{ color: '#34d399' }}>{selectedResource?.uid}</span>"
-                            </div>
-                            <div style={{ paddingLeft: '20px' }}>
-                                <span style={{ color: '#fbbf24' }}>data-host</span>="{API_URL}/v1/collect"
+                                <span style={{ color: '#fbbf24' }}>src</span>="{(typeof window !== 'undefined' ? (window.location.origin.includes('localhost') ? 'http://localhost:8000' : window.location.origin) : '')}/sdk/t.js?id=<span style={{ color: '#34d399' }}>{selectedResource?.uid}</span>"
                             </div>
                             <div>&gt;&lt;/<span style={{ color: '#fb7185' }}>script</span>&gt;</div>
                         </div>
@@ -345,7 +440,8 @@ export default function ResourcesPage() {
                             className="btn-premium"
                             style={{ width: '100%', marginTop: '32px' }}
                             onClick={() => {
-                                const code = `<!-- OpenTrace Analytics -->\n<script async src="${(typeof window !== 'undefined' ? window.location.origin : '')}/ot.js" data-id="${selectedResource?.uid}" data-host="${API_URL}/v1/collect"></script>`;
+                                const origin = typeof window !== 'undefined' ? (window.location.origin.includes('localhost') ? 'http://localhost:8000' : window.location.origin) : '';
+                                const code = `<!-- OpenTrace Tracking -->\n<script async src="${origin}/sdk/t.js?id=${selectedResource?.uid}"></script>`;
                                 navigator.clipboard.writeText(code);
                                 alert("Snippet copied to clipboard!");
                             }}
