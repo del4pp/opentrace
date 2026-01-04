@@ -141,9 +141,15 @@ export default function TagsPage() {
             <div style={{ marginTop: '40px', padding: '32px', background: '#0f172a', borderRadius: '16px', color: '#fff', position: 'relative', overflow: 'hidden' }}>
                 <div style={{ position: 'relative', zIndex: 1 }}>
                     <h3 style={{ color: '#fff', marginBottom: '12px' }}>{t('tags.snippet.title')}</h3>
-                    <p style={{ color: '#94a3b8', fontSize: '14px', marginBottom: '24px' }}>{t('tags.snippet.description')}</p>
+                    <p style={{ color: '#94a3b8', fontSize: '14px', marginBottom: '24px' }}>
+                        {t('tags.snippet.description')}
+                    </p>
                     <div style={{ background: 'rgba(255,255,255,0.05)', padding: '20px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', fontFamily: 'monospace', fontSize: '13px', color: '#34d399' }}>
-                        &lt;script src="{API_URL.replace('/api', '')}/sdk/t.js?id=OT-CONTAINER-PRIME" async&gt;&lt;/script&gt;
+                        {selectedResource ? (
+                            `<script src="${API_URL.replace('/api', '')}/sdk/t.js?id=${selectedResource.uid}" async></script>`
+                        ) : (
+                            `<script src="${API_URL.replace('/api', '')}/sdk/t.js?id=YOUR-RESOURCE-ID" async></script>`
+                        )}
                     </div>
                 </div>
             </div>

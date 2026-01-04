@@ -127,8 +127,8 @@ export const translations = {
                 active: "Is Active"
             },
             snippet: {
-                title: "Standard Container Snippet",
-                description: "Incorporate this script into your site's <head>. All active tags above will be served dynamically."
+                title: "Unified Resource Tracking",
+                description: "If you have already installed the main tracking code for this resource, no additional scripts are needed. Your tags will be automatically synchronized and injected into your site."
             }
         },
         settings: {
@@ -586,8 +586,8 @@ export const translations = {
                 active: "Активний"
             },
             snippet: {
-                title: "Стандартний контейнер",
-                description: "Вставте цей скрипт у <head> вашого сайту. Всі активні теги вище будуть завантажуватися динамічно."
+                title: "Єдиний код відстеження",
+                description: "Якщо ви вже встановили основний код відстеження для цього ресурсу, жодних додаткових скриптів не потрібно. Ваші теги будуть автоматично синхронізовані та інтегровані на ваш сайт."
             }
         },
         settings: {
