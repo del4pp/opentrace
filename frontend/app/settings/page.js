@@ -148,6 +148,23 @@ export default function SettingsPage() {
         }
     };
 
+    const handleSaveSmtp = async () => {
+        try {
+            // Save all fields at once
+            for (const [key, value] of Object.entries(smtp)) {
+                await fetch(`${API_URL}/settings`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ key, value: String(value) })
+                });
+            }
+            alert('SMTP settings saved successfully');
+        } catch (err) {
+            console.error("Failed to save SMTP settings:", err);
+            alert('Error saving SMTP settings');
+        }
+    };
+
     const handlePerformUpdate = async () => {
         const confirmed = window.confirm(
             "⚠️ ATTENTION: SYSTEM UPDATE\n\n" +
@@ -300,8 +317,8 @@ export default function SettingsPage() {
                     <div style={{ display: 'flex', gap: '16px', marginBottom: '24px' }}>
                         <div style={{ fontSize: '24px' }}>⚙️</div>
                         <div>
-                            <h3 style={{ fontSize: '18px', fontWeight: 700, margin: 0 }}>System Behavior</h3>
-                            <p style={{ fontSize: '13px', color: '#64748b' }}>Customize dashboard & navigation</p>
+                            <h3 style={{ fontSize: '18px', fontWeight: 700, margin: 0 }}>{t('settings.security.title')}</h3>
+                            <p style={{ fontSize: '13px', color: '#64748b' }}>{t('settings.security.desc')}</p>
                         </div>
                     </div>
 
@@ -355,7 +372,6 @@ export default function SettingsPage() {
                                 style={{ marginBottom: 0 }}
                                 value={smtp.smtp_host}
                                 onChange={(e) => setSmtp({ ...smtp, smtp_host: e.target.value })}
-                                onBlur={() => handleUpdateSetting('smtp_host', smtp.smtp_host)}
                                 placeholder="smtp.example.com"
                             />
                         </div>
@@ -366,7 +382,6 @@ export default function SettingsPage() {
                                 style={{ marginBottom: 0 }}
                                 value={smtp.smtp_port}
                                 onChange={(e) => setSmtp({ ...smtp, smtp_port: e.target.value })}
-                                onBlur={() => handleUpdateSetting('smtp_port', smtp.smtp_port)}
                                 placeholder="587"
                             />
                         </div>
@@ -378,7 +393,6 @@ export default function SettingsPage() {
                             style={{ marginBottom: 0 }}
                             value={smtp.smtp_user}
                             onChange={(e) => setSmtp({ ...smtp, smtp_user: e.target.value })}
-                            onBlur={() => handleUpdateSetting('smtp_user', smtp.smtp_user)}
                         />
                     </div>
                     <div className="form-field" style={{ marginBottom: '12px' }}>
@@ -389,20 +403,21 @@ export default function SettingsPage() {
                             style={{ marginBottom: 0 }}
                             value={smtp.smtp_password}
                             onChange={(e) => setSmtp({ ...smtp, smtp_password: e.target.value })}
-                            onBlur={() => handleUpdateSetting('smtp_password', smtp.smtp_password)}
                         />
                     </div>
-                    <div className="form-field" style={{ marginBottom: 0 }}>
+                    <div className="form-field" style={{ marginBottom: '24px' }}>
                         <label>{t('settings.smtp.from')}</label>
                         <input
                             className="input-lux"
                             style={{ marginBottom: 0 }}
                             value={smtp.smtp_from}
                             onChange={(e) => setSmtp({ ...smtp, smtp_from: e.target.value })}
-                            onBlur={() => handleUpdateSetting('smtp_from', smtp.smtp_from)}
                             placeholder="noreply@opentrace.io"
                         />
                     </div>
+                    <button className="btn-premium" style={{ width: '100%' }} onClick={handleSaveSmtp}>
+                        {t('settings.smtp.save')}
+                    </button>
                 </div>
 
                 <div className="card-stat" style={{ padding: '32px' }}>
