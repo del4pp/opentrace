@@ -1,6 +1,7 @@
 "use client";
 import { useTranslation } from '../context/LanguageContext';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import styles from './page.module.css';
 import { getFeatures, stats } from './content';
@@ -8,12 +9,14 @@ import { getFeatures, stats } from './content';
 export default function LandingPage() {
   const { t, lang, setLanguage } = useTranslation();
   const [scrolled, setScrolled] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
+    router.replace('/login');
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [router]);
 
   const features = getFeatures(t);
 

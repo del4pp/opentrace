@@ -14,6 +14,14 @@ export default function SettingsPage() {
     const [showDemo, setShowDemo] = useState(true);
     const [adminEmail, setAdminEmail] = useState('');
     const [emailLoading, setEmailLoading] = useState(false);
+    const [smtp, setSmtp] = useState({
+        smtp_host: '',
+        smtp_port: '587',
+        smtp_user: '',
+        smtp_password: '',
+        smtp_from: ''
+    });
+    const [updateInfo, setUpdateInfo] = useState({ current: '1.0.4', latest: '', update_available: false, checking: false });
 
     const fetchLogs = async () => {
         try {
@@ -32,6 +40,13 @@ export default function SettingsPage() {
             if (res.ok) {
                 const data = await res.json();
                 setShowDemo(data.show_demo === 'true');
+                setSmtp({
+                    smtp_host: data.smtp_host || '',
+                    smtp_port: data.smtp_port || '587',
+                    smtp_user: data.smtp_user || '',
+                    smtp_password: data.smtp_password || '',
+                    smtp_from: data.smtp_from || ''
+                });
             }
         } catch (err) {
             console.error("Failed to fetch settings:", err);
@@ -61,17 +76,21 @@ export default function SettingsPage() {
         document.documentElement.setAttribute('data-theme', newTheme);
     };
 
-    const handleToggleDemo = async (val) => {
-        setShowDemo(val);
+    const handleUpdateSetting = async (key, value) => {
         try {
             await fetch(`${API_URL}/settings`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ key: 'show_demo', value: val ? 'true' : 'false' })
+                body: JSON.stringify({ key, value })
             });
         } catch (err) {
-            console.error("Failed to update demo setting:", err);
+            console.error(`Failed to update setting ${key}:`, err);
         }
+    };
+
+    const handleToggleDemo = (val) => {
+        setShowDemo(val);
+        handleUpdateSetting('show_demo', val ? 'true' : 'false');
     };
 
     const handleUpdateEmail = async () => {
@@ -96,6 +115,57 @@ export default function SettingsPage() {
             alert('An error occurred');
         } finally {
             setEmailLoading(false);
+        }
+    };
+
+    const handleCheckUpdate = async () => {
+        setUpdateInfo(prev => ({ ...prev, checking: true }));
+        try {
+            const res = await fetch(`${API_URL}/system/check-update`);
+            if (res.ok) {
+                const data = await res.json();
+                setUpdateInfo({
+                    current: data.current,
+                    latest: data.latest,
+                    update_available: data.update_available,
+                    checking: false
+                });
+            } else {
+                setUpdateInfo(prev => ({ ...prev, checking: false }));
+                alert('Failed to check for updates');
+            }
+        } catch (err) {
+            console.error("Check update error:", err);
+            setUpdateInfo(prev => ({ ...prev, checking: false }));
+        }
+    };
+
+    const handlePerformUpdate = async () => {
+        const confirmed = window.confirm(
+            "⚠️ ATTENTION: SYSTEM UPDATE\n\n" +
+            "1. The system will be UNAVAILABLE for 2-5 minutes during the process.\n" +
+            "2. We strongly recommend making a FULL BACKUP of your 'data/' folder before proceeding.\n" +
+            "3. Existing data in volumes will be preserved, but a backup is always safer.\n\n" +
+            "Do you want to proceed with the update to v" + updateInfo.latest + "?"
+        );
+
+        if (!confirmed) return;
+
+        try {
+            const res = await fetch(`${API_URL}/system/perform-update`, { method: 'POST' });
+            if (res.ok) {
+                const data = await res.json();
+                alert("🚀 UPDATE TRIGGERED: " + data.message + "\n\nYou will be logged out. Please refresh the page in a few minutes.");
+                // Optional: Logout or redirect
+                localStorage.clear();
+                window.location.href = '/login';
+            } else {
+                const error = await res.json();
+                alert('Update failed: ' + (error.detail || 'Unknown error'));
+            }
+        } catch (err) {
+            console.error("Perform update error:", err);
+            alert('An error occurred during update initialization.');
         }
     };
 
@@ -228,6 +298,66 @@ export default function SettingsPage() {
 
                 <div className="card-stat" style={{ padding: '32px' }}>
                     <div style={{ display: 'flex', gap: '16px', marginBottom: '24px' }}>
+                        <div style={{ fontSize: '24px' }}>📧</div>
+                        <div>
+                            <h3 style={{ fontSize: '18px', fontWeight: 700, margin: 0 }}>SMTP Settings</h3>
+                            <p style={{ fontSize: '13px', color: '#64748b' }}>Configure email for password recovery</p>
+                        </div>
+                    </div>
+
+                    <div className="form-field">
+                        <label>SMTP Host</label>
+                        <input
+                            className="input-lux"
+                            value={smtp.smtp_host}
+                            onChange={(e) => setSmtp({ ...smtp, smtp_host: e.target.value })}
+                            onBlur={() => handleUpdateSetting('smtp_host', smtp.smtp_host)}
+                            placeholder="smtp.example.com"
+                        />
+                    </div>
+                    <div className="form-field">
+                        <label>SMTP Port</label>
+                        <input
+                            className="input-lux"
+                            value={smtp.smtp_port}
+                            onChange={(e) => setSmtp({ ...smtp, smtp_port: e.target.value })}
+                            onBlur={() => handleUpdateSetting('smtp_port', smtp.smtp_port)}
+                            placeholder="587"
+                        />
+                    </div>
+                    <div className="form-field">
+                        <label>SMTP User</label>
+                        <input
+                            className="input-lux"
+                            value={smtp.smtp_user}
+                            onChange={(e) => setSmtp({ ...smtp, smtp_user: e.target.value })}
+                            onBlur={() => handleUpdateSetting('smtp_user', smtp.smtp_user)}
+                        />
+                    </div>
+                    <div className="form-field">
+                        <label>SMTP Password</label>
+                        <input
+                            type="password"
+                            className="input-lux"
+                            value={smtp.smtp_password}
+                            onChange={(e) => setSmtp({ ...smtp, smtp_password: e.target.value })}
+                            onBlur={() => handleUpdateSetting('smtp_password', smtp.smtp_password)}
+                        />
+                    </div>
+                    <div className="form-field">
+                        <label>From Email</label>
+                        <input
+                            className="input-lux"
+                            value={smtp.smtp_from}
+                            onChange={(e) => setSmtp({ ...smtp, smtp_from: e.target.value })}
+                            onBlur={() => handleUpdateSetting('smtp_from', smtp.smtp_from)}
+                            placeholder="noreply@opentrace.io"
+                        />
+                    </div>
+                </div>
+
+                <div className="card-stat" style={{ padding: '32px' }}>
+                    <div style={{ display: 'flex', gap: '16px', marginBottom: '24px' }}>
                         <div style={{ fontSize: '24px' }}>🎨</div>
                         <div>
                             <h3 style={{ fontSize: '18px', fontWeight: 700, margin: 0 }}>{t('settings.appearance')}</h3>
@@ -259,28 +389,35 @@ export default function SettingsPage() {
                                 alignItems: 'center',
                                 justifyContent: 'center',
                                 fontSize: '20px'
-                            }}>🚀</div>
+                            }}>{updateInfo.update_available ? '🎁' : '🚀'}</div>
                             <div>
-                                <div style={{ fontSize: '16px', fontWeight: 800 }}>OpenTrace v1.0.4-stable</div>
-                                <div style={{ fontSize: '12px', color: '#94a3b8' }}>Last check: Just now</div>
+                                <div style={{ fontSize: '16px', fontWeight: 800 }}>
+                                    OpenTrace v{updateInfo.current} {updateInfo.latest && `(Latest: ${updateInfo.latest})`}
+                                </div>
+                                <div style={{ fontSize: '12px', color: '#94a3b8' }}>
+                                    {updateInfo.update_available ? 'A new version is available!' : 'System is up to date'}
+                                </div>
                             </div>
                         </div>
-                        <button
-                            className="btn-update"
-                            style={{ padding: '12px 24px', borderRadius: '10px' }}
-                            onClick={(e) => {
-                                const btn = e.currentTarget;
-                                btn.innerText = 'Checking...';
-                                setTimeout(() => {
-                                    btn.innerText = t('settings.upToDate');
-                                    btn.style.background = '#ecfdf5';
-                                    btn.style.color = '#059669';
-                                    btn.style.borderColor = '#10b981';
-                                }, 1500);
-                            }}
-                        >
-                            {t('settings.checkUpdate')}
-                        </button>
+                        <div style={{ display: 'flex', gap: '12px' }}>
+                            {updateInfo.update_available && (
+                                <button
+                                    className="btn-premium"
+                                    style={{ padding: '12px 24px', background: '#22c55e' }}
+                                    onClick={handlePerformUpdate}
+                                >
+                                    Install Update
+                                </button>
+                            )}
+                            <button
+                                className="btn-update"
+                                style={{ padding: '12px 24px', borderRadius: '10px' }}
+                                onClick={handleCheckUpdate}
+                                disabled={updateInfo.checking}
+                            >
+                                {updateInfo.checking ? 'Checking...' : t('settings.checkUpdate')}
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <div className="card-stat" style={{ padding: '32px', gridColumn: '1 / -1' }}>

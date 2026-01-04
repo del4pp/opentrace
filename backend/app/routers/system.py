@@ -14,9 +14,48 @@ class SettingUpdate(BaseModel):
     key: str
     value: str
 
+VERSION = "1.0.4"
+
 @router.get("/api/health")
 def health_check():
-    return {"status": "ok", "version": "1.0.4"}
+    return {"status": "ok", "version": VERSION}
+
+@router.get("/api/system/check-update")
+async def check_update():
+    import httpx
+    try:
+        async with httpx.AsyncClient() as client:
+            resp = await client.get("https://version.429toomanyre.quest/version.json", timeout=10)
+            if resp.status_code == 200:
+                data = resp.json()
+                latest = data.get("version")
+                return {
+                    "current": VERSION,
+                    "latest": latest,
+                    "update_available": latest != VERSION,
+                    "changelog": data.get("changelog", "")
+                }
+    except Exception as e:
+        return {"error": str(e), "current": VERSION}
+    return {"current": VERSION, "update_available": False}
+
+@router.post("/api/system/perform-update")
+async def perform_update(db: AsyncSession = Depends(get_db)):
+    # This is a placeholder for actual update logic.
+    # In a real scenario, this would trigger a background task
+    # that pulls the latest code and restarts containers.
+    import subprocess
+    import os
+    
+    try:
+        # We simulate a trigger for the host to update
+        # For example, creating a file 'update_pending' that a host cronjob watches
+        with open("/app/update_pending", "w") as f:
+            f.write("trigger")
+        
+        return {"status": "success", "message": "Update triggered. System will restart in 30 seconds."}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Update failed: {str(e)}")
 
 @router.get("/api/settings")
 async def get_all_settings(db: AsyncSession = Depends(get_db)):

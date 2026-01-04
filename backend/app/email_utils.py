@@ -7,23 +7,44 @@ import asyncio
 
 logger = logging.getLogger(__name__)
 
-def send_email_via_smtp(to_email: str, subject: str, body: str, from_email: str = "noreply@localhost") -> bool:
+def send_email_via_smtp(to_email: str, subject: str, body: str, config: dict = None) -> bool:
     try:
+        if not config:
+            config = {
+                "host": "localhost",
+                "port": 25,
+                "user": "",
+                "password": "",
+                "from_email": "noreply@localhost"
+            }
+        
         msg = MIMEMultipart()
-        msg['From'] = from_email
+        msg['From'] = config.get("from_email", "noreply@localhost")
         msg['To'] = to_email
         msg['Subject'] = subject
         msg.attach(MIMEText(body, 'html'))
 
-        server = smtplib.SMTP('localhost', 25)
+        host = config.get("host", "localhost")
+        port = int(config.get("port", 25))
+        
+        server = smtplib.SMTP(host, port, timeout=30)
         server.set_debuglevel(0)
-        server.sendmail(from_email, to_email, msg.as_string())
+        
+        if port == 587 or port == 465:
+            server.starttls()
+            
+        user = config.get("user")
+        password = config.get("password")
+        if user and password:
+            server.login(user, password)
+            
+        server.sendmail(msg['From'], to_email, msg.as_string())
         server.quit()
 
-        logger.info(f"Email sent successfully to {to_email}")
+        logger.info(f"Email sent successfully to {to_email} via {host}")
         return True
     except Exception as e:
-        logger.error(f"Failed to send email via SMTP: {e}")
+        logger.error(f"Failed to send email via SMTP ({config.get('host')}): {e}")
         return False
 
 def send_email_via_mail_command(to_email: str, subject: str, body: str, from_email: str = "noreply@localhost") -> bool:
@@ -54,12 +75,12 @@ def send_email_via_mail_command(to_email: str, subject: str, body: str, from_ema
         logger.error(f"Failed to send email via mail command: {e}")
         return False
 
-async def send_email(to_email: str, subject: str, body: str, from_email: str = "noreply@localhost") -> bool:
+async def send_email(to_email: str, subject: str, body: str, config: dict = None) -> bool:
     loop = asyncio.get_event_loop()
 
     try:
         smtp_result = await loop.run_in_executor(
-            None, send_email_via_smtp, to_email, subject, body, from_email
+            None, send_email_via_smtp, to_email, subject, body, config
         )
         if smtp_result:
             return True
@@ -67,6 +88,8 @@ async def send_email(to_email: str, subject: str, body: str, from_email: str = "
         logger.error(f"SMTP execution error: {e}")
 
     try:
+        # Mail command usually doesn't need custom SMTP config
+        from_email = config.get("from_email", "noreply@localhost") if config else "noreply@localhost"
         mail_result = await loop.run_in_executor(
             None, send_email_via_mail_command, to_email, subject, body, from_email
         )

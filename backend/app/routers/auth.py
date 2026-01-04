@@ -117,8 +117,20 @@ async def forgot_password(req: schemas.PasswordResetRequest, db: AsyncSession = 
     </html>
     """
 
+    # Fetch SMTP settings from DB
+    smtp_res = await db.execute(select(models.Setting))
+    all_settings = {s.key: s.value for s in smtp_res.scalars().all()}
+    
+    smtp_config = {
+        "host": all_settings.get("smtp_host", "localhost"),
+        "port": int(all_settings.get("smtp_port", 25)),
+        "user": all_settings.get("smtp_user", ""),
+        "password": all_settings.get("smtp_password", ""),
+        "from_email": all_settings.get("smtp_from", "noreply@opentrace.io")
+    }
+
     try:
-        email_sent = await send_email(user.email, subject, body)
+        email_sent = await send_email(user.email, subject, body, config=smtp_config)
 
         if email_sent:
             logger.info(f"Password reset email sent to {user.email}")
@@ -127,7 +139,7 @@ async def forgot_password(req: schemas.PasswordResetRequest, db: AsyncSession = 
             logger.error(f"Failed to send password reset email to {user.email}")
             await db.execute(delete(models.PasswordResetToken).where(models.PasswordResetToken.token == token))
             await db.commit()
-            raise HTTPException(status_code=500, detail="Failed to send reset email. Please check email server configuration.")
+            raise HTTPException(status_code=500, detail="Failed to send reset email. Please check SMTP configuration in Settings.")
     except Exception as e:
         logger.error(f"Email sending exception: {e}")
         await db.execute(delete(models.PasswordResetToken).where(models.PasswordResetToken.token == token))
