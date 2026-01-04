@@ -16,6 +16,7 @@ class StepCreate(BaseModel):
     type: str
     value: str
     order: int
+    conversion_value: Optional[int] = 0
 
 class FunnelCreate(BaseModel):
     name: str
@@ -50,7 +51,8 @@ async def create_funnel(req: FunnelCreate, db: AsyncSession = Depends(get_db)):
             name=s.name,
             type=s.type,
             value=s.value,
-            order=s.order
+            order=s.order,
+            conversion_value=s.conversion_value or 0
         )
         db.add(step)
     
@@ -147,6 +149,9 @@ async def get_funnel_stats(id: int, db: AsyncSession = Depends(get_db)):
             "conversion": round((count / total_starts * 100), 1) if total_starts > 0 else 0
         })
 
+    # Calculate potential revenue
+    total_revenue = sum((s['count'] * steps[i].conversion_value) for i, s in enumerate(step_stats) if steps[i].conversion_value > 0)
+
     # 3. Calculate Time to Convert (TTC) for the whole funnel
     ttc = 0
     if len(steps) > 1 and total_starts > 0 and step_stats[-1]['count'] > 0:
@@ -175,5 +180,6 @@ async def get_funnel_stats(id: int, db: AsyncSession = Depends(get_db)):
         "steps": step_stats,
         "total_sessions": total_starts,
         "overall_conversion": step_stats[-1]['conversion'] if step_stats else 0,
-        "avg_ttc": ttc
+        "avg_ttc": ttc,
+        "total_revenue": total_revenue
     }

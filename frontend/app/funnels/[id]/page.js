@@ -45,7 +45,7 @@ export default function FunnelStats() {
                 <p className="subtitle">Conversion Performance (Last 30 Days)</p>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', marginBottom: '48px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px', marginBottom: '48px' }}>
                 <div className="card-stat">
                     <div className="stat-label">{t('funnels.stats.sessions')}</div>
                     <div className="stat-value">{data.total_sessions}</div>
@@ -57,6 +57,10 @@ export default function FunnelStats() {
                 <div className="card-stat">
                     <div className="stat-label">{t('funnels.stats.ttc')}</div>
                     <div className="stat-value">{formatTime(data.avg_ttc)}</div>
+                </div>
+                <div className="card-stat">
+                    <div className="stat-label">Potential Revenue</div>
+                    <div className="stat-value" style={{ color: '#10b981' }}>${data.total_revenue?.toLocaleString()}</div>
                 </div>
             </div>
 

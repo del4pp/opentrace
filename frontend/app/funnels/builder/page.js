@@ -82,7 +82,7 @@ export default function FunnelBuilder() {
 
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                         {steps.map((step, idx) => (
-                            <div key={idx} style={{ position: 'relative', display: 'grid', gridTemplateColumns: '40px 1fr 1fr 1fr 40px', gap: '12px', alignItems: 'center', background: 'var(--bg-subtle)', padding: '24px', borderRadius: '16px', border: '1px solid var(--border)' }}>
+                            <div key={idx} style={{ position: 'relative', display: 'grid', gridTemplateColumns: '40px 1fr 1fr 1fr 120px 40px', gap: '12px', alignItems: 'center', background: 'var(--bg-subtle)', padding: '24px', borderRadius: '16px', border: '1px solid var(--border)' }}>
                                 <div style={{ fontSize: '24px', fontWeight: 900, color: 'var(--border)', display: 'flex', alignItems: 'center', height: '100%' }}>{idx + 1}</div>
                                 <div className="form-field" style={{ marginBottom: 0 }}>
                                     <label style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{t('funnels.fields.stepName')}</label>
@@ -107,6 +107,16 @@ export default function FunnelBuilder() {
                                             ))}
                                         </select>
                                     )}
+                                </div>
+                                <div className="form-field" style={{ marginBottom: 0 }}>
+                                    <label style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Value ($)</label>
+                                    <input
+                                        type="number"
+                                        className="input-lux"
+                                        value={step.conversion_value || 0}
+                                        onChange={e => updateStep(idx, 'conversion_value', parseInt(e.target.value) || 0)}
+                                        placeholder="0"
+                                    />
                                 </div>
                                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                                     <button onClick={() => removeStep(idx)} style={{ background: 'none', border: 'none', cursor: 'pointer', opacity: 0.3, fontSize: '18px', color: 'var(--text)' }}>✕</button>

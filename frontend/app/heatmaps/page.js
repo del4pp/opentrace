@@ -99,7 +99,7 @@ export default function HeatmapsPage() {
         <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '40px' }}>
                 <div>
-                    <h1 style={{ fontSize: '32px', fontWeight: 800 }}>Heatmaps <span style={{ fontSize: '12px', background: '#f59e0b', color: '#fff', padding: '2px 8px', borderRadius: '4px', verticalAlign: 'middle', marginLeft: '12px' }}>V2</span></h1>
+                    <h1 style={{ fontSize: '32px', fontWeight: 800 }}>Heatmaps <span style={{ fontSize: '12px', background: '#64748b', color: '#fff', padding: '2px 8px', borderRadius: '4px', verticalAlign: 'middle', marginLeft: '12px' }}>Тестова версія</span></h1>
                     <p className="subtitle">Visualizing interaction density with device-specific snapshots</p>
                 </div>
 

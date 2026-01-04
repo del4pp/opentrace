@@ -178,17 +178,27 @@ async def get_tracking_script(id: str, db: AsyncSession = Depends(get_db)):
                 }}
             }});
             
-            // Shared scroll observer for rules and maxScroll
+            // Shared scroll observer for rules and maxScroll with debouncing
+            var scrollTimeout;
             window.addEventListener('scroll', function() {{
-                var s = Math.round((window.scrollY + window.innerHeight) / document.documentElement.scrollHeight * 100);
-                if (s > self.maxScroll) self.maxScroll = s;
-                
-                self.rules.forEach(function(rule) {{
-                    if (rule.trigger === 'scroll' && !fired[rule.name] && s >= parseInt(rule.selector)) {{
-                        fired[rule.name] = true;
-                        self.track(rule.name, {{ depth: s }});
-                    }}
-                }});
+                if (scrollTimeout) clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(function() {{
+                    var h = document.documentElement, 
+                        b = document.body,
+                        st = 'scrollTop',
+                        sh = 'scrollHeight';
+                    var percent = (h[st]||b[st]) / ((h[sh]||b[sh]) - h.clientHeight) * 100;
+                    var s = Math.round(percent);
+                    
+                    if (s > self.maxScroll) self.maxScroll = s;
+                    
+                    self.rules.forEach(function(rule) {{
+                        if (rule.trigger === 'scroll' && !fired[rule.name] && s >= parseInt(rule.selector)) {{
+                            fired[rule.name] = true;
+                            self.track(rule.name, {{ depth: s }});
+                        }}
+                    }});
+                }}, 100);
             }}, {{ passive: true }});
         }},
         
