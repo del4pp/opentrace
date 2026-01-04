@@ -4,6 +4,7 @@ from sqlalchemy import select
 from .. import models
 from ..database import get_db
 from ..config import settings
+import json
 
 router = APIRouter()
 
@@ -11,7 +12,7 @@ router = APIRouter()
 async def get_tracking_script(id: str, db: AsyncSession = Depends(get_db)):
     """
     Returns advanced tracking SDK that handles session management,
-    telemetry collection, and dynamic tag injection.
+    telemetry collection, dynamic tag injection, and event rules.
     """
     # Fetch resource and its tags
     res = await db.execute(select(models.Resource).where(models.Resource.uid == id))
@@ -53,6 +54,13 @@ async def get_tracking_script(id: str, db: AsyncSession = Depends(get_db)):
 
     tag_logic = "".join(tag_injections)
     
+    # Get dynamic event rules
+    events_res = await db.execute(
+        select(models.Event).where(models.Event.resource_id == resource.id)
+    )
+    rules = events_res.scalars().all()
+    rules_json = json.dumps([{"name": r.name, "trigger": r.trigger, "selector": r.selector} for r in rules])
+
     # Modern SDK logic
     js_code = f"""
 (function() {{
@@ -80,6 +88,8 @@ async def get_tracking_script(id: str, db: AsyncSession = Depends(get_db)):
         sid: null,
         startTime: Date.now(),
         maxScroll: 0,
+        rules: {rules_json},
+        
         init: function() {{
             this.sid = localStorage.getItem('_ot_sid');
             if (!this.sid) {{
@@ -94,6 +104,7 @@ async def get_tracking_script(id: str, db: AsyncSession = Depends(get_db)):
             
             this.track('page_view');
             this.setupListeners();
+            this.initRules();
             this.injectTags();
             
             // Heartbeat/Time on site tracking
@@ -136,6 +147,25 @@ async def get_tracking_script(id: str, db: AsyncSession = Depends(get_db)):
             {tag_logic}
         }},
         
+        initRules: function() {{
+            var self = this;
+            this.rules.forEach(function(rule) {{
+                if (rule.trigger === 'visit') {{
+                    if (window.location.pathname.includes(rule.selector) || rule.selector === '*') {{
+                        self.track(rule.name);
+                    }}
+                }} else {{
+                    var targetEvent = (rule.trigger === 'submit') ? 'submit' : 'click';
+                    document.addEventListener(targetEvent, function(e) {{
+                        var el = e.target.closest(rule.selector);
+                        if (el) {{
+                            self.track(rule.name);
+                        }}
+                    }}, true);
+                }}
+            }});
+        }},
+        
         setupListeners: function() {{
             var self = this;
             document.addEventListener('click', function(e) {{
@@ -171,104 +201,4 @@ async def get_tracking_script(id: str, db: AsyncSession = Depends(get_db)):
         content=js_code,
         media_type="application/javascript",
         headers={"Cache-Control": "no-cache, no-store, must-revalidate"}
-    )
-
-@router.get("/ot.js")
-async def get_legacy_tracking_script():
-    """
-    Legacy tracking script for backward compatibility.
-    Uses data-id and data-host attributes from script tag.
-    """
-    js_code = """
-(function () {
-    const script = document.currentScript;
-    const resourceId = script.getAttribute('data-id');
-    const apiEndpoint = script.getAttribute('data-host') || window.location.origin + '/api/v1/collect';
-
-    if (!resourceId) {
-        console.warn('OpenTrace: Missing data-id attribute.');
-        return;
-    }
-
-    const getSessionId = () => {
-        let sid = sessionStorage.getItem('ot_sid');
-        if (!sid) {
-            sid = Math.random().toString(36).substring(2, 15);
-            sessionStorage.setItem('ot_sid', sid);
-        }
-        return sid;
-    };
-
-    const collect = (type = 'page_view', meta = {}) => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const data = {
-            rid: resourceId,
-            sid: getSessionId(),
-            type: type,
-            url: window.location.href,
-            ref: document.referrer,
-            res: `${window.screen.width}x${window.screen.height}`,
-            lang: navigator.language,
-            utm_s: urlParams.get('utm_source'),
-            utm_m: urlParams.get('utm_medium'),
-            utm_c: urlParams.get('utm_campaign'),
-            fbclid: urlParams.get('fbclid'),
-            ttclid: urlParams.get('ttclid'),
-            meta: meta
-        };
-
-        fetch(apiEndpoint, {
-            method: 'POST',
-            mode: 'cors',
-            credentials: 'omit',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        }).catch(() => { });
-    };
-
-    if (document.readyState === 'complete') {
-        collect();
-    } else {
-        window.addEventListener('load', () => collect());
-    }
-
-    window.ot = {
-        track: (name, data) => collect(name, data)
-    };
-
-    const initRules = async () => {
-        try {
-            const base = apiEndpoint.split('/api/v1/collect')[0];
-            const res = await fetch(`${base}/api/v1/rules/${resourceId}`);
-            if (!res.ok) return;
-            const rules = await res.json();
-
-            rules.forEach(rule => {
-                const handler = (e) => {
-                    if (rule.trigger === 'click' && e.target.closest(rule.selector)) {
-                        collect(rule.name);
-                    } else if (rule.trigger === 'submit' && e.target.matches(rule.selector)) {
-                        collect(rule.name);
-                    }
-                };
-
-                const targetEvent = rule.trigger === 'submit' ? 'submit' : 'click';
-                document.addEventListener(targetEvent, handler, true);
-            });
-
-            rules.filter(r => r.trigger === 'visit').forEach(rule => {
-                if (window.location.pathname.includes(rule.selector) || rule.selector === '*') {
-                    collect(rule.name);
-                }
-            });
-        } catch (e) { }
-    };
-
-    initRules();
-})();
-"""
-    return Response(
-        content=js_code,
-        media_type="application/javascript",
-        headers={"Cache-Control": "public, max-age=3600"}
     )
