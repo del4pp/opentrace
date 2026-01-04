@@ -42,7 +42,7 @@ export default function FunnelsPage() {
                     <p className="subtitle">{t('funnels.subtitle')}</p>
                 </div>
                 <div style={{ display: 'flex', gap: '12px' }}>
-                    <Link href="/funnels/compare" className="btn-premium" style={{ background: 'var(--bg)', color: 'var(--text) !important', border: '1px solid var(--border)' }}>
+                    <Link href="/funnels/compare" className="btn-secondary">
                         {t('funnels.compare')}
                     </Link>
                     <Link href="/funnels/builder" className="btn-premium">

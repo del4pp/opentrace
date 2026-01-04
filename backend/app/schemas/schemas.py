@@ -59,6 +59,11 @@ class EventBase(BaseModel):
     resource_id: int
 
 class EventCreate(EventBase): pass
+class EventUpdate(BaseModel):
+    name: Optional[str] = None
+    trigger: Optional[str] = None
+    selector: Optional[str] = None
+
 class Event(EventBase):
     id: int
     created_at: datetime

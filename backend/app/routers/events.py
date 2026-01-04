@@ -64,6 +64,21 @@ async def delete_event(id: int, req: schemas.DeleteRequest, db: AsyncSession = D
     await db.delete(obj)
     await db.commit()
     return {"status": "deleted"}
+
+@router.put("/api/events/{id}")
+async def update_event(id: int, event: schemas.EventUpdate, db: AsyncSession = Depends(get_db)):
+    result = await db.execute(select(models.Event).where(models.Event.id == id))
+    db_event = result.scalar_one_or_none()
+    
+    if not db_event:
+        raise HTTPException(status_code=404, detail="Not found")
+        
+    for key, value in event.dict(exclude_unset=True).items():
+        setattr(db_event, key, value)
+        
+    await db.commit()
+    await db.refresh(db_event)
+    return db_event
 @router.get("/api/v1/rules/{resource_uid}")
 async def get_public_rules(resource_uid: str, db: AsyncSession = Depends(get_db)):
     result = await db.execute(

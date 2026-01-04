@@ -198,12 +198,29 @@ h2 {
   align-items: center;
   justify-content: center;
   background: var(--text);
-  color: #fff !important;
+  color: #fff;
   padding: 10px 24px;
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
-  border: none;
+  border: 1px solid transparent;
+  transition: 0.2s;
+  text-decoration: none !important;
+  font-size: 14px;
+  height: 42px;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
   transition: 0.2s;
   text-decoration: none !important;
   font-size: 14px;

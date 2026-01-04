@@ -20,6 +20,7 @@ export default function EventsPage() {
     const [events, setEvents] = useState([]);
     const [resources, setResources] = useState([]);
     const [eventActions, setEventActions] = useState([]);
+    const [editingEvent, setEditingEvent] = useState(null);
 
     const [form, setForm] = useState({
         name: '',
@@ -106,8 +107,11 @@ export default function EventsPage() {
     const handleAdd = async (e) => {
         e.preventDefault();
         try {
-            const res = await fetch(`${API_URL}/events`, {
-                method: 'POST',
+            const method = editingEvent ? 'PUT' : 'POST';
+            const url = editingEvent ? `${API_URL}/events/${editingEvent.id}` : `${API_URL}/events`;
+
+            const res = await fetch(url, {
+                method: method,
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(form)
             });
@@ -115,20 +119,23 @@ export default function EventsPage() {
             if (res.ok) {
                 const eventData = await res.json();
 
-                // Create actions for this event
-                for (const action of actions) {
-                    await fetch(`${API_URL}/event-actions`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            event_id: eventData.id,
-                            ...action
-                        })
-                    });
+                if (!editingEvent) {
+                    // Create actions for this event only if it's NEW
+                    for (const action of actions) {
+                        await fetch(`${API_URL}/event-actions`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                event_id: eventData.id,
+                                ...action
+                            })
+                        });
+                    }
                 }
 
                 await fetchData();
                 setShowModal(false);
+                setEditingEvent(null);
                 setForm({ name: '', trigger: 'click', selector: '', resource_id: selectedResource?.id || '' });
                 setActions([]);
                 setCurrentAction({
@@ -140,6 +147,17 @@ export default function EventsPage() {
                 });
             }
         } catch (err) { alert("Error saving event"); }
+    };
+
+    const openEdit = (ev) => {
+        setEditingEvent(ev);
+        setForm({
+            name: ev.name,
+            trigger: ev.trigger,
+            selector: ev.selector,
+            resource_id: ev.resource_id
+        });
+        setShowModal(true);
     };
 
     const openDelete = (id) => {
@@ -244,14 +262,20 @@ export default function EventsPage() {
                                         )}
                                     </td>
                                     <td style={{ padding: '20px 24px', textAlign: 'right' }}>
-                                        <button
-                                            onClick={() => openDelete(ev.id)}
-                                            style={{ background: 'none', border: 'none', cursor: 'pointer', opacity: 0.5, transition: 'opacity 0.2s' }}
-                                            onMouseEnter={e => e.target.style.opacity = 1}
-                                            onMouseLeave={e => e.target.style.opacity = 0.5}
-                                        >
-                                            🗑️
-                                        </button>
+                                        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '16px' }}>
+                                            <button
+                                                onClick={() => openEdit(ev)}
+                                                style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '16px' }}
+                                            >
+                                                ✏️
+                                            </button>
+                                            <button
+                                                onClick={() => openDelete(ev.id)}
+                                                style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '16px' }}
+                                            >
+                                                🗑️
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))}
@@ -261,9 +285,9 @@ export default function EventsPage() {
             </div>
 
             {showModal && (
-                <div className="modal-overlay" onClick={() => setShowModal(false)}>
+                <div className="modal-overlay" onClick={() => { setShowModal(false); setEditingEvent(null); }}>
                     <div className="modal-content" style={{ maxWidth: '480px' }} onClick={e => e.stopPropagation()}>
-                        <h2 style={{ marginBottom: '24px' }}>{t('events.add')}</h2>
+                        <h2 style={{ marginBottom: '24px' }}>{editingEvent ? 'Edit Regulation' : t('events.add')}</h2>
                         <form onSubmit={handleAdd}>
                             <div className="form-field">
                                 <label>Event Name</label>

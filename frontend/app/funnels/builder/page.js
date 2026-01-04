@@ -11,10 +11,22 @@ export default function FunnelBuilder() {
     const router = useRouter();
     const { selectedResource } = useResource();
     const [name, setName] = useState('');
+    const [events, setEvents] = useState([]);
     const [steps, setSteps] = useState([
         { name: 'Initial Visit', type: 'page_view', value: '/', order: 1 },
-        { name: 'Interest', type: 'event', value: 'click_pricing', order: 2 }
+        { name: 'Interest', type: 'event', value: '', order: 2 }
     ]);
+
+    useEffect(() => {
+        const fetchEvents = async () => {
+            if (!selectedResource) return;
+            try {
+                const res = await fetch(`${API_URL}/events?resource_id=${selectedResource.id}`);
+                if (res.ok) setEvents(await res.json());
+            } catch (err) { console.error(err); }
+        };
+        fetchEvents();
+    }, [selectedResource]);
 
     const addStep = () => {
         setSteps([...steps, { name: '', type: 'page_view', value: '', order: steps.length + 1 }]);
@@ -70,31 +82,42 @@ export default function FunnelBuilder() {
 
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                         {steps.map((step, idx) => (
-                            <div key={idx} style={{ position: 'relative', display: 'grid', gridTemplateColumns: '40px 1fr 1fr 1fr 40px', gap: '12px', alignItems: 'end', background: '#f8fafc', padding: '20px', borderRadius: '16px' }}>
-                                <div style={{ fontSize: '24px', fontWeight: 900, color: '#e2e8f0', marginBottom: '10px' }}>{idx + 1}</div>
+                            <div key={idx} style={{ position: 'relative', display: 'grid', gridTemplateColumns: '40px 1fr 1fr 1fr 40px', gap: '12px', alignItems: 'center', background: 'var(--bg-subtle)', padding: '24px', borderRadius: '16px', border: '1px solid var(--border)' }}>
+                                <div style={{ fontSize: '24px', fontWeight: 900, color: 'var(--border)', display: 'flex', alignItems: 'center', height: '100%' }}>{idx + 1}</div>
                                 <div className="form-field" style={{ marginBottom: 0 }}>
-                                    <label style={{ fontSize: '11px' }}>{t('funnels.fields.stepName')}</label>
+                                    <label style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{t('funnels.fields.stepName')}</label>
                                     <input className="input-lux" value={step.name} onChange={e => updateStep(idx, 'name', e.target.value)} placeholder="Entry" />
                                 </div>
                                 <div className="form-field" style={{ marginBottom: 0 }}>
-                                    <label style={{ fontSize: '11px' }}>{t('funnels.fields.type')}</label>
+                                    <label style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{t('funnels.fields.type')}</label>
                                     <select className="select-lux" value={step.type} onChange={e => updateStep(idx, 'type', e.target.value)}>
                                         <option value="page_view">Page View</option>
                                         <option value="event">Event Trigger</option>
                                     </select>
                                 </div>
                                 <div className="form-field" style={{ marginBottom: 0 }}>
-                                    <label style={{ fontSize: '11px' }}>{t('funnels.fields.value')}</label>
-                                    <input className="input-lux" value={step.value} onChange={e => updateStep(idx, 'value', e.target.value)} placeholder={step.type === 'page_view' ? '/pricing' : 'click_signup'} />
+                                    <label style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{t('funnels.fields.value')}</label>
+                                    {step.type === 'page_view' ? (
+                                        <input className="input-lux" value={step.value} onChange={e => updateStep(idx, 'value', e.target.value)} placeholder="/pricing" />
+                                    ) : (
+                                        <select className="select-lux" value={step.value} onChange={e => updateStep(idx, 'value', e.target.value)}>
+                                            <option value="">Select Event...</option>
+                                            {events.map(ev => (
+                                                <option key={ev.id} value={ev.name}>{ev.name}</option>
+                                            ))}
+                                        </select>
+                                    )}
                                 </div>
-                                <button onClick={() => removeStep(idx)} style={{ background: 'none', border: 'none', cursor: 'pointer', marginBottom: '12px', opacity: 0.3 }}>✕</button>
+                                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                    <button onClick={() => removeStep(idx)} style={{ background: 'none', border: 'none', cursor: 'pointer', opacity: 0.3, fontSize: '18px', color: 'var(--text)' }}>✕</button>
+                                </div>
                             </div>
                         ))}
                     </div>
                 </div>
 
                 <div style={{ marginTop: '40px', display: 'flex', gap: '16px' }}>
-                    <button onClick={() => router.push('/funnels')} className="btn-premium" style={{ background: 'var(--bg)', color: 'var(--text) !important', border: '1px solid var(--border)', flex: 1 }}>
+                    <button onClick={() => router.push('/funnels')} className="btn-secondary" style={{ flex: 1 }}>
                         Cancel
                     </button>
                     <button onClick={saveFunnel} className="btn-premium" style={{ flex: 1 }}>
