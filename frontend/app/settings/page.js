@@ -249,7 +249,7 @@ export default function SettingsPage() {
                     </div>
 
                     <div style={{ marginTop: '20px' }}>
-                        <Link href="/docs" className="btn-premium" style={{ width: '100%', background: '#fff', color: '#0f172a', border: '1px solid #e2e8f0' }}>
+                        <Link href="/docs" target="_blank" className="btn-premium" style={{ width: '100%', background: '#fff', color: '#0f172a', border: '1px solid #e2e8f0', display: 'block', textAlign: 'center', textDecoration: 'none' }}>
                             {t('settings.viewDocs')}
                         </Link>
                     </div>

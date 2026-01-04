@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useTranslation } from '../../context/LanguageContext';
 import { useResource } from '../../context/ResourceContext';
+import HelpButton from '../../components/HelpButton';
 
 const API_URL = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api'}`;
 
