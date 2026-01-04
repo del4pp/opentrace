@@ -62,11 +62,15 @@ async def startup():
 
                 try:
                     res = await db.execute(select(models.Setting).where(models.Setting.key == "show_demo"))
-                    show_demo = res.scalars().first()
-                    if not show_demo:
+                    if not res.scalars().first():
                         db.add(models.Setting(key="show_demo", value="true"))
-                        await db.commit()
-                        print("✓ Created demo setting")
+                    
+                    res = await db.execute(select(models.Setting).where(models.Setting.key == "skip_landing"))
+                    if not res.scalars().first():
+                        db.add(models.Setting(key="skip_landing", value="false"))
+                        
+                    await db.commit()
+                    print("✓ Created system settings")
                 except Exception as e:
                     print(f"⚠ Setting creation error: {e}")
 

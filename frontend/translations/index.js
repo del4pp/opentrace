@@ -138,10 +138,22 @@ export const translations = {
             generalDesc: "Workspace name and visual preferences",
             api: "API Keys",
             apiDesc: "Keys for authentication across your apps",
+            security: {
+                title: "Login & Security",
+                desc: "Identify management and visibility controls",
+                adminEmail: "Primary Admin Email",
+                update: "Update Email",
+                showDemo: "Show Demo Data",
+                showDemoDesc: "Display simulated data if resource is empty",
+                skipLanding: "Skip Landing Page",
+                skipLandingDesc: "Redirect directly to Login instead of Landing",
+                resetPassword: "Send Password Reset Link"
+            },
             language: "Interface Language",
             workspaceName: "Workspace Name",
             ingestionKey: "Ingestion Key",
             rotate: "Rotate",
+            viewDocs: "View API Documentation",
             appearance: "Appearance",
             appearanceDesc: "UI theme and preferences",
             help: {
@@ -434,6 +446,10 @@ export const translations = {
         funnels: {
             title: "Conversion Funnels",
             subtitle: "Analyze user journeys and drop-offs",
+            help: {
+                title: "Funnel Analytics",
+                content: "A funnel is a series of steps a user takes to complete a goal. Here you can track conversion rates between steps, identify where users drop off, and see the average time it takes to convert."
+            },
             create: "Create Funnel",
             builder: "Funnel Builder",
             compare: "Compare Funnels",
@@ -597,10 +613,22 @@ export const translations = {
             generalDesc: "Назва робочого простору та візуальні вподобання",
             api: "Ключі API",
             apiDesc: "Ключі для автентифікації у ваших додатках",
+            security: {
+                title: "Логін та Безпека",
+                desc: "Керування ідентифікацією та видимістю",
+                adminEmail: "Email адміністратора",
+                update: "Оновити Email",
+                showDemo: "Показувати демо-дані",
+                showDemoDesc: "Відображати симуляцію даних, якщо ресурс порожній",
+                skipLanding: "Пропускати лендінг",
+                skipLandingDesc: "Перенаправляти відразу на вхід замість головної",
+                resetPassword: "Надіслати посилання на скидання паролю"
+            },
             language: "Мова інтерфейсу",
             workspaceName: "Назва простору",
             ingestionKey: "Ключ Ingestion",
             rotate: "Оновити",
+            viewDocs: "Переглянути документацію API",
             appearance: "Зовнішній вигляд",
             appearanceDesc: "Тема інтерфейсу та вподобання",
             help: {
@@ -893,6 +921,10 @@ export const translations = {
         funnels: {
             title: "Воронки конверсій",
             subtitle: "Аналіз шляхів користувачів та відтоку",
+            help: {
+                title: "Аналітика воронок",
+                content: "Воронка — це послідовність кроків, які робить користувач для досягнення цілі. Тут ви можете відстежувати конверсію між етапами, знаходити точки відтоку та бачити середній час переходу."
+            },
             create: "Створити воронку",
             builder: "Конструктор воронки",
             compare: "Порівняти воронки",

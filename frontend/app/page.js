@@ -6,13 +6,29 @@ import { useEffect, useState } from 'react';
 import styles from './page.module.css';
 import { getFeatures, stats } from './content';
 
+const API_URL = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api'}`;
+
 export default function LandingPage() {
   const { t, lang, setLanguage } = useTranslation();
   const [scrolled, setScrolled] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    router.replace('/login');
+    const checkRedirect = async () => {
+      try {
+        const res = await fetch(`${API_URL}/settings`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.skip_landing === 'true') {
+            router.replace('/login');
+          }
+        }
+      } catch (err) {
+        console.error("Failed to check redirect setting:", err);
+      }
+    };
+    checkRedirect();
+
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);

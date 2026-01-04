@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { useTranslation } from '../../context/LanguageContext';
 import HelpButton from '../../components/HelpButton';
 
@@ -12,6 +13,7 @@ export default function SettingsPage() {
     const [theme, setTheme] = useState('dark');
     const [notifications, setNotifications] = useState({ email: true, slack: false, alerts: true });
     const [showDemo, setShowDemo] = useState(true);
+    const [skipLanding, setSkipLanding] = useState(false);
     const [adminEmail, setAdminEmail] = useState('');
     const [emailLoading, setEmailLoading] = useState(false);
     const [smtp, setSmtp] = useState({
@@ -21,7 +23,7 @@ export default function SettingsPage() {
         smtp_password: '',
         smtp_from: ''
     });
-    const [updateInfo, setUpdateInfo] = useState({ current: '1.0.5', latest: '', update_available: false, checking: false });
+    const [updateInfo, setUpdateInfo] = useState({ current: '1.1.0', latest: '', update_available: false, checking: false });
 
     const fetchLogs = async () => {
         try {
@@ -40,6 +42,7 @@ export default function SettingsPage() {
             if (res.ok) {
                 const data = await res.json();
                 setShowDemo(data.show_demo === 'true');
+                setSkipLanding(data.skip_landing === 'true');
                 setSmtp({
                     smtp_host: data.smtp_host || '',
                     smtp_port: data.smtp_port || '587',
@@ -91,6 +94,11 @@ export default function SettingsPage() {
     const handleToggleDemo = (val) => {
         setShowDemo(val);
         handleUpdateSetting('show_demo', val ? 'true' : 'false');
+    };
+
+    const handleToggleSkipLanding = (val) => {
+        setSkipLanding(val);
+        handleUpdateSetting('skip_landing', val ? 'true' : 'false');
     };
 
     const handleUpdateEmail = async () => {
@@ -222,6 +230,12 @@ export default function SettingsPage() {
                             </button>
                         </div>
                     </div>
+
+                    <div style={{ marginTop: '20px' }}>
+                        <Link href="/docs" className="btn-premium" style={{ width: '100%', background: '#fff', color: '#0f172a', border: '1px solid #e2e8f0' }}>
+                            {t('settings.viewDocs')}
+                        </Link>
+                    </div>
                 </div>
 
                 <div className="card-stat" style={{ padding: '32px' }}>
@@ -235,7 +249,7 @@ export default function SettingsPage() {
 
                     <div className="form-field">
                         <label>{t('settings.security.adminEmail')}</label>
-                        <div style={{ display: 'flex', gap: '12px' }}>
+                        <div style={{ display: 'flex', gap: '12px', marginBottom: '24px' }}>
                             <input
                                 className="input-lux"
                                 value={adminEmail}
@@ -253,22 +267,7 @@ export default function SettingsPage() {
                         </div>
                     </div>
 
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '20px', paddingBottom: '20px', borderBottom: '1px solid #f1f5f9' }}>
-                        <div>
-                            <div style={{ fontSize: '14px', fontWeight: 600 }}>{t('settings.security.showDemo')}</div>
-                            <div style={{ fontSize: '12px', color: '#64748b' }}>{t('settings.security.showDemoDesc')}</div>
-                        </div>
-                        <label className="switch">
-                            <input
-                                type="checkbox"
-                                checked={showDemo}
-                                onChange={(e) => handleToggleDemo(e.target.checked)}
-                            />
-                            <span className="slider round"></span>
-                        </label>
-                    </div>
-
-                    <div style={{ marginTop: '20px' }}>
+                    <div>
                         <button
                             className="btn-premium"
                             style={{ width: '100%', background: '#fff', color: '#0f172a', border: '1px solid #e2e8f0' }}
@@ -296,6 +295,49 @@ export default function SettingsPage() {
                     </div>
                 </div>
 
+                {/* System Behavior Card */}
+                <div className="card-stat" style={{ padding: '32px' }}>
+                    <div style={{ display: 'flex', gap: '16px', marginBottom: '24px' }}>
+                        <div style={{ fontSize: '24px' }}>⚙️</div>
+                        <div>
+                            <h3 style={{ fontSize: '18px', fontWeight: 700, margin: 0 }}>System Behavior</h3>
+                            <p style={{ fontSize: '13px', color: '#64748b' }}>Customize dashboard & navigation</p>
+                        </div>
+                    </div>
+
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '16px', borderBottom: '1px solid #f1f5f9' }}>
+                            <div style={{ flex: 1 }}>
+                                <div style={{ fontSize: '14px', fontWeight: 600 }}>{t('settings.security.showDemo')}</div>
+                                <div style={{ fontSize: '12px', color: '#64748b' }}>{t('settings.security.showDemoDesc')}</div>
+                            </div>
+                            <label className="switch">
+                                <input
+                                    type="checkbox"
+                                    checked={showDemo}
+                                    onChange={(e) => handleToggleDemo(e.target.checked)}
+                                />
+                                <span className="slider round"></span>
+                            </label>
+                        </div>
+
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <div style={{ flex: 1 }}>
+                                <div style={{ fontSize: '14px', fontWeight: 600 }}>{t('settings.security.skipLanding')}</div>
+                                <div style={{ fontSize: '12px', color: '#64748b' }}>{t('settings.security.skipLandingDesc')}</div>
+                            </div>
+                            <label className="switch">
+                                <input
+                                    type="checkbox"
+                                    checked={skipLanding}
+                                    onChange={(e) => handleToggleSkipLanding(e.target.checked)}
+                                />
+                                <span className="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
                 <div className="card-stat" style={{ padding: '32px' }}>
                     <div style={{ display: 'flex', gap: '16px', marginBottom: '24px' }}>
                         <div style={{ fontSize: '24px' }}>📧</div>
@@ -305,49 +347,56 @@ export default function SettingsPage() {
                         </div>
                     </div>
 
-                    <div className="form-field">
-                        <label>{t('settings.smtp.host')}</label>
-                        <input
-                            className="input-lux"
-                            value={smtp.smtp_host}
-                            onChange={(e) => setSmtp({ ...smtp, smtp_host: e.target.value })}
-                            onBlur={() => handleUpdateSetting('smtp_host', smtp.smtp_host)}
-                            placeholder="smtp.example.com"
-                        />
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                        <div className="form-field" style={{ marginBottom: '12px' }}>
+                            <label>{t('settings.smtp.host')}</label>
+                            <input
+                                className="input-lux"
+                                style={{ marginBottom: 0 }}
+                                value={smtp.smtp_host}
+                                onChange={(e) => setSmtp({ ...smtp, smtp_host: e.target.value })}
+                                onBlur={() => handleUpdateSetting('smtp_host', smtp.smtp_host)}
+                                placeholder="smtp.example.com"
+                            />
+                        </div>
+                        <div className="form-field" style={{ marginBottom: '12px' }}>
+                            <label>{t('settings.smtp.port')}</label>
+                            <input
+                                className="input-lux"
+                                style={{ marginBottom: 0 }}
+                                value={smtp.smtp_port}
+                                onChange={(e) => setSmtp({ ...smtp, smtp_port: e.target.value })}
+                                onBlur={() => handleUpdateSetting('smtp_port', smtp.smtp_port)}
+                                placeholder="587"
+                            />
+                        </div>
                     </div>
-                    <div className="form-field">
-                        <label>{t('settings.smtp.port')}</label>
-                        <input
-                            className="input-lux"
-                            value={smtp.smtp_port}
-                            onChange={(e) => setSmtp({ ...smtp, smtp_port: e.target.value })}
-                            onBlur={() => handleUpdateSetting('smtp_port', smtp.smtp_port)}
-                            placeholder="587"
-                        />
-                    </div>
-                    <div className="form-field">
+                    <div className="form-field" style={{ marginBottom: '12px' }}>
                         <label>{t('settings.smtp.user')}</label>
                         <input
                             className="input-lux"
+                            style={{ marginBottom: 0 }}
                             value={smtp.smtp_user}
                             onChange={(e) => setSmtp({ ...smtp, smtp_user: e.target.value })}
                             onBlur={() => handleUpdateSetting('smtp_user', smtp.smtp_user)}
                         />
                     </div>
-                    <div className="form-field">
+                    <div className="form-field" style={{ marginBottom: '12px' }}>
                         <label>{t('settings.smtp.pass')}</label>
                         <input
                             type="password"
                             className="input-lux"
+                            style={{ marginBottom: 0 }}
                             value={smtp.smtp_password}
                             onChange={(e) => setSmtp({ ...smtp, smtp_password: e.target.value })}
                             onBlur={() => handleUpdateSetting('smtp_password', smtp.smtp_password)}
                         />
                     </div>
-                    <div className="form-field">
+                    <div className="form-field" style={{ marginBottom: 0 }}>
                         <label>{t('settings.smtp.from')}</label>
                         <input
                             className="input-lux"
+                            style={{ marginBottom: 0 }}
                             value={smtp.smtp_from}
                             onChange={(e) => setSmtp({ ...smtp, smtp_from: e.target.value })}
                             onBlur={() => handleUpdateSetting('smtp_from', smtp.smtp_from)}
