@@ -41,21 +41,19 @@ async def check_update():
 
 @router.post("/api/system/perform-update")
 async def perform_update(db: AsyncSession = Depends(get_db)):
-    # This is a placeholder for actual update logic.
-    # In a real scenario, this would trigger a background task
-    # that pulls the latest code and restarts containers.
-    import subprocess
     import os
     
+    # Path inside container that is mapped to host
+    trigger_path = "/app/data/updates/trigger"
+    os.makedirs(os.path.dirname(trigger_path), exist_ok=True)
+    
     try:
-        # We simulate a trigger for the host to update
-        # For example, creating a file 'update_pending' that a host cronjob watches
-        with open("/app/update_pending", "w") as f:
-            f.write("trigger")
+        with open(trigger_path, "w") as f:
+            f.write("update_requested")
         
-        return {"status": "success", "message": "Update triggered. System will restart in 30 seconds."}
+        return {"status": "success", "message": "Update signal sent to host. The system will restart shortly."}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Update failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Update failed to trigger: {str(e)}")
 
 @router.get("/api/settings")
 async def get_all_settings(db: AsyncSession = Depends(get_db)):

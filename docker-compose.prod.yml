@@ -62,6 +62,8 @@ services:
       CLICKHOUSE_PASSWORD: ${CLICKHOUSE_PASSWORD}
       REDIS_URL: redis://redis:6379/0
       SECRET_KEY: ${SECRET_KEY}
+    volumes:
+      - ./data/updates:/app/data/updates
     depends_on:
       - postgres
       - clickhouse
