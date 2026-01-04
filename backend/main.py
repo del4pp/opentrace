@@ -41,6 +41,8 @@ async def startup():
                     await conn.execute(text("ALTER TABLE users ADD COLUMN IF NOT EXISTS is_first_login BOOLEAN DEFAULT TRUE"))
                     await conn.execute(text("ALTER TABLE campaigns ADD COLUMN IF NOT EXISTS resource_id INTEGER REFERENCES resources(id)"))
                     await conn.execute(text("ALTER TABLE tags ADD COLUMN IF NOT EXISTS resource_id INTEGER REFERENCES resources(id)"))
+                    await conn.execute(text("ALTER TABLE funnel_steps ADD COLUMN IF NOT EXISTS conversion_value INTEGER DEFAULT 0"))
+                    await conn.execute(text("ALTER TABLE funnel_steps ADD COLUMN IF NOT EXISTS is_goal BOOLEAN DEFAULT FALSE"))
                 except Exception:
                     pass
 
