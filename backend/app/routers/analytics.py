@@ -52,8 +52,9 @@ async def send_to_conversion_api(event_name: str, data: dict, fbclid: str = None
                     pass
 
         # Get event actions from database
-        from ..database import AsyncSessionLocal
-        async with AsyncSessionLocal() as db:
+        from ..database import engine
+        from sqlalchemy.ext.asyncio import AsyncSession
+        async with AsyncSession(engine) as db:
             # Resolve UID to ID if necessary
             actual_resource_id = None
             if resource_id:

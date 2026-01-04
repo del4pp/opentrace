@@ -143,7 +143,7 @@ export default function TagsPage() {
                     <h3 style={{ color: '#fff', marginBottom: '12px' }}>{t('tags.snippet.title')}</h3>
                     <p style={{ color: '#94a3b8', fontSize: '14px', marginBottom: '24px' }}>{t('tags.snippet.description')}</p>
                     <div style={{ background: 'rgba(255,255,255,0.05)', padding: '20px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', fontFamily: 'monospace', fontSize: '13px', color: '#34d399' }}>
-                        &lt;script src="{(typeof window !== 'undefined' ? (window.location.origin.includes('localhost') ? 'http://localhost:8000' : window.location.origin) : '')}/sdk/t.js?id={selectedResource?.uid || 'YOUR-RESOURCE-ID'}" async&gt;&lt;/script&gt;
+                        &lt;script src="{API_URL.replace('/api', '')}/sdk/t.js?id=OT-CONTAINER-PRIME" async&gt;&lt;/script&gt;
                     </div>
                 </div>
             </div>

@@ -91,23 +91,3 @@ class PasswordResetToken(Base):
     is_used = Column(Boolean, default=False)
 
     user = relationship("User")
-
-class Funnel(Base):
-    __tablename__ = "funnels"
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String)
-    resource_id = Column(Integer, ForeignKey("resources.id"))
-    created_at = Column(DateTime, default=datetime.utcnow)
-
-    steps = relationship("FunnelStep", back_populates="funnel", cascade="all, delete-orphan", order_by="FunnelStep.order")
-
-class FunnelStep(Base):
-    __tablename__ = "funnel_steps"
-    id = Column(Integer, primary_key=True, index=True)
-    funnel_id = Column(Integer, ForeignKey("funnels.id"))
-    order = Column(Integer) # 1, 2, 3...
-    name = Column(String) # For display
-    type = Column(String) # 'page_view', 'event'
-    value = Column(String) # URL path or Event name
-    
-    funnel = relationship("Funnel", back_populates="steps")
