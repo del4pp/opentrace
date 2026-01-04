@@ -166,6 +166,31 @@ export const translations = {
                 showDemoDesc: "Display demo credentials on login page",
                 resetPassword: "Restore Password",
                 resetSuccess: "Reset link sent to email"
+            },
+            smtp: {
+                title: "SMTP Configuration",
+                desc: "Configure email server for password resets",
+                host: "SMTP Host",
+                port: "Port",
+                user: "User",
+                pass: "Password",
+                from: "From Email",
+                save: "Save SMTP Settings"
+            },
+            updates: {
+                title: "Update Management",
+                desc: "Keep your system secure and up to date",
+                current: "Current Version",
+                latest: "Latest Version",
+                stable: "You are on the latest stable version",
+                newAvailable: "A new version is available",
+                install: "Install Update Now",
+                installing: "Installing Update...",
+                confirmTitle: "System Update",
+                confirmMsg: "Are you sure you want to update? This will rebuild the containers and cause a short downtime.",
+                backupWarning: "Recommendation: Backup your database before proceeding.",
+                status: "System status",
+                installSuccess: "Update triggered successfully!"
             }
         },
         integration: {
@@ -577,6 +602,31 @@ export const translations = {
                 showDemoDesc: "Відображати дані для входу на сторінці логіну",
                 resetPassword: "Відновити пароль",
                 resetSuccess: "Посилання для скидання надіслано на пошту"
+            },
+            smtp: {
+                title: "Налаштування SMTP",
+                desc: "Конфігурація поштового сервера для відновлення паролів",
+                host: "SMTP Хост",
+                port: "Порт",
+                user: "Користувач",
+                pass: "Пароль",
+                from: "Email відправника",
+                save: "Зберегти налаштування SMTP"
+            },
+            updates: {
+                title: "Керування оновленнями",
+                desc: "Підтримуйте систему в актуальному стані",
+                current: "Поточна версія",
+                latest: "Остання версія",
+                stable: "Ви використовуєте останню версію",
+                newAvailable: "Доступна нова версія",
+                install: "Встановити оновлення",
+                installing: "Встановлення...",
+                confirmTitle: "Оновлення системи",
+                confirmMsg: "Ви впевнені, що хочете розпочати оновлення? Контейнери будуть перезібрані, що спричинить коротку перерву в роботі.",
+                backupWarning: "Рекомендація: Зробіть резервну копію бази даних перед початком.",
+                status: "Статус системи",
+                installSuccess: "Процес оновлення запущено!"
             }
         },
         integration: {

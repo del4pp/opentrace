@@ -52,8 +52,8 @@ async def send_to_conversion_api(event_name: str, data: dict, fbclid: str = None
                     pass
 
         # Get event actions from database
-        db = await get_db().__aenter__()
-        try:
+        from ..database import AsyncSessionLocal
+        async with AsyncSessionLocal() as db:
             # Resolve UID to ID if necessary
             actual_resource_id = None
             if resource_id:
@@ -101,9 +101,6 @@ async def send_to_conversion_api(event_name: str, data: dict, fbclid: str = None
                 await log_system("INFO", "CAPI", f"CAPI processed: {event_name}", f"FB:{fbclid} TT:{ttclid} Results: {results}")
             else:
                 await log_system("INFO", "CAPI", f"No actions configured for: {event_name}")
-
-        finally:
-            await db.close()
 
     except Exception as e:
         await log_system("ERROR", "CAPI", str(e))

@@ -4,13 +4,18 @@
 
 ## Universal • Self-Hosted • Privacy-First • High-Performance Analytics Platform
 
-[![Version](https://img.shields.io/badge/Version-1.0.4--stable-blue?style=for-the-badge&logo=git&logoColor=white)](https://github.com/del4pp/opentrace/releases)
+[![Version](https://img.shields.io/badge/Version-1.0.5--stable-blue?style=for-the-badge&logo=git&logoColor=white)](https://github.com/del4pp/opentrace/releases)
 [![License](https://img.shields.io/badge/License-AGPL%20v3-green?style=for-the-badge&logo=gnu&logoColor=white)](LICENSE)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://docs.docker.com/get-docker/)
 [![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 [![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org)
 [![Made in Ukraine](https://img.shields.io/badge/Made%20in-Ukraine-ffd700?labelColor=0057b7&style=for-the-badge&logo=ukraine&logoColor=white)]()
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=for-the-badge&logo=github)](https://github.com/del4pp/opentrace/pulls)
+
+### 🆕 What's New in v1.0.5
+- **Automated Updates**: One-click system updates directly from the settings panel.
+- **SMTP Integration**: Dynamic configuration of email servers for password recovery.
+- **Enhanced Security**: Improved JWT handling and login throttling.
 
 ### Tech Stack
 ![Next.js](https://img.shields.io/badge/Frontend-Next.js-black?style=flat-square&logo=next.js&logoColor=white)

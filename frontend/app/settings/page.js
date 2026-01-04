@@ -21,7 +21,7 @@ export default function SettingsPage() {
         smtp_password: '',
         smtp_from: ''
     });
-    const [updateInfo, setUpdateInfo] = useState({ current: '1.0.4', latest: '', update_available: false, checking: false });
+    const [updateInfo, setUpdateInfo] = useState({ current: '1.0.5', latest: '', update_available: false, checking: false });
 
     const fetchLogs = async () => {
         try {
@@ -300,13 +300,13 @@ export default function SettingsPage() {
                     <div style={{ display: 'flex', gap: '16px', marginBottom: '24px' }}>
                         <div style={{ fontSize: '24px' }}>📧</div>
                         <div>
-                            <h3 style={{ fontSize: '18px', fontWeight: 700, margin: 0 }}>SMTP Settings</h3>
-                            <p style={{ fontSize: '13px', color: '#64748b' }}>Configure email for password recovery</p>
+                            <h3 style={{ fontSize: '18px', fontWeight: 700, margin: 0 }}>{t('settings.smtp.title')}</h3>
+                            <p style={{ fontSize: '13px', color: '#64748b' }}>{t('settings.smtp.desc')}</p>
                         </div>
                     </div>
 
                     <div className="form-field">
-                        <label>SMTP Host</label>
+                        <label>{t('settings.smtp.host')}</label>
                         <input
                             className="input-lux"
                             value={smtp.smtp_host}
@@ -316,7 +316,7 @@ export default function SettingsPage() {
                         />
                     </div>
                     <div className="form-field">
-                        <label>SMTP Port</label>
+                        <label>{t('settings.smtp.port')}</label>
                         <input
                             className="input-lux"
                             value={smtp.smtp_port}
@@ -326,7 +326,7 @@ export default function SettingsPage() {
                         />
                     </div>
                     <div className="form-field">
-                        <label>SMTP User</label>
+                        <label>{t('settings.smtp.user')}</label>
                         <input
                             className="input-lux"
                             value={smtp.smtp_user}
@@ -335,7 +335,7 @@ export default function SettingsPage() {
                         />
                     </div>
                     <div className="form-field">
-                        <label>SMTP Password</label>
+                        <label>{t('settings.smtp.pass')}</label>
                         <input
                             type="password"
                             className="input-lux"
@@ -345,7 +345,7 @@ export default function SettingsPage() {
                         />
                     </div>
                     <div className="form-field">
-                        <label>From Email</label>
+                        <label>{t('settings.smtp.from')}</label>
                         <input
                             className="input-lux"
                             value={smtp.smtp_from}
@@ -395,7 +395,7 @@ export default function SettingsPage() {
                                     OpenTrace v{updateInfo.current} {updateInfo.latest && `(Latest: ${updateInfo.latest})`}
                                 </div>
                                 <div style={{ fontSize: '12px', color: '#94a3b8' }}>
-                                    {updateInfo.update_available ? 'A new version is available!' : 'System is up to date'}
+                                    {updateInfo.update_available ? t('settings.updates.newAvailable') : t('settings.updates.stable')}
                                 </div>
                             </div>
                         </div>
@@ -406,7 +406,7 @@ export default function SettingsPage() {
                                     style={{ padding: '12px 24px', background: '#22c55e' }}
                                     onClick={handlePerformUpdate}
                                 >
-                                    Install Update
+                                    {t('settings.updates.install')}
                                 </button>
                             )}
                             <button
@@ -415,7 +415,7 @@ export default function SettingsPage() {
                                 onClick={handleCheckUpdate}
                                 disabled={updateInfo.checking}
                             >
-                                {updateInfo.checking ? 'Checking...' : t('settings.checkUpdate')}
+                                {updateInfo.checking ? t('settings.updates.installing') : t('settings.checkUpdate')}
                             </button>
                         </div>
                     </div>

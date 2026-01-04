@@ -14,7 +14,8 @@ class SettingUpdate(BaseModel):
     key: str
     value: str
 
-VERSION = "1.0.4"
+VERSION = "1.0.5"
+PROJECT_ID = "opentrace"
 
 @router.get("/api/health")
 def health_check():
@@ -28,12 +29,18 @@ async def check_update():
             resp = await client.get("https://version.429toomanyre.quest/version.json", timeout=10)
             if resp.status_code == 200:
                 data = resp.json()
-                latest = data.get("version")
+                # Get specific data for this project
+                project_data = data.get(PROJECT_ID, {})
+                latest = project_data.get("version")
+                
+                if not latest:
+                    return {"current": VERSION, "update_available": False, "error": "Project not found in version registry"}
+
                 return {
                     "current": VERSION,
                     "latest": latest,
                     "update_available": latest != VERSION,
-                    "changelog": data.get("changelog", "")
+                    "changelog": project_data.get("changelog", "")
                 }
     except Exception as e:
         return {"error": str(e), "current": VERSION}
