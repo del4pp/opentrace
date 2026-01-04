@@ -63,7 +63,12 @@ async def create_funnel(req: FunnelCreate, db: AsyncSession = Depends(get_db)):
 
 @router.delete("/api/funnels/{id}")
 async def delete_funnel(id: int, db: AsyncSession = Depends(get_db)):
-    await db.execute(delete(models.Funnel).where(models.Funnel.id == id))
+    result = await db.execute(select(models.Funnel).where(models.Funnel.id == id))
+    funnel = result.scalars().first()
+    if not funnel:
+        raise HTTPException(status_code=404, detail="Funnel not found")
+    
+    await db.delete(funnel)
     await db.commit()
     return {"status": "success"}
 
