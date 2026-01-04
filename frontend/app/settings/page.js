@@ -23,7 +23,7 @@ export default function SettingsPage() {
         smtp_password: '',
         smtp_from: ''
     });
-    const [updateInfo, setUpdateInfo] = useState({ current: '1.1.0', latest: '', update_available: false, checking: false });
+    const [updateInfo, setUpdateInfo] = useState({ current: '1.0.15', latest: '', update_available: false, checking: false });
 
     const fetchLogs = async () => {
         try {
