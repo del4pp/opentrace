@@ -177,6 +177,8 @@ export const translations = {
                 update: "Update",
                 showDemo: "Show Demo Data",
                 showDemoDesc: "Display demo credentials on login page",
+                skipLanding: "Skip Landing Page",
+                skipLandingDesc: "Redirect directly to login instead of homepage",
                 resetPassword: "Restore Password",
                 resetSuccess: "Reset link sent to email"
             },
@@ -652,6 +654,8 @@ export const translations = {
                 update: "Оновити",
                 showDemo: "Показувати Demo-дані",
                 showDemoDesc: "Відображати дані для входу на сторінці логіну",
+                skipLanding: "Пропускати лендінг",
+                skipLandingDesc: "Перенаправляти відразу на вхід замість головної",
                 resetPassword: "Відновити пароль",
                 resetSuccess: "Посилання для скидання надіслано на пошту"
             },
