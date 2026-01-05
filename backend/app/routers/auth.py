@@ -53,7 +53,7 @@ async def login(creds: schemas.LoginRequest, db: AsyncSession = Depends(get_db))
     redis_client.delete(email_key)
     redis_client.delete(block_key)
     
-    access_token = create_access_token(data={"sub": user.id})
+    access_token = create_access_token(data={"sub": str(user.id)})
         
     return {
         "user_id": user.id,

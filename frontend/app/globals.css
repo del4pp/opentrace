@@ -33,12 +33,20 @@ body {
   background: var(--bg);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  height: 100vh;
+  overflow: hidden;
+}
+
+html {
+  height: 100vh;
+  overflow: hidden;
 }
 
 /* Base Layout */
 .app-shell {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
 }
 
 /* Sidebar Styling */
@@ -60,11 +68,13 @@ body {
 .main-view {
   flex: 1;
   margin-left: var(--sidebar-w);
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   background: var(--bg);
   transition: margin-left 0.3s ease;
+  overflow-y: auto;
+  position: relative;
 }
 
 /* Mobile Responsive Adjustments */
@@ -517,13 +527,16 @@ input:checked+.slider:before {
 .thin-scrollbar::-webkit-scrollbar {
   width: 4px;
 }
+
 .thin-scrollbar::-webkit-scrollbar-track {
   background: transparent;
 }
+
 .thin-scrollbar::-webkit-scrollbar-thumb {
   background: #cbd5e1;
   border-radius: 10px;
 }
+
 .thin-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
@@ -531,6 +544,7 @@ input:checked+.slider:before {
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;

@@ -30,6 +30,7 @@ def create_access_token(data: dict, expires_delta: timedelta = None):
     return encoded_jwt
 
 async def verify_token(token: str, db: AsyncSession):
+    print(f"Verifying token (first 10 chars): {token[:10]}...")
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -39,24 +40,43 @@ async def verify_token(token: str, db: AsyncSession):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         user_id: int = payload.get("sub")
+        print(f"Token sub: {user_id}")
         if user_id is None:
+            print("Token missing 'sub' field")
             raise credentials_exception
-    except JWTError:
+    except JWTError as e:
+        print(f"JWT Decode error: {str(e)}")
         raise credentials_exception
     
-    result = await db.execute(select(models.User).where(models.User.id == user_id))
+    result = await db.execute(select(models.User).where(models.User.id == int(user_id)))
     user = result.scalar_one_or_none()
     if user is None:
+        print(f"User with ID {user_id} not found in DB")
         raise credentials_exception
+    print(f"Auth success for user: {user.email}")
     return user
 
 async def get_current_user(
     credentials: HTTPAuthorizationCredentials = Depends(security),
     db: AsyncSession = Depends(lambda: None)
 ):
-    from ..database import get_db
-    async for session in get_db():
-        return await verify_token(credentials.credentials, session)
+    from .database import get_db
+    # Prefer getting DB from FastAPI dependency if available, otherwise manual
+    session = db
+    if session is None:
+        async for s in get_db():
+            session = s
+            break
+            
+    try:
+        user = await verify_token(credentials.credentials, session)
+        return user
+    except HTTPException as e:
+        print(f"Auth failed: {e.detail}")
+        raise e
+    except Exception as e:
+        print(f"Auth unexpected error: {str(e)}")
+        raise HTTPException(status_code=401, detail="Internal auth error")
 
 async def check_admin_auth(password: str, db: AsyncSession) -> bool:
     # Try the default admin first
