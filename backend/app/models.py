@@ -121,3 +121,11 @@ class Segment(Base):
     resource_id = Column(Integer, ForeignKey("resources.id"))
     config = Column(Text) # JSON string with conditions DSL
     created_at = Column(DateTime, default=datetime.utcnow)
+
+class Report(Base):
+    __tablename__ = "reports"
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String)
+    resource_id = Column(Integer, ForeignKey("resources.id"))
+    config = Column(Text) # JSON string with report settings (type, metrics, filters)
+    created_at = Column(DateTime, default=datetime.utcnow)

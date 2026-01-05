@@ -89,11 +89,11 @@ export default function Layout({ children }) {
         {
             title: t('nav.groups.analytics'),
             items: [
-                { label: t('nav.analytics'), href: '/analytics' },
                 { label: t('nav.funnels'), href: '/funnels' },
                 { label: t('nav.retention'), href: '/retention' },
                 { label: t('nav.segments'), href: '/segments' },
                 { label: t('nav.timeline'), href: '/users/timeline' },
+                { label: t('reports.title'), href: '/reports' },
                 { label: t('nav.live'), href: '/live' },
             ]
         },
@@ -144,7 +144,7 @@ export default function Layout({ children }) {
                     )}
                 </div>
 
-                <nav style={{ flex: 1 }}>
+                <nav style={{ flex: 1, overflowY: 'auto', paddingBottom: '20px' }} className="thin-scrollbar">
                     {navGroups.map((group, gidx) => (
                         <div key={gidx} style={{ marginBottom: '32px' }}>
                             <div style={{
@@ -171,32 +171,53 @@ export default function Layout({ children }) {
                     ))}
                 </nav>
 
-                <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '16px', padding: '0 8px' }}>
+                {/* Sticky Bottom Section */}
+                <div style={{
+                    padding: '20px 8px 8px',
+                    borderTop: '1px solid var(--border)',
+                    background: 'var(--bg)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '12px'
+                }}>
                     <div className="lang-switcher">
                         {['en', 'ua', 'pl', 'de'].map(l => (
                             <button
                                 key={l}
                                 className={`lang-btn ${lang === l ? 'active' : ''}`}
                                 onClick={() => setLanguage(l)}
-                                style={{ minWidth: '35px' }}
+                                style={{ minWidth: '35px', height: '32px' }}
                             >
                                 {l.toUpperCase()}
                             </button>
                         ))}
                     </div>
 
-                    <div style={{ padding: '16px', background: 'var(--card-bg)', border: '1px solid var(--border)', borderRadius: '12px' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                            <div style={{ fontSize: '12px', fontWeight: 800 }}>Admin User</div>
-                            <button
-                                onClick={handleLogout}
-                                style={{ background: 'none', border: 'none', color: '#f43f5e', fontSize: '11px', fontWeight: 700, cursor: 'pointer', padding: 0 }}
-                            >
-                                Logout
-                            </button>
-                        </div>
-                        <div style={{ fontSize: '10px', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>System Administrator</div>
-                    </div>
+                    <a
+                        href="https://github.com/del4pp/opentrace"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '8px',
+                            padding: '10px',
+                            background: '#f8fafc',
+                            border: '1px solid #e2e8f0',
+                            borderRadius: '10px',
+                            textDecoration: 'none',
+                            color: '#475569',
+                            fontSize: '11px',
+                            fontWeight: 700,
+                            transition: 'all 0.2s'
+                        }}
+                        onMouseOver={(e) => { e.currentTarget.style.background = '#f1f5f9'; e.currentTarget.style.borderColor = '#cbd5e1'; }}
+                        onMouseOut={(e) => { e.currentTarget.style.background = '#f8fafc'; e.currentTarget.style.borderColor = '#e2e8f0'; }}
+                    >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                        Main Version (Repo)
+                    </a>
                 </div>
             </aside>
 
@@ -231,8 +252,47 @@ export default function Layout({ children }) {
                                 )}
                             </select>
                         </div>
-                        <div suppressHydrationWarning style={{ fontSize: '13px', fontWeight: 600, color: '#64748b' }}>
-                            {new Date().toLocaleDateString()}
+                        <div suppressHydrationWarning style={{ fontSize: '12px', fontWeight: 700, color: '#64748b', display: 'flex', alignItems: 'center', gap: '32px' }}>
+                            <span>{new Date().toLocaleDateString()}</span>
+
+                            <div style={{
+                                paddingLeft: '24px',
+                                borderLeft: '1px solid #e2e8f0',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '16px',
+                                cursor: 'pointer',
+                                padding: '8px 16px',
+                                borderRadius: '12px',
+                                transition: 'all 0.2s'
+                            }}
+                                className="profile-trigger"
+                                onMouseOver={(e) => e.currentTarget.style.background = '#f8fafc'}
+                                onMouseOut={(e) => e.currentTarget.style.background = 'none'}
+                            >
+                                <div style={{ textAlign: 'right' }}>
+                                    <div style={{ fontSize: '13px', fontWeight: 800, color: '#0f172a' }}>Admin User</div>
+                                    <div style={{ fontSize: '10px', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>System Administrator</div>
+                                </div>
+                                <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'linear-gradient(135deg, #0f172a, #334155)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '14px', fontWeight: 700 }}>
+                                    AD
+                                </div>
+                                <button
+                                    onClick={(e) => { e.stopPropagation(); handleLogout(); }}
+                                    style={{
+                                        background: 'none',
+                                        border: 'none',
+                                        color: '#f43f5e',
+                                        fontSize: '12px',
+                                        fontWeight: 800,
+                                        cursor: 'pointer',
+                                        padding: '4px 8px',
+                                        marginLeft: '8px'
+                                    }}
+                                >
+                                    Logout
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

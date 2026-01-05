@@ -259,12 +259,38 @@ export const translations = {
                 content: "Use this section to slice and dice your traffic data. Filters allow you to focus on specific sources, devices, or timeframes."
             },
             metrics: {
-                visitors: "Visitors",
-                views: "Page Views",
-                conv: "Conversion %",
-                arpu: "ARPU",
-                cac: "CAC",
-                roi: "ROI"
+                visitors: "Unique Visitors",
+                pageviews: "Total Events",
+                bounce: "Bounce Rate",
+                duration: "Avg. Duration"
+            },
+            reports: {
+                title: "Custom Reports",
+                subtitle: "Build and save your own data visualizations.",
+                create: "Create Report",
+                builder: "Report Builder",
+                select: "Select Report",
+                metric: "Primary Metric",
+                dimension: "X-Axis Dimension",
+                period: "Analysis Period",
+                save: "Save Report",
+                adhoc: "Run Ad-hoc",
+                metrics: {
+                    users: "Unique Users",
+                    sessions: "Total Sessions",
+                    events: "Total Events"
+                },
+                dimensions: {
+                    date: "Timeline (Date)",
+                    source: "Traffic Source",
+                    country: "Geography (Country)",
+                    device: "Device Type",
+                    event_name: "Event Name"
+                },
+                help: {
+                    title: "Custom Reporting",
+                    content: "Design personalized reports by combining any metric with a categorical dimension. Perfect for deep-diving into specific traffic segments or hardware distribution."
+                }
             },
             dateRange: "Date Range",
             startDate: "Start Date",
@@ -818,6 +844,34 @@ export const translations = {
                 map: "Глобальна присутність",
                 recent: "Останні події",
                 waiting: "Очікуємо на події..."
+            }
+        },
+        reports: {
+            title: "Кастомні звіти",
+            subtitle: "Створюйте та зберігайте власні візуалізації даних.",
+            create: "Створити звіт",
+            builder: "Конструктор звітів",
+            select: "Вибрати звіт",
+            metric: "Основна метрика",
+            dimension: "Розріз даних",
+            period: "Період аналізу",
+            save: "Зберегти звіт",
+            adhoc: "Запустити",
+            metrics: {
+                users: "Унікальні користувачі",
+                sessions: "Всього сесій",
+                events: "Всього подій"
+            },
+            dimensions: {
+                date: "Хронологія (Дата)",
+                source: "Джерело трафіку",
+                country: "Географія (Країна)",
+                device: "Тип пристрою",
+                event_name: "Назва події"
+            },
+            help: {
+                title: "Кастомна звітність",
+                content: "Секція для створення персоналізованих графіків. Вибирайте будь-яку метрику та поєднуйте її з потрібним виміром для глибокого аналізу трафіку."
             }
         },
         custom: {
