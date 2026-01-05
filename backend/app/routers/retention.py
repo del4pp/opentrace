@@ -45,10 +45,11 @@ async def get_retention(
     if device: filters.append(f"AND device = '{device}'")
     filter_clause = " ".join(filters)
 
-    event_clause = f"AND event_type = '{event}'" if event != "any" else ""
+    event_clause = f" AND event_type = '{event}'" if event != "any" else ""
 
     # 3. Build Retention Conditions for 30 days
-    conditions = ", ".join([f"toDate(t.timestamp) = c.first_event_date + {i}" for i in range(max_days + 1)])
+    # We move event filtering INSIDE the condition so we don't filter out users from the JOIN result
+    conditions = ", ".join([f"toDate(t.timestamp) = c.first_event_date + {i} {event_clause}" for i in range(max_days + 1)])
 
     # 4. Master Query
     query = f"""
@@ -68,8 +69,7 @@ async def get_retention(
         ) as stats
     FROM cohort_users c
     LEFT JOIN telemetry t ON t.session_id = c.identity AND t.resource_id = '{rid}'
-    WHERE toDate(t.timestamp) <= c.first_event_date + INTERVAL {max_days} DAY
-      {event_clause}
+    WHERE t.timestamp IS NULL OR toDate(t.timestamp) <= c.first_event_date + INTERVAL {max_days} DAY
     GROUP BY cohort_date
     ORDER BY cohort_date DESC
     """

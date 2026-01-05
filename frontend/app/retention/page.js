@@ -6,7 +6,7 @@ import HelpButton from '../../components/HelpButton';
 
 export default function RetentionPage() {
     const { t } = useTranslation();
-    const { activeResource } = useResource();
+    const { selectedResource } = useResource();
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [dateFrom, setDateFrom] = useState(
@@ -18,16 +18,16 @@ export default function RetentionPage() {
     const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
 
     useEffect(() => {
-        if (activeResource) {
+        if (selectedResource) {
             fetchRetention();
         }
-    }, [activeResource, dateFrom, dateTo]);
+    }, [selectedResource, dateFrom, dateTo]);
 
     const fetchRetention = async () => {
         setLoading(true);
         try {
             const res = await fetch(
-                `${API_URL}/analytics/retention?resource_id=${activeResource.id}&date_from=${dateFrom}&date_to=${dateTo}`
+                `${API_URL}/analytics/retention?resource_id=${selectedResource.id}&date_from=${dateFrom}&date_to=${dateTo}`
             );
             if (res.ok) {
                 const json = await res.json();
