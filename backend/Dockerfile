@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     postgresql-client \
     curl \
-    && curl https://clickhouse.sh | sh \
+    && curl https://clickhouse.com/ | sh \
     && mv clickhouse /usr/local/bin/ \
     && rm -rf /var/lib/apt/lists/*
 
