@@ -6,7 +6,6 @@ import json
 from .. import models
 from ..database import get_db, get_clickhouse_client
 from pydantic import BaseModel
-from .auth import verify_token
 from ..segmentation import generate_segment_query, generate_segment_count_query
 
 router = APIRouter(tags=["Segments"])
@@ -26,8 +25,7 @@ class SegmentResponse(BaseModel):
 @router.post("/api/segments", response_model=SegmentResponse)
 async def create_segment(
     seg: SegmentCreate,
-    db: AsyncSession = Depends(get_db),
-    token: str = Depends(verify_token)
+    db: AsyncSession = Depends(get_db)
 ):
     new_segment = models.Segment(
         name=seg.name,
@@ -49,8 +47,7 @@ async def create_segment(
 @router.get("/api/segments", response_model=List[SegmentResponse])
 async def get_segments(
     resource_id: int,
-    db: AsyncSession = Depends(get_db),
-    token: str = Depends(verify_token)
+    db: AsyncSession = Depends(get_db)
 ):
     res = await db.execute(select(models.Segment).where(models.Segment.resource_id == resource_id))
     segments = res.scalars().all()
@@ -69,8 +66,7 @@ async def get_segments(
 @router.get("/api/segments/{id}/preview")
 async def preview_segment(
     id: int,
-    db: AsyncSession = Depends(get_db),
-    token: str = Depends(verify_token)
+    db: AsyncSession = Depends(get_db)
 ):
     res = await db.execute(select(models.Segment).where(models.Segment.id == id))
     segment = res.scalars().first()
@@ -98,8 +94,7 @@ async def preview_segment(
 @router.delete("/api/segments/{id}")
 async def delete_segment(
     id: int,
-    db: AsyncSession = Depends(get_db),
-    token: str = Depends(verify_token)
+    db: AsyncSession = Depends(get_db)
 ):
     res = await db.execute(select(models.Segment).where(models.Segment.id == id))
     segment = res.scalars().first()
