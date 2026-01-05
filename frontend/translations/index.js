@@ -13,6 +13,7 @@ export const translations = {
             customAnalytics: "Custom Reports",
             funnels: "Conversion Funnels",
             retention: "Retention & Cohorts",
+            segments: "Behavioral Segments",
             docs: "API Documentation",
             signIn: "Sign In",
             features: "Features",
@@ -485,6 +486,22 @@ export const translations = {
                 content: "Cohort analysis groups users based on their first visit date and tracks how many return over the next 30 days. High retention is the best indicator of product-market fit and long-term user value."
             }
         },
+        segments: {
+            title: "Behavioral Segments",
+            subtitle: "Create dynamic groups of users based on actions",
+            create: "New Segment",
+            builder: "Segment Builder",
+            name: "Segment Name",
+            logic: "Logic",
+            addCondition: "Add Condition",
+            addGroup: "Add Group",
+            preview: "Segment Preview",
+            matches: "users match this segment",
+            help: {
+                title: "Advanced Segmentation",
+                content: "Segments allow you to filter users by their behavior. For example, you can find users who 'Opened the app' but 'Did not purchase' within 3 days. These segments can be used for deep-dive analysis or targeting."
+            }
+        },
         common: {
             actions: "Actions",
             delete: "Delete"
@@ -504,6 +521,7 @@ export const translations = {
             customAnalytics: "Звіти",
             funnels: "Воронки конверсій",
             retention: "Утримання (Когорти)",
+            segments: "Сегменти поведінки",
             docs: "Документація API",
             signIn: "Увійти",
             features: "Можливості",
@@ -974,6 +992,22 @@ export const translations = {
             help: {
                 title: "Когортний аналіз",
                 content: "Когортний аналіз групує користувачів за датою їхнього першого візиту та відстежує, скільки з них повертаються протягом наступних 30 днів. Високе утримання — найкращий показник відповідності продукту ринку та довгострокової цінності користувачів."
+            }
+        },
+        segments: {
+            title: "Сегменти поведінки",
+            subtitle: "Створюйте динамічні групи користувачів на основі дій",
+            create: "Новий сегмент",
+            builder: "Конструктор сегментів",
+            name: "Назва сегмента",
+            logic: "Логіка",
+            addCondition: "Додати умову",
+            addGroup: "Додати групу",
+            preview: "Попередній перегляд",
+            matches: "користувачів відповідають сегменту",
+            help: {
+                title: "Просунута сегментація",
+                content: "Сегменти дозволяють фільтрувати користувачів за їхньою поведінкою. Наприклад, ви можете знайти тих, хто 'Відкрив додаток', але 'Не здійснив покупку' протягом 3 днів."
             }
         },
         common: {

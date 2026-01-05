@@ -113,3 +113,11 @@ class FunnelStep(Base):
     is_goal = Column(Boolean, default=False) # Mark as the main conversion step
 
     funnel = relationship("Funnel", back_populates="steps")
+
+class Segment(Base):
+    __tablename__ = "segments"
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String)
+    resource_id = Column(Integer, ForeignKey("resources.id"))
+    config = Column(Text) # JSON string with conditions DSL
+    created_at = Column(DateTime, default=datetime.utcnow)
