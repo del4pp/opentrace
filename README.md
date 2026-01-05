@@ -4,19 +4,23 @@
 
 ## Universal • Self-Hosted • Privacy-First • High-Performance Analytics Platform
 
-[![Version](https://img.shields.io/badge/Version-1.1.6--stable-blue?style=for-the-badge&logo=git&logoColor=white)](https://github.com/del4pp/opentrace/releases)
+[![Stable Version](https://img.shields.io/badge/Stable-v1.0.5-green?style=for-the-badge&logo=git&logoColor=white)](https://github.com/del4pp/opentrace/releases/tag/v1.0.5)
+[![Test Version](https://img.shields.io/badge/Test-v1.1.6--beta-orange?style=for-the-badge&logo=git&logoColor=white)](https://github.com/del4pp/opentrace/releases)
 [![License](https://img.shields.io/badge/License-AGPL%20v3-green?style=for-the-badge&logo=gnu&logoColor=white)](LICENSE)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://docs.docker.com/get-docker/)
-[![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
-[![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org)
-[![Made in Ukraine](https://img.shields.io/badge/Made%20in-Ukraine-ffd700?labelColor=0057b7&style=for-the-badge&logo=ukraine&logoColor=white)]()
 
-### 🆕 What's New in v1.1.6
+### 🧪 What's New in v1.1.6 (Testing)
 - **👤 User Timeline**: Interactive chronological event stream for deep-dive behavioral analysis.
 - **👥 Behavioral Segments**: Advanced user grouping with complex AND/OR conditional logic.
 - **📉 Retention & Cohorts**: Visual heatmap analysis of user return rates over 30 days.
 - **🛡️ Native Backup & Restore**: One-click system snapshots for Postgres & ClickHouse data safety.
 - **⚡ Live View 2.0**: Enhanced real-time monitoring with instant Session ID copying.
+
+### ✅ Stable Features (v1.0.5)
+- **📊 Real-time Dashboard**: Live traffic monitoring and geographic map.
+- **📈 Conversion Funnels**: Multi-step path analysis and drop-off tracking.
+- **⚙️ Dynamic SMTP**: Email server configuration for password recovery.
+- **🚀 One-click Updates**: Automated system update trigger.
 
 ### Tech Stack
 ![Next.js](https://img.shields.io/badge/Frontend-Next.js-black?style=flat-square&logo=next.js&logoColor=white)
@@ -229,12 +233,14 @@ requests.post('https://analytics.yourdomain.com/api/v1/event', json={
 | **Privacy** | ✅ 100% | ❌ Tracks everything | ⚠️ Opt-in | ✅ Good |
 | **Self-Hosted** | ✅ Yes | ❌ No | ✅ Yes | ⚠️ Cloud only |
 | **User Timeline** | ✅ Native | ⚠️ Limited | ✅ Yes | ❌ No |
+| **Funnels** | ✅ Multi-step | ✅ Yes | ✅ Yes | ⚠️ Basic |
 | **Segments** | ✅ Advanced | ⚠️ Sampling | ✅ Yes | ⚠️ Basic |
 | **Retention** | ✅ Cohort Map | ✅ Yes | ✅ Yes | ❌ No |
+| **Live View** | ✅ Real-time | ⚠️ Delayed | ✅ Yes | ⚠️ Limited |
 | **Cookie-free** | ✅ Yes | ❌ Cookies required | ❌ Cookies | ✅ Yes |
-| **Local Backup**| ✅ One-click | ❌ No | ⚠️ Manual | ❌ No |
-| **Telegram Bots** | ✅ Yes | ❌ No | ❌ No | ❌ No |
-| **Mobile SDK** | ✅ Python/JS | ❌ Limited | ⚠️ Basic | ❌ No |
+| **Backup System**| ✅ Native | ❌ No | ⚠️ Manual | ❌ No |
+| **Telegram Bots** | 🚧 Coming Soon | ❌ No | ❌ No | ❌ No |
+| **Mobile SDK** | 🚧 Planning | ❌ Limited | ⚠️ Basic | ❌ No |
 
 </div>
 
@@ -245,7 +251,7 @@ requests.post('https://analytics.yourdomain.com/api/v1/event', json={
 <div align="center">
 
 **🎯 Universal Analytics Platform**  
-*Track websites, mobile apps, Telegram bots, and custom events - all in one place*
+*Track websites and custom backend events - Mobile & Bot SDKs coming soon*
 
 [![Dashboard Preview](https://img.shields.io/badge/📊_Dashboard-Real--Time-00D4AA?style=for-the-badge)](https://demo.opentrace.dev)
 [![World Map](https://img.shields.io/badge/🗺️_Live_Map-Real--Time-FF6B6B?style=for-the-badge)](https://demo.opentrace.dev/live)
