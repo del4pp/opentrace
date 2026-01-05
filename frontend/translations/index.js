@@ -14,6 +14,7 @@ export const translations = {
             funnels: "Conversion Funnels",
             retention: "Retention & Cohorts",
             segments: "Behavioral Segments",
+            timeline: "User Timeline",
             docs: "API Documentation",
             signIn: "Sign In",
             features: "Features",
@@ -502,6 +503,19 @@ export const translations = {
                 content: "Segments allow you to filter users by their behavior. For example, you can find users who 'Opened the app' but 'Did not purchase' within 3 days. These segments can be used for deep-dive analysis or targeting."
             }
         },
+        timeline: {
+            title: "User Timeline",
+            subtitle: "Full event stream for a specific identity",
+            searchPlaceholder: "Enter user_id or session_id...",
+            noIdentity: "Please enter an identity to view the timeline",
+            eventContext: "Event Context",
+            properties: "Properties",
+            noEvents: "No events found for this user",
+            help: {
+                title: "User Timeline Analysis",
+                content: "Timeline provides a granular view of every action a specific user took. Use this for debugging user issues, understanding conversion paths, or preparing for high-touch sales calls."
+            }
+        },
         common: {
             actions: "Actions",
             delete: "Delete"
@@ -522,6 +536,7 @@ export const translations = {
             funnels: "Воронки конверсій",
             retention: "Утримання (Когорти)",
             segments: "Сегменти поведінки",
+            timeline: "Хронологія користувача",
             docs: "Документація API",
             signIn: "Увійти",
             features: "Можливості",
@@ -1008,6 +1023,19 @@ export const translations = {
             help: {
                 title: "Просунута сегментація",
                 content: "Сегменти дозволяють фільтрувати користувачів за їхньою поведінкою. Наприклад, ви можете знайти тих, хто 'Відкрив додаток', але 'Не здійснив покупку' протягом 3 днів."
+            }
+        },
+        timeline: {
+            title: "Хронологія користувача",
+            subtitle: "Повний потік подій для конкретного ідентифікатора",
+            searchPlaceholder: "Введіть user_id або session_id...",
+            noIdentity: "Будь ласка, введіть ідентифікатор для перегляду хронології",
+            eventContext: "Контекст події",
+            properties: "Властивості",
+            noEvents: "Подій для цього користувача не знайдено",
+            help: {
+                title: "Аналіз хронології",
+                content: "Timeline надає детальний перегляд кожної дії конкретного користувача. Використовуйте це для дебагу, розуміння шляхів конверсії або підготовки до продажів."
             }
         },
         common: {
