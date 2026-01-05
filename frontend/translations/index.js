@@ -195,6 +195,17 @@ export const translations = {
                 from: "From Email",
                 save: "Save SMTP Settings"
             },
+            backup: {
+                title: "Backup & Recovery",
+                desc: "Create full snapshots of your database and telemetry",
+                create: "Create New Backup",
+                history: "Backup History",
+                restore: "Restore",
+                restoreConfirm: "ATTENTION: This will overwrite your current database with the selected backup. Proceed?",
+                size: "Size",
+                date: "Date",
+                noBackups: "No backups found."
+            },
             updates: {
                 title: "Update Management",
                 desc: "Keep your system secure and up to date",
@@ -412,14 +423,14 @@ export const translations = {
             success: "Password reset successfully!"
         },
         auth: {
-            title: "Authorization",
-            subtitle: "Log in to your control panel",
-            email: "Email Address",
-            password: "Your Password",
-            submit: "Sign In",
-            login_failed: "Login failed",
-            invalid_credentials: "Invalid credentials",
-            forgot_link: "Forgot password?",
+            title: "Identity Access",
+            email: "Service Email",
+            password: "Security Token",
+            submit: "Authenticate",
+            help: {
+                title: "Identity Access",
+                content: "Use your administrator credentials to access the secure area. Default credentials for demo are admin@opentrace.io / admin."
+            },
             login: {
                 title: "Authorization",
                 subtitle: "Log in to your control panel",
@@ -716,6 +727,17 @@ export const translations = {
                 pass: "Пароль",
                 from: "Email відправника",
                 save: "Зберегти налаштування SMTP"
+            },
+            backup: {
+                title: "Резервне копіювання",
+                desc: "Створення повних знімків бази даних та телеметрії",
+                create: "Створити копію",
+                history: "Історія бекапів",
+                restore: "Відновити",
+                restoreConfirm: "УВАГА: Це перезапише поточну базу даних вибраним бекапом. Продовжити?",
+                size: "Розмір",
+                date: "Дата",
+                noBackups: "Бекапів не знайдено."
             },
             updates: {
                 title: "Керування оновленнями",

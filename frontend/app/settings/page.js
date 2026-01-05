@@ -24,6 +24,8 @@ export default function SettingsPage() {
         smtp_from: ''
     });
     const [updateInfo, setUpdateInfo] = useState({ current: '1.1.0', latest: '', update_available: false, checking: false });
+    const [backups, setBackups] = useState([]);
+    const [backupLoading, setBackupLoading] = useState(false);
 
     const fetchLogs = async () => {
         try {
@@ -59,6 +61,7 @@ export default function SettingsPage() {
     useEffect(() => {
         fetchLogs();
         fetchSettings();
+        fetchBackups();
         const interval = setInterval(fetchLogs, 10000);
 
         // Load user email from localstorage for initial state
@@ -162,6 +165,49 @@ export default function SettingsPage() {
         } catch (err) {
             console.error("Failed to save SMTP settings:", err);
             alert('Error saving SMTP settings');
+        }
+    };
+
+    const fetchBackups = async () => {
+        try {
+            const res = await fetch(`${API_URL}/system/backups`);
+            if (res.ok) setBackups(await res.json());
+        } catch (err) {
+            console.error("Failed to fetch backups:", err);
+        }
+    };
+
+    const handleCreateBackup = async () => {
+        setBackupLoading(true);
+        try {
+            const res = await fetch(`${API_URL}/system/backup`, { method: 'POST' });
+            if (res.ok) {
+                alert("Backup created successfully!");
+                fetchBackups();
+            } else {
+                alert("Backup failed. Check disk space or permissions.");
+            }
+        } catch (err) {
+            console.error("Backup error:", err);
+            alert("Connection error during backup.");
+        } finally {
+            setBackupLoading(false);
+        }
+    };
+
+    const handleRestore = async (filename) => {
+        if (!window.confirm(t('settings.backup.restoreConfirm'))) return;
+
+        try {
+            const res = await fetch(`${API_URL}/system/restore?filename=${filename}`, { method: 'POST' });
+            if (res.ok) {
+                alert("System restored successfully! Please refresh or restart.");
+                window.location.reload();
+            } else {
+                alert("Restore failed.");
+            }
+        } catch (err) {
+            console.error("Restore error:", err);
         }
     };
 
@@ -484,6 +530,72 @@ export default function SettingsPage() {
                         </div>
                     </div>
                 </div>
+
+                {/* Backup & Recovery Section */}
+                <div className="card-stat" style={{ padding: '32px', gridColumn: '1 / -1' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
+                        <div>
+                            <h3 style={{ fontSize: '18px', fontWeight: 700, margin: 0 }}>{t('settings.backup.title')}</h3>
+                            <p style={{ fontSize: '13px', color: '#64748b' }}>{t('settings.backup.desc')}</p>
+                        </div>
+                        <button
+                            className="btn-premium"
+                            onClick={handleCreateBackup}
+                            disabled={backupLoading}
+                            style={{ background: backupLoading ? '#cbd5e1' : '#6366f1' }}
+                        >
+                            {backupLoading ? 'Creating snapshot...' : t('settings.backup.create')}
+                        </button>
+                    </div>
+
+                    <div style={{ background: '#f8fafc', borderRadius: '16px', border: '1px solid #e2e8f0', minHeight: '100px' }}>
+                        {backups.length === 0 ? (
+                            <div style={{ padding: '40px', textAlign: 'center', color: '#94a3b8', fontSize: '14px' }}>
+                                {t('settings.backup.noBackups')}
+                            </div>
+                        ) : (
+                            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                                <thead>
+                                    <tr style={{ borderBottom: '1px solid #e2e8f0' }}>
+                                        <th style={{ textAlign: 'left', padding: '16px', fontSize: '12px', color: '#64748b' }}>{t('settings.backup.date')}</th>
+                                        <th style={{ textAlign: 'left', padding: '16px', fontSize: '12px', color: '#64748b' }}>{t('settings.backup.size')}</th>
+                                        <th style={{ textAlign: 'right', padding: '16px', fontSize: '12px', color: '#64748b' }}>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {backups.map((b, i) => (
+                                        <tr key={i} style={{ borderBottom: i === backups.length - 1 ? 'none' : '1px solid #f1f5f9' }}>
+                                            <td style={{ padding: '16px', fontSize: '14px' }}>
+                                                {new Date(b.created_at).toLocaleString()}
+                                            </td>
+                                            <td style={{ padding: '16px', fontSize: '14px', color: '#64748b' }}>
+                                                {(b.size / 1024 / 1024).toFixed(2)} MB
+                                            </td>
+                                            <td style={{ padding: '16px', textAlign: 'right' }}>
+                                                <button
+                                                    onClick={() => handleRestore(b.name)}
+                                                    style={{
+                                                        background: '#fff',
+                                                        border: '1px solid #e2e8f0',
+                                                        padding: '6px 16px',
+                                                        borderRadius: '8px',
+                                                        cursor: 'pointer',
+                                                        fontSize: '12px',
+                                                        fontWeight: 700,
+                                                        color: '#2563eb'
+                                                    }}
+                                                >
+                                                    {t('settings.backup.restore')}
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        )}
+                    </div>
+                </div>
+
                 <div className="card-stat" style={{ padding: '32px', gridColumn: '1 / -1' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
                         <div>

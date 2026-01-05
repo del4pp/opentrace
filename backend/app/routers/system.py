@@ -4,6 +4,11 @@ from sqlalchemy import select
 from ..database import get_db
 from .. import models
 from pydantic import BaseModel
+import os
+import asyncio
+import subprocess
+from datetime import datetime
+from ..database import get_clickhouse_client
 
 router = APIRouter(tags=["System"])
 
@@ -111,3 +116,80 @@ async def reset_password(db: AsyncSession = Depends(get_db)):
         pass
         
     return {"status": "success", "message": f"Reset link sent to {user.email}"}
+@router.post("/api/system/backup")
+async def create_backup():
+    backup_dir = "/app/data/backups"
+    os.makedirs(backup_dir, exist_ok=True)
+    
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    backup_path = f"{backup_dir}/backup_{timestamp}.tar.gz"
+    
+    try:
+        # 1. Postgres Dump
+        pg_file = "/tmp/pg.sql"
+        env = os.environ.copy()
+        env["PGPASSWORD"] = os.getenv("POSTGRES_PASSWORD", "password")
+        subprocess.run([
+            "pg_dump", "-h", "postgres", "-U", os.getenv("POSTGRES_USER", "admin"),
+            "-d", os.getenv("POSTGRES_DB", "teleboard"), "-f", pg_file
+        ], env=env, check=True)
+        
+        # 2. ClickHouse Dump (Structure + Data)
+        ch_file = "/tmp/ch.sql"
+        ch_cmd = f"clickhouse-client --host clickhouse --user {os.getenv('CLICKHOUSE_USER', 'admin')} --password '{os.getenv('CLICKHOUSE_PASSWORD', '')}' --query \"SHOW CREATE TABLE telemetry; SELECT * FROM telemetry FORMAT SQLInsert;\" > {ch_file}"
+        subprocess.run(ch_cmd, shell=True, check=True)
+        
+        # 3. Compress
+        subprocess.run(["tar", "-czf", backup_path, "-C", "/tmp", "pg.sql", "ch.sql"], check=True)
+        
+        # Clean up tmp
+        os.remove(pg_file)
+        os.remove(ch_file)
+        
+        return {"status": "success", "file": os.path.basename(backup_path)}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Backup failed: {str(e)}")
+
+@router.get("/api/system/backups")
+async def list_backups():
+    backup_dir = "/app/data/backups"
+    if not os.path.exists(backup_dir):
+        return []
+    
+    files = os.listdir(backup_dir)
+    backups = []
+    for f in files:
+        if f.endswith(".tar.gz"):
+            stat = os.stat(os.path.join(backup_dir, f))
+            backups.append({
+                "name": f,
+                "size": stat.st_size,
+                "created_at": datetime.fromtimestamp(stat.st_ctime).isoformat()
+            })
+    return sorted(backups, key=lambda x: x['created_at'], reverse=True)
+
+@router.post("/api/system/restore")
+async def restore_backup(filename: str):
+    backup_path = f"/app/data/backups/{filename}"
+    if not os.path.exists(backup_path):
+        raise HTTPException(status_code=404, detail="Backup file not found")
+        
+    try:
+        # 1. Extract
+        subprocess.run(["tar", "-xzf", backup_path, "-C", "/tmp"], check=True)
+        
+        # 2. Restore Postgres
+        env = os.environ.copy()
+        env["PGPASSWORD"] = os.getenv("POSTGRES_PASSWORD", "password")
+        subprocess.run([
+            "psql", "-h", "postgres", "-U", os.getenv("POSTGRES_USER", "admin"),
+            "-d", os.getenv("POSTGRES_DB", "teleboard"), "-f", "/tmp/pg.sql"
+        ], env=env, check=True)
+        
+        # 3. Restore ClickHouse
+        ch_cmd = f"clickhouse-client --host clickhouse --user {os.getenv('CLICKHOUSE_USER', 'admin')} --password '{os.getenv('CLICKHOUSE_PASSWORD', '')}' --multiquery < /tmp/ch.sql"
+        subprocess.run(ch_cmd, shell=True, check=True)
+        
+        return {"status": "success", "message": "System restored successfully. A restart is recommended."}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Restore failed: {str(e)}")
