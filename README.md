@@ -4,18 +4,19 @@
 
 ## Universal • Self-Hosted • Privacy-First • High-Performance Analytics Platform
 
-[![Version](https://img.shields.io/badge/Version-1.0.5--stable-blue?style=for-the-badge&logo=git&logoColor=white)](https://github.com/del4pp/opentrace/releases)
+[![Version](https://img.shields.io/badge/Version-1.1.6--stable-blue?style=for-the-badge&logo=git&logoColor=white)](https://github.com/del4pp/opentrace/releases)
 [![License](https://img.shields.io/badge/License-AGPL%20v3-green?style=for-the-badge&logo=gnu&logoColor=white)](LICENSE)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://docs.docker.com/get-docker/)
 [![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 [![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org)
 [![Made in Ukraine](https://img.shields.io/badge/Made%20in-Ukraine-ffd700?labelColor=0057b7&style=for-the-badge&logo=ukraine&logoColor=white)]()
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=for-the-badge&logo=github)](https://github.com/del4pp/opentrace/pulls)
 
-### 🆕 What's New in v1.0.5
-- **Automated Updates**: One-click system updates directly from the settings panel.
-- **SMTP Integration**: Dynamic configuration of email servers for password recovery.
-- **Enhanced Security**: Improved JWT handling and login throttling.
+### 🆕 What's New in v1.1.6
+- **👤 User Timeline**: Interactive chronological event stream for deep-dive behavioral analysis.
+- **👥 Behavioral Segments**: Advanced user grouping with complex AND/OR conditional logic.
+- **📉 Retention & Cohorts**: Visual heatmap analysis of user return rates over 30 days.
+- **🛡️ Native Backup & Restore**: One-click system snapshots for Postgres & ClickHouse data safety.
+- **⚡ Live View 2.0**: Enhanced real-time monitoring with instant Session ID copying.
 
 ### Tech Stack
 ![Next.js](https://img.shields.io/badge/Frontend-Next.js-black?style=flat-square&logo=next.js&logoColor=white)
@@ -227,13 +228,13 @@ requests.post('https://analytics.yourdomain.com/api/v1/event', json={
 |---------|-----------|------------------|--------|-----------|
 | **Privacy** | ✅ 100% | ❌ Tracks everything | ⚠️ Opt-in | ✅ Good |
 | **Self-Hosted** | ✅ Yes | ❌ No | ✅ Yes | ⚠️ Cloud only |
+| **User Timeline** | ✅ Native | ⚠️ Limited | ✅ Yes | ❌ No |
+| **Segments** | ✅ Advanced | ⚠️ Sampling | ✅ Yes | ⚠️ Basic |
+| **Retention** | ✅ Cohort Map | ✅ Yes | ✅ Yes | ❌ No |
 | **Cookie-free** | ✅ Yes | ❌ Cookies required | ❌ Cookies | ✅ Yes |
-| **Real-time** | ✅ Yes | ⚠️ Delayed | ✅ Yes | ⚠️ Limited |
-| **Cost** | ✅ Free | ❌ Paid for features | ✅ Free | ⚠️ Paid plans |
-| **Data Export** | ✅ Full | ❌ Limited | ✅ Full | ❌ No |
-| **GDPR Ready** | ✅ Yes | ❌ No | ✅ Yes | ✅ Yes |
+| **Local Backup**| ✅ One-click | ❌ No | ⚠️ Manual | ❌ No |
 | **Telegram Bots** | ✅ Yes | ❌ No | ❌ No | ❌ No |
-| **Mobile SDK** | 🚧 Soon | ❌ Limited | ⚠️ Basic | ❌ No |
+| **Mobile SDK** | ✅ Python/JS | ❌ Limited | ⚠️ Basic | ❌ No |
 
 </div>
 
@@ -317,10 +318,12 @@ requests.post('https://analytics.yourdomain.com/api/v1/event', json={
 ### 🎯 **Powerful Tracking Engine**
 | Feature | Description | Performance |
 |---------|-------------|-------------|
-| 🌐 **Web Analytics** | `<2KB` script, zero cookies | Real-time |
-| 🔧 **Custom Events** | REST API for anything | Unlimited sources |
-| 📊 **Real-time Dashboards** | Live metrics & charts | Instant updates |
-| 🗺️ **World Map** | Live visitor locations | Geographic insights |
+| 👤 **User Timeline** | Detailed chronological stream of every user action. | Instant deep-dive |
+| 👥 **Behavioral Segments** | Custom grouping by behaviors and properties. | Real-time resolution |
+| 📉 **Retention Heatmaps** | Cohort analysis of user loyalty and churn. | 30-day tracking |
+| 🛡️ **Backup System** | Native PG/CH snapshots for total data safety. | One-click safety |
+| 🌐 **Web Analytics** | <2KB script, zero cookies, GDPR by design. | Sub-ms tracking |
+| 🔧 **Custom Events** | High-performance REST API for any platform. | 100k+ EPS |
 
 ### 🚀 **High-Performance Architecture**
 | Component | Technology | Purpose |
