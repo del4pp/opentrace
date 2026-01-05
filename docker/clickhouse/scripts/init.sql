@@ -38,3 +38,27 @@ CREATE TABLE IF NOT EXISTS system_logs (
     timestamp DateTime64(3) DEFAULT now64()
 ) ENGINE = MergeTree()
 ORDER BY (timestamp, level);
+
+-- Retention & Cohorts Infrastructure
+CREATE TABLE IF NOT EXISTS user_cohorts
+(
+    resource_id String,
+    identity String,
+    first_event_date Date,
+    source String,
+    country String,
+    device String
+) ENGINE = ReplacingMergeTree()
+ORDER BY (resource_id, identity);
+
+CREATE MATERIALIZED VIEW IF NOT EXISTS mv_user_cohorts
+TO user_cohorts
+AS SELECT
+    resource_id,
+    session_id as identity,
+    min(toDate(timestamp)) as first_event_date,
+    any(utm_source) as source,
+    any(lang) as country, -- mapped to lang as proxy in this schema
+    'Desktop' as device -- default as schema doesn't have explicit device yet
+FROM telemetry
+GROUP BY resource_id, identity;

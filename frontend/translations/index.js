@@ -12,6 +12,7 @@ export const translations = {
             live: "Live View",
             customAnalytics: "Custom Reports",
             funnels: "Conversion Funnels",
+            retention: "Retention & Cohorts",
             docs: "API Documentation",
             signIn: "Sign In",
             features: "Features",
@@ -471,6 +472,19 @@ export const translations = {
                 isGoal: "Goal?"
             }
         },
+        retention: {
+            title: "Retention & Cohorts",
+            subtitle: "User return rates over 30 days",
+            cohort: "Cohort",
+            size: "Size",
+            day: "Day",
+            percentage: "Percentage",
+            absolute: "Absolute",
+            help: {
+                title: "Cohort Analysis",
+                content: "Cohort analysis groups users based on their first visit date and tracks how many return over the next 30 days. High retention is the best indicator of product-market fit and long-term user value."
+            }
+        },
         common: {
             actions: "Actions",
             delete: "Delete"
@@ -489,6 +503,7 @@ export const translations = {
             live: "Live-режим",
             customAnalytics: "Звіти",
             funnels: "Воронки конверсій",
+            retention: "Утримання (Когорти)",
             docs: "Документація API",
             signIn: "Увійти",
             features: "Можливості",
@@ -946,6 +961,19 @@ export const translations = {
                 value: "Значення (URL або подія)",
                 stepValue: "Цінність ($)",
                 isGoal: "Ціль?"
+            }
+        },
+        retention: {
+            title: "Утримання та Когорти",
+            subtitle: "Показники повернення користувачів протягом 30 днів",
+            cohort: "Когорта",
+            size: "Розмір",
+            day: "День",
+            percentage: "Відсотки",
+            absolute: "Абсолютно",
+            help: {
+                title: "Когортний аналіз",
+                content: "Когортний аналіз групує користувачів за датою їхнього першого візиту та відстежує, скільки з них повертаються протягом наступних 30 днів. Високе утримання — найкращий показник відповідності продукту ринку та довгострокової цінності користувачів."
             }
         },
         common: {
