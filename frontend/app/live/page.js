@@ -186,16 +186,40 @@ export default function LivePage() {
                                 </div>
                             ) : (
                                 liveData.events.map((e, i) => (
-                                    <div key={i} style={{ display: 'flex', gap: '12px', fontSize: '12px' }}>
+                                    <div key={i} style={{ display: 'flex', gap: '12px', fontSize: '12px', background: '#fff', padding: '12px', borderRadius: '12px', border: '1px solid #f1f5f9' }}>
                                         <div style={{ width: '4px', background: e.type === 'page_view' ? '#2563eb' : '#10b981', borderRadius: '4px' }}></div>
                                         <div style={{ flex: 1, overflow: 'hidden' }}>
-                                            <div style={{ fontWeight: 700 }}>{e.type}</div>
-                                            <div style={{ color: '#64748b', fontSize: '11px', fontFamily: 'monospace', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                                <div style={{ fontWeight: 700 }}>{e.type}</div>
+                                                <div style={{ color: '#94a3b8', fontSize: '10px' }}>
+                                                    {new Date(e.ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+                                                </div>
+                                            </div>
+                                            <div style={{ color: '#64748b', fontSize: '11px', fontFamily: 'monospace', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', marginTop: '4px' }}>
                                                 {e.url || e.ip}
                                             </div>
-                                        </div>
-                                        <div style={{ color: '#94a3b8', fontSize: '10px' }}>
-                                            {new Date(e.ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+                                            {e.session_id && (
+                                                <div
+                                                    title="Click to copy Session ID"
+                                                    onClick={() => {
+                                                        navigator.clipboard.writeText(e.session_id);
+                                                        alert("Session ID copied!");
+                                                    }}
+                                                    style={{
+                                                        marginTop: '8px',
+                                                        fontSize: '9px',
+                                                        color: '#3b82f6',
+                                                        background: '#eff6ff',
+                                                        padding: '2px 6px',
+                                                        borderRadius: '4px',
+                                                        cursor: 'pointer',
+                                                        display: 'inline-block',
+                                                        fontWeight: 700
+                                                    }}
+                                                >
+                                                    🆔 {e.session_id.substring(0, 12)}...
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                 ))

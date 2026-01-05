@@ -119,10 +119,10 @@ export default function SegmentsPage() {
         <div style={{ padding: '24px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
                 <div>
-                    <h1 style={{ fontSize: '24px', fontWeight: 700, margin: 0 }}>
+                    <h1 style={{ fontSize: '24px', fontWeight: 700, margin: 0, display: 'flex', alignItems: 'center' }}>
                         {t('segments.title')} <HelpButton section="segments" />
                     </h1>
-                    <p style={{ color: '#64748b', fontSize: '14px' }}>{t('segments.subtitle')}</p>
+                    <p style={{ color: '#64748b', fontSize: '14px', marginTop: '4px' }}>{t('segments.subtitle')}</p>
                 </div>
                 {!isBuilderOpen && (
                     <button

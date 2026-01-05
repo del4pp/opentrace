@@ -221,9 +221,9 @@ async def get_live_analytics(resource_id: Optional[str] = None, db: AsyncSession
              params['rid'] = resource_id
         where_clause = "WHERE " + " AND ".join(filters)
         
-        events_query = f"SELECT event_type, url, ip, timestamp FROM telemetry {where_clause} ORDER BY timestamp DESC LIMIT 20"
+        events_query = f"SELECT event_type, url, ip, timestamp, session_id FROM telemetry {where_clause} ORDER BY timestamp DESC LIMIT 20"
         events_res = client.query(events_query, parameters=params).result_rows
-        recent_events = [{"type": r[0], "url": r[1], "ip": r[2], "ts": r[3]} for r in events_res] if events_res else []
+        recent_events = [{"type": r[0], "url": r[1], "ip": r[2], "ts": r[3], "session_id": r[4]} for r in events_res] if events_res else []
 
         locations = [{"lat": 50.45, "lng": 30.52, "city": "User", "count": count}] if count > 0 else []
         return {"online": count, "locations": locations, "events": recent_events}

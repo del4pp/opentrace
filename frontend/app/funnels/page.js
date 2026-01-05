@@ -41,7 +41,7 @@ export default function FunnelsPage() {
                 <div>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <h1 style={{ fontSize: '32px', fontWeight: 800 }}>{t('funnels.title')}</h1>
-                        <HelpButton title={t('funnels.help.title')} content={t('funnels.help.content')} />
+                        <HelpButton section="funnels" />
                     </div>
                     <p className="subtitle">{t('funnels.subtitle')}</p>
                 </div>

@@ -65,7 +65,7 @@ export default function AnalyticsPage() {
             <div style={{ marginBottom: '40px' }}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     <h1>{t('analytics.title')}</h1>
-                    <HelpButton title={t('analytics.help.title')} content={t('analytics.help.content')} />
+                    <HelpButton section="analytics" />
                 </div>
                 <p className="subtitle">{t('analytics.subtitle')}</p>
             </div>

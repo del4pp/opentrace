@@ -62,7 +62,7 @@ export default function UserTimelinePage() {
     return (
         <div style={{ padding: '24px', maxWidth: '1000px', margin: '0 auto' }}>
             <div style={{ marginBottom: '32px' }}>
-                <h1 style={{ fontSize: '28px', fontWeight: 800, margin: '0 0 8px 0', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <h1 style={{ fontSize: '28px', fontWeight: 800, margin: '0 0 8px 0', display: 'flex', alignItems: 'center' }}>
                     {t('timeline.title')} <HelpButton section="timeline" />
                 </h1>
                 <p style={{ color: '#64748b', fontSize: '15px' }}>{t('timeline.subtitle')}</p>
