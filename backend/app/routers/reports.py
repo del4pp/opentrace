@@ -24,6 +24,8 @@ class AdhocReportReq(BaseModel):
     start_date: str
     end_date: str
     filters: Optional[List[dict]] = []
+    metric_field: Optional[str] = None
+    aggregation: Optional[str] = 'count'
 
 @router.get("/api/reports")
 async def list_reports(resource_id: int, db: AsyncSession = Depends(get_db), current_user: models.User = Depends(get_current_user)):
@@ -70,12 +72,11 @@ async def create_report(req: ReportCreate, db: AsyncSession = Depends(get_db), c
 @router.post("/api/reports/adhoc")
 async def get_adhoc_data(req: AdhocReportReq, db: AsyncSession = Depends(get_db), current_user: models.User = Depends(get_current_user)):
     try:
-        print(f"[REPORTS] Adhoc request: metric={req.metric}, dim={req.dimension}, resource={req.resource_id}")
-        # 1. Resolve resource_id to UID
+        print(f"[REPORTS] Adhoc request: metric={req.metric}, field={req.metric_field}, agg={req.aggregation}, dim={req.dimension}")
+        
         res_obj = await db.execute(select(models.Resource).where(models.Resource.id == req.resource_id))
         resource = res_obj.scalars().first()
         if not resource:
-            print(f"[REPORTS] Resource {req.resource_id} not found")
             raise HTTPException(status_code=404, detail="Resource not found")
         
         rid = resource.uid
@@ -87,6 +88,19 @@ async def get_adhoc_data(req: AdhocReportReq, db: AsyncSession = Depends(get_db)
             metric_ql = "uniqExact(session_id)"
         elif req.metric == 'sessions':
             metric_ql = "uniq(session_id)"
+        elif req.metric == 'revenue' or req.metric_field:
+            field = req.metric_field or 'amount'
+            agg = req.aggregation or 'sum'
+            if agg == 'sum':
+                metric_ql = f"sum(JSONExtractFloat(payload, '{field}'))"
+            elif agg == 'avg':
+                metric_ql = f"avg(JSONExtractFloat(payload, '{field}'))"
+            elif agg == 'min':
+                metric_ql = f"min(JSONExtractFloat(payload, '{field}'))"
+            elif agg == 'max':
+                metric_ql = f"max(JSONExtractFloat(payload, '{field}'))"
+            else:
+                metric_ql = "count(*)"
             
         # 3. Build Dimensions QL
         dim_map = {
@@ -131,8 +145,7 @@ async def get_adhoc_data(req: AdhocReportReq, db: AsyncSession = Depends(get_db)
         
         print(f"[REPORTS] Executing CH query: {query}")
         result = client.query(query).result_rows
-        formatted = [{"label": str(r[0]), "value": r[1]} for r in result]
-        print(f"[REPORTS] Found {len(formatted)} rows")
+        formatted = [{"label": str(r[0]), "value": round(float(r[1]), 2) if r[1] is not None else 0} for r in result]
         return {"data": formatted}
     except Exception as e:
         print(f"[REPORTS] Adhoc execution error: {str(e)}")
@@ -149,6 +162,4 @@ async def delete_report(report_id: int, db: AsyncSession = Depends(get_db), curr
             await db.commit()
         return {"status": "success"}
     except Exception as e:
-        print(f"[REPORTS] Delete error: {str(e)}")
-        traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))

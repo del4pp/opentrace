@@ -181,11 +181,7 @@ export default function UserTimelinePage() {
                                                         Source: {event.utm_source}
                                                     </span>
                                                 )}
-                                                {event.ip && (
-                                                    <span style={{ fontSize: '11px', background: '#fef2f2', padding: '2px 8px', borderRadius: '4px', color: '#dc2626', border: '1px solid #fee2e2' }}>
-                                                        IP: {event.ip}
-                                                    </span>
-                                                )}
+
                                             </div>
 
                                             {event.payload && event.payload !== '{}' && (

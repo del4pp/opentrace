@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, Request, BackgroundTasks, Request as FastAPIRequest
+from pydantic import BaseModel
 from typing import Optional, List
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
@@ -325,3 +326,75 @@ async def get_heatmap_data(resource_id: str, url: str):
             except: continue
         return all_clicks
     except: return []
+
+class CustomEventReq(BaseModel):
+    name: str
+    project_id: str # maps to resource_id (uid)
+    payload: Optional[dict] = {}
+
+@router.post("/api/v1/event")
+async def track_custom_event(req: CustomEventReq, request: FastAPIRequest):
+    try:
+        client = get_clickhouse_client()
+        payload = {
+            "resource_id": req.project_id,
+            "event_type": req.name,
+            "url": "server-side",
+            "referrer": "",
+            "user_agent": request.headers.get("user-agent", "server-sdk"),
+            "ip": request.client.host,
+            "screen_res": "",
+            "lang": "",
+            "utm_source": "",
+            "utm_medium": "",
+            "utm_campaign": "",
+            "fbclid": "",
+            "ttclid": "",
+            "session_id": f"ss_{random.randint(1000,9999)}",
+            "payload": json.dumps(req.payload),
+            "timestamp": datetime.datetime.now()
+        }
+        client.insert("telemetry", [list(payload.values())], column_names=list(payload.keys()))
+        return {"status": "success"}
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
+
+@router.get("/api/analytics/live-feed")
+async def get_live_feed(resource_id: str):
+    try:
+        client = get_clickhouse_client()
+        # Get last 50 events excluding heatmap data which is bulky
+        query = """
+            SELECT 
+                timestamp, 
+                event_type, 
+                url, 
+                utm_source, 
+                session_id, 
+                payload 
+            FROM telemetry 
+            WHERE resource_id = {rid:String} 
+              AND event_type != 'heatmap_batch'
+            ORDER BY timestamp DESC 
+            LIMIT 50
+        """
+        res = client.query(query, parameters={"rid": resource_id}).result_rows
+        formatted = []
+        for r in res:
+            try:
+                p = json.loads(r[5])
+            except:
+                p = {}
+                
+            formatted.append({
+                "timestamp": r[0].isoformat(),
+                "type": r[1],
+                "url": r[2],
+                "source": r[3] or "direct",
+                "sid": r[4],
+                "payload": p
+            })
+        return formatted
+    except Exception as e:
+        print(f"Live feed error: {e}")
+        return []

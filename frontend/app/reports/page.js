@@ -63,7 +63,9 @@ export default function ReportsPage() {
                     dimension: activeDimension,
                     start_date: startDate,
                     end_date: endDate,
-                    filters: filters
+                    filters: filters.filter(f => !f.key.startsWith('_')),
+                    metric_field: activeMetric === 'revenue' ? 'amount' : (filters.find(f => f.key === '_metric_field')?.value || null),
+                    aggregation: activeMetric === 'revenue' ? 'sum' : (filters.find(f => f.key === '_metric_agg')?.value || 'count')
                 })
             });
 
@@ -184,8 +186,55 @@ export default function ReportsPage() {
                                     <option value="users">{t('reports.metrics.users')}</option>
                                     <option value="sessions">{t('reports.metrics.sessions')}</option>
                                     <option value="events">{t('reports.metrics.events')}</option>
+                                    <option value="revenue">Revenue (Sum Amount)</option>
+                                    <option value="custom_payload">Custom Payload Field</option>
                                 </select>
                             </div>
+
+                            {activeMetric === 'custom_payload' && (
+                                <div style={{ background: '#f8fafc', padding: '12px', borderRadius: '8px', border: '1px solid #e2e8f0', marginBottom: '12px' }}>
+                                    <div className="form-field" style={{ marginBottom: '8px' }}>
+                                        <label style={{ fontSize: '10px' }}>Field Key (e.g. amount, duration)</label>
+                                        <input
+                                            className="input-lux"
+                                            style={{ padding: '6px' }}
+                                            placeholder="amount"
+                                            value={filters.find(f => f.key === '_metric_field')?.value || ''}
+                                            onChange={(e) => {
+                                                const val = e.target.value;
+                                                const existing = filters.find(f => f.key === '_metric_field');
+                                                if (existing) {
+                                                    updateFilter(filters.indexOf(existing), 'value', val);
+                                                } else {
+                                                    setFilters([...filters, { key: '_metric_field', value: val }]);
+                                                }
+                                            }}
+                                        />
+                                    </div>
+                                    <div className="form-field" style={{ marginBottom: 0 }}>
+                                        <label style={{ fontSize: '10px' }}>Aggregation</label>
+                                        <select
+                                            className="input-lux"
+                                            style={{ padding: '6px' }}
+                                            value={filters.find(f => f.key === '_metric_agg')?.value || 'sum'}
+                                            onChange={(e) => {
+                                                const val = e.target.value;
+                                                const existing = filters.find(f => f.key === '_metric_agg');
+                                                if (existing) {
+                                                    updateFilter(filters.indexOf(existing), 'value', val);
+                                                } else {
+                                                    setFilters([...filters, { key: '_metric_agg', value: val }]);
+                                                }
+                                            }}
+                                        >
+                                            <option value="sum">Sum</option>
+                                            <option value="avg">Average</option>
+                                            <option value="min">Min</option>
+                                            <option value="max">Max</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            )}
                             <div className="form-field">
                                 <label>{t('reports.dimension')}</label>
                                 <select className="input-lux" value={activeDimension} onChange={(e) => setActiveDimension(e.target.value)}>

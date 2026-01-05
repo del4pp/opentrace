@@ -92,8 +92,8 @@ export default function Layout({ children }) {
                 { label: t('nav.funnels'), href: '/funnels' },
                 { label: t('nav.retention'), href: '/retention' },
                 { label: t('nav.segments'), href: '/segments' },
-                { label: t('nav.timeline'), href: '/users/timeline' },
                 { label: t('reports.title'), href: '/reports' },
+                { label: t('nav.explorer'), href: '/explorer' },
                 { label: t('nav.live'), href: '/live' },
             ]
         },

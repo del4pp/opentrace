@@ -201,3 +201,4 @@ init_*run_sync.py
 restore_user.py
 restore_user_now.py
 data/
+standalone_store/

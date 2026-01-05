@@ -187,7 +187,7 @@ export default function LivePage() {
                             ) : (
                                 liveData.events.map((e, i) => (
                                     <div key={i} style={{ display: 'flex', gap: '12px', fontSize: '12px', background: '#fff', padding: '12px', borderRadius: '12px', border: '1px solid #f1f5f9' }}>
-                                        <div style={{ width: '4px', background: e.type === 'page_view' ? '#2563eb' : '#10b981', borderRadius: '4px' }}></div>
+                                        {/* <div style={{ width: '4px', background: e.type === 'page_view' ? '#2563eb' : '#10b981', borderRadius: '4px' }}></div> */}
                                         <div style={{ flex: 1, overflow: 'hidden' }}>
                                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                                 <div style={{ fontWeight: 700 }}>{e.type}</div>
