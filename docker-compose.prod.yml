@@ -64,6 +64,7 @@ services:
       SECRET_KEY: ${SECRET_KEY}
     volumes:
       - ./data/updates:/app/data/updates
+      - ./data/backups:/app/data/backups
     depends_on:
       - postgres
       - clickhouse

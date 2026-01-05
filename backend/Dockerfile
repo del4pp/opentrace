@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
     curl \
     && curl https://clickhouse.com/ | sh \
     && mv clickhouse /usr/local/bin/ \
+    && ln -s /usr/local/bin/clickhouse /usr/local/bin/clickhouse-client \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .

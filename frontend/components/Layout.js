@@ -89,7 +89,6 @@ export default function Layout({ children }) {
         {
             title: t('nav.groups.analytics'),
             items: [
-                { label: t('nav.views'), href: '/dashboard' },
                 { label: t('nav.analytics'), href: '/analytics' },
                 { label: t('nav.funnels'), href: '/funnels' },
                 { label: t('nav.retention'), href: '/retention' },
@@ -123,7 +122,9 @@ export default function Layout({ children }) {
         <div className="app-shell">
             {/* Mobile Header */}
             <div className="mobile-header" style={{ background: 'var(--bg)', borderBottom: '1px solid var(--border)' }}>
-                <h2 style={{ fontSize: '18px', fontWeight: 900, margin: 0 }}>OpenTrace</h2>
+                <Link href="/dashboard" style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <h2 style={{ fontSize: '18px', fontWeight: 900, margin: 0 }}>OpenTrace</h2>
+                </Link>
                 <button
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                     style={{ background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer' }}
@@ -135,7 +136,9 @@ export default function Layout({ children }) {
             {/* Sidebar-Lux */}
             <aside className={`sidebar-lux ${isMobileMenuOpen ? 'open' : ''}`}>
                 <div style={{ padding: '0 16px 40px', fontSize: '22px', fontWeight: 900, letterSpacing: '-0.06em', color: 'var(--text)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    OpenTrace
+                    <Link href="/dashboard" style={{ textDecoration: 'none', color: 'inherit' }}>
+                        OpenTrace
+                    </Link>
                     {isMobileMenuOpen && (
                         <button onClick={() => setIsMobileMenuOpen(false)} style={{ background: 'none', border: 'none', fontSize: '18px', display: 'none' }}>✕</button>
                     )}
