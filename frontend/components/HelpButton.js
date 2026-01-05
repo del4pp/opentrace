@@ -55,7 +55,7 @@ export default function HelpButton({ title, content, section }) {
                                 ×
                             </button>
                         </div>
-                        <div style={{ color: '#475569', fontSize: '15px', lineHeight: '1.6', background: '#f8fafc', padding: '24px', borderRadius: '16px', border: '1px solid #e2e8f0' }}>
+                        <div style={{ color: '#475569', fontSize: '14px', lineHeight: '1.7', background: '#f8fafc', padding: '24px', borderRadius: '16px', border: '1px solid #e2e8f0' }}>
                             {helpContent}
                         </div>
                         <button
