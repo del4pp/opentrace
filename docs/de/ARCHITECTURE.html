@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,13 +14,46 @@
             line-height: 1.6;
             color: #333;
         }
-        .header { text-align: center; margin-bottom: 40px; }
-        .logo { font-size: 2em; font-weight: bold; color: #2563eb; margin-bottom: 10px; }
-        .nav { background: #f8fafc; padding: 15px; border-radius: 8px; margin-bottom: 30px; }
-        .nav a { color: #2563eb; text-decoration: none; margin: 0 15px; }
-        .nav a:hover { text-decoration: underline; }
-        .section { margin: 40px 0; }
-        .section h2 { color: #1f2937; border-bottom: 2px solid #e5e7eb; padding-bottom: 10px; }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-size: 2em;
+            font-weight: bold;
+            color: #2563eb;
+            margin-bottom: 10px;
+        }
+
+        .nav {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .nav a {
+            color: #2563eb;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+
+        .nav a:hover {
+            text-decoration: underline;
+        }
+
+        .section {
+            margin: 40px 0;
+        }
+
+        .section h2 {
+            color: #1f2937;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 10px;
+        }
+
         .architecture-diagram {
             background: white;
             border: 2px solid #e5e7eb;
@@ -28,6 +62,7 @@
             margin: 20px 0;
             text-align: center;
         }
+
         .service {
             display: inline-block;
             background: #f8fafc;
@@ -37,29 +72,130 @@
             margin: 10px;
             min-width: 120px;
         }
-        .service.frontend { border-color: #10b981; background: #f0fdf4; }
-        .service.backend { border-color: #3b82f6; background: #eff6ff; }
-        .service.database { border-color: #f59e0b; background: #fffbeb; }
-        .service.cache { border-color: #ef4444; background: #fee2e2; }
-        .service.analytics { border-color: #8b5cf6; background: #faf5ff; }
-        .flow { color: #6b7280; font-style: italic; margin: 20px 0; }
-        .component-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 20px 0; }
-        .component { background: #f8fafc; padding: 20px; border-radius: 8px; border-left: 4px solid #2563eb; }
-        .component h3 { margin-top: 0; color: #1f2937; }
-        .tech-stack { background: #1f2937; color: #e5e7eb; padding: 20px; border-radius: 8px; margin: 20px 0; }
-        .tech-item { display: inline-block; background: #374151; padding: 8px 12px; border-radius: 6px; margin: 4px; font-size: 0.9em; }
-        .data-flow { background: #f0f9ff; border-left-color: #0ea5e9; padding: 15px; border-radius: 8px; margin: 15px 0; }
-        .security { background: #f0fdf4; border-left-color: #10b981; padding: 15px; border-radius: 8px; margin: 15px 0; }
-        .performance { background: #fef3c7; border-left-color: #f59e0b; padding: 15px; border-radius: 8px; margin: 15px 0; }
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e5e7eb; }
-        th { background: #f8fafc; font-weight: 600; }
-        .code-block { background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #10b981; margin: 15px 0; font-family: 'Monaco', 'Menlo', monospace; }
+
+        .service.frontend {
+            border-color: #10b981;
+            background: #f0fdf4;
+        }
+
+        .service.backend {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+
+        .service.database {
+            border-color: #f59e0b;
+            background: #fffbeb;
+        }
+
+        .service.cache {
+            border-color: #ef4444;
+            background: #fee2e2;
+        }
+
+        .service.analytics {
+            border-color: #8b5cf6;
+            background: #faf5ff;
+        }
+
+        .flow {
+            color: #6b7280;
+            font-style: italic;
+            margin: 20px 0;
+        }
+
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .component {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #2563eb;
+        }
+
+        .component h3 {
+            margin-top: 0;
+            color: #1f2937;
+        }
+
+        .tech-stack {
+            background: #1f2937;
+            color: #e5e7eb;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .tech-item {
+            display: inline-block;
+            background: #374151;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin: 4px;
+            font-size: 0.9em;
+        }
+
+        .data-flow {
+            background: #f0f9ff;
+            border-left-color: #0ea5e9;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .security {
+            background: #f0fdf4;
+            border-left-color: #10b981;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .performance {
+            background: #fef3c7;
+            border-left-color: #f59e0b;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        th {
+            background: #f8fafc;
+            font-weight: 600;
+        }
+
+        .code-block {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #10b981;
+            margin: 15px 0;
+            font-family: 'Monaco', 'Menlo', monospace;
+        }
     </style>
 </head>
+
 <body>
     <div class="header">
-        <div class="logo">🏗️ OpenTrace Analytics - Architektur-Überblick</div>
+        <div class="logo">🏗️ OpenTrace Analytics - Architektur-Überblick (v1.1.5)</div>
         <div style="color: #6b7280;">Technische Architektur und Design-Entscheidungen</div>
     </div>
 
@@ -75,7 +211,10 @@
 
     <div id="overview" class="section">
         <h2>Systemübersicht</h2>
-        <p>OpenTrace Analytics ist eine <strong>datenschutzorientierte, selbst gehostete Analytics-Plattform</strong>, die für Hochgeschwindigkeits-Datensammlung und -analyse entwickelt wurde. Das System ist designed, um Millionen von Ereignissen pro Tag zu verarbeiten, während die vollständige Datensouveränität gewahrt bleibt.</p>
+        <p>OpenTrace Analytics ist eine <strong>datenschutzorientierte, selbst gehostete Analytics-Plattform</strong>,
+            die für Hochgeschwindigkeits-Datensammlung und -analyse entwickelt wurde. Das System ist designed, um
+            Millionen von Ereignissen pro Tag zu verarbeiten, während die vollständige Datensouveränität gewahrt bleibt.
+        </p>
 
         <div class="architecture-diagram">
             <div class="service frontend">
@@ -146,7 +285,105 @@
                     <li>Kompression und Partitionierung</li>
                 </ul>
             </div>
+
+            <div class="component">
+                <h3>🗄️ PostgreSQL</h3>
+                <ul>
+                    <li>Speicherung von Metadaten und Konfigurationen</li>
+                    <li>ACID-Transaktionen</li>
+                    <li>Komplexe Beziehungen</li>
+                    <li>Benutzerverwaltung</li>
+                    <li>Ressourcen- und Kampagnendaten</li>
+                </ul>
+            </div>
+
+            <div class="component">
+                <h3>🚦 Redis</h3>
+                <ul>
+                    <li>Echtzeit-Sitzungstracking</li>
+                    <li>Caching von Live-Aktivitäten</li>
+                    <li>Schnelle Key-Value-Operationen</li>
+                    <li>Pub/Sub für Echtzeit-Updates</li>
+                    <li>Sitzungsmanagement</li>
+                </ul>
+            </div>
+
+            <div class="component">
+                <h3>🌐 Nginx</h3>
+                <ul>
+                    <li>Reverse Proxy für Produktion</li>
+                    <li>SSL/TLS-Terminierung</li>
+                    <li>Lastverteilung</li>
+                    <li>Bereitstellung statischer Dateien</li>
+                    <li>Sicherheits-Header</li>
+                </ul>
+            </div>
         </div>
+    </div>
+
+    <div id="data-flow" class="section">
+        <h2>Datenfluss-Architektur</h2>
+
+        <div class="data-flow">
+            <h3>📥 Datensammlung</h3>
+            <ol>
+                <li><strong>Benutzer besucht Website</strong> → ot.js-Skript lädt</li>
+                <li><strong>Tracking-Skript sammelt Daten</strong> → Seitenaufrufe, UTM-Parameter, User Agent</li>
+                <li><strong>POST an /api/v1/collect</strong> → FastAPI empfängt Daten</li>
+                <li><strong>Datenvalidierung & Verarbeitung</strong> → Backend validiert und formatiert</li>
+                <li><strong>Parallele Speicherung</strong>:
+                    <ul>
+                        <li>ClickHouse: Analytics-Ereignisse (hohes Volumen)</li>
+                        <li>Redis: Live-Sitzungstracking (5 Min. TTL)</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+        <div class="data-flow">
+            <h3>📊 Datenabruf & BI</h3>
+            <ol>
+                <li><strong>Dashboard/Berichtsanfrage</strong> → Frontend ruft /api/dashboard/stats oder
+                    /api/reports/adhoc auf</li>
+                <li><strong>BI-Engine-Verarbeitung (v1.1.5+)</strong>:
+                    <ul>
+                        <li>ClickHouse: Aggregiert Roh-Telemetrie basierend auf benutzerdefinierten Metrikfeldern (z.B.
+                            'amount')</li>
+                        <li>JSON-Extraktion: Native ClickHouse-Funktionen extrahieren Werte aus der 'payload'-Spalte
+                        </li>
+                        <li>PostgreSQL: Ruft Benutzersegmente und Filterkonfigurationen ab</li>
+                    </ul>
+                </li>
+                <li><strong>Datenaggregation</strong> → Backend kombiniert Ergebnisse und berechnet Metriken (SUM/AVG)
+                </li>
+                <li><strong>Visualisierung</strong> → Daten werden an Next.js zur Darstellung in interaktiven Diagrammen
+                    gesendet</li>
+            </ol>
+        </div>
+
+        <h3>Datenbankschema</h3>
+        <table>
+            <tr>
+                <th>Datenbank</th>
+                <th>Tabellen</th>
+                <th>Zweck</th>
+            </tr>
+            <tr>
+                <td>PostgreSQL</td>
+                <td>users, resources, campaigns, events, tags, dashboards</td>
+                <td>Konfiguration und Metadaten</td>
+            </tr>
+            <tr>
+                <td>ClickHouse</td>
+                <td>telemetry, system_logs, events</td>
+                <td>Analytics-Daten und Logs</td>
+            </tr>
+            <tr>
+                <td>Redis</td>
+                <td>ot:active:* Keys</td>
+                <td>Echtzeit-Sitzungstracking</td>
+            </tr>
+        </table>
     </div>
 
     <div id="tech-stack" class="section">
@@ -154,22 +391,47 @@
 
         <div class="tech-stack">
             <h3>Frontend-Technologien</h3>
-            <div class="tech-item">React 19</div>
-            <div class="tech-item">Next.js 16</div>
+            <div class="tech-item">React 18</div>
+            <div class="tech-item">Next.js 14</div>
             <div class="tech-item">Tailwind CSS</div>
             <div class="tech-item">D3.js</div>
+            <div class="tech-item">React Simple Maps</div>
+            <div class="tech-item">Context API</div>
 
             <h3 style="margin-top: 20px;">Backend-Technologien</h3>
             <div class="tech-item">Python 3.11</div>
             <div class="tech-item">FastAPI</div>
             <div class="tech-item">SQLAlchemy</div>
             <div class="tech-item">Pydantic</div>
+            <div class="tech-item">PassLib</div>
+            <div class="tech-item">Redis-py</div>
 
             <h3 style="margin-top: 20px;">Datenbank-Technologien</h3>
             <div class="tech-item">PostgreSQL 15</div>
             <div class="tech-item">ClickHouse 23</div>
             <div class="tech-item">Redis 7</div>
+            <div class="tech-item">ClickHouse Connect</div>
+            <div class="tech-item">AsyncPG</div>
+
+            <h3 style="margin-top: 20px;">DevOps & Bereitstellung</h3>
+            <div class="tech-item">Docker</div>
+            <div class="tech-item">Docker Compose</div>
+            <div class="tech-item">Nginx</div>
+            <div class="tech-item">Let's Encrypt</div>
+            <div class="tech-item">Bash</div>
         </div>
+    </div>
+
+    <div id="deployment" class="section">
+        <h2>Bereitstellungsarchitektur</h2>
+
+        <h3>Entwicklungsumgebung</h3>
+        <div class="code-block">docker-compose up -d</div>
+        <p>Startet alle Dienste lokal mit Hot-Reload und Dev-Einstellungen.</p>
+
+        <h3>Produktionsumgebung</h3>
+        <div class="code-block">docker-compose -f docker-compose.prod.yml up -d</div>
+        <p>Inklusive Nginx Reverse Proxy, SSL-Unterstützung und optimierten Einstellungen.</p>
     </div>
 
     <div id="security" class="section">
@@ -186,8 +448,10 @@
         </div>
     </div>
 
-    <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #6b7280;">
+    <div
+        style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #6b7280;">
         <a href="../README.html" style="color: #2563eb;">← Zurück zur Installationsanleitung</a>
     </div>
 </body>
+
 </html>

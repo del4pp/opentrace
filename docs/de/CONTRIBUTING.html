@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,44 +14,167 @@
             line-height: 1.6;
             color: #333;
         }
-        .header { text-align: center; margin-bottom: 40px; }
-        .logo { font-size: 2em; font-weight: bold; color: #2563eb; margin-bottom: 10px; }
-        .nav { background: #f8fafc; padding: 15px; border-radius: 8px; margin-bottom: 30px; }
-        .nav a { color: #2563eb; text-decoration: none; margin: 0 15px; }
-        .nav a:hover { text-decoration: underline; }
-        .section { margin: 40px 0; }
-        .section h2 { color: #1f2937; border-bottom: 2px solid #e5e7eb; padding-bottom: 10px; }
-        .important { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; border-radius: 8px; margin: 20px 0; }
-        .success { background: #f0fdf4; border-left: 4px solid #10b981; padding: 15px; border-radius: 8px; margin: 20px 0; }
-        .code-block { background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #10b981; margin: 15px 0; font-family: 'Monaco', 'Menlo', monospace; }
-        .workflow { background: #f0f9ff; border-left: 4px solid #0ea5e9; padding: 15px; border-radius: 8px; margin: 15px 0; }
-        .file-structure { background: #1f2937; color: #e5e7eb; padding: 20px; border-radius: 8px; margin: 20px 0; font-family: 'Monaco', 'Menlo', monospace; }
-        .badge { display: inline-block; padding: 4px 8px; border-radius: 12px; font-size: 0.8em; font-weight: bold; margin: 2px; }
-        .badge.beginner { background: #dcfce7; color: #166534; }
-        .badge.intermediate { background: #fef3c7; color: #92400e; }
-        .badge.advanced { background: #fee2e2; color: #991b1b; }
-        .badge.high { background: #fee2e2; color: #991b1b; }
-        .badge.medium { background: #fef3c7; color: #92400e; }
-        .badge.low { background: #dcfce7; color: #166534; }
-        ul { padding-left: 20px; }
-        li { margin: 8px 0; }
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e5e7eb; }
-        th { background: #f8fafc; font-weight: 600; }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-size: 2em;
+            font-weight: bold;
+            color: #2563eb;
+            margin-bottom: 10px;
+        }
+
+        .nav {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .nav a {
+            color: #2563eb;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+
+        .nav a:hover {
+            text-decoration: underline;
+        }
+
+        .section {
+            margin: 40px 0;
+        }
+
+        .section h2 {
+            color: #1f2937;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 10px;
+        }
+
+        .important {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .success {
+            background: #f0fdf4;
+            border-left: 4px solid #10b981;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .code-block {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #10b981;
+            margin: 15px 0;
+            font-family: 'Monaco', 'Menlo', monospace;
+        }
+
+        .workflow {
+            background: #f0f9ff;
+            border-left: 4px solid #0ea5e9;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .file-structure {
+            background: #1f2937;
+            color: #e5e7eb;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-family: 'Monaco', 'Menlo', monospace;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin: 2px;
+        }
+
+        .badge.beginner {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .badge.intermediate {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge.advanced {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .badge.high {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .badge.medium {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge.low {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        th {
+            background: #f8fafc;
+            font-weight: 600;
+        }
     </style>
 </head>
+
 <body>
     <div class="header">
         <div class="logo">🤝 OpenTrace Analytics - Beitragsleitfaden</div>
-        <div style="color: #6b7280;">Wie man zum Projekt beiträgt</div>
+        <div style="color: #6b7280;">Wie Sie zum Projekt beitragen können</div>
     </div>
 
     <div class="nav">
         <a href="#getting-started">Erste Schritte</a>
         <a href="#development">Entwicklung</a>
-        <a href="#contributing">Beitragen</a>
+        <a href="#contributing">Mitwirken</a>
         <a href="#issues">Issues</a>
-        <a href="#review">Code Review</a>
+        <a href="#review">Code-Review</a>
         <a href="#community">Community</a>
     </div>
 
@@ -65,27 +189,55 @@
             <li>Git</li>
         </ul>
 
-        <h3>Schnelle Einrichtung</h3>
-        <div class="code-block"># 1. Repository klonen und wechseln<br>git clone https://github.com/your-username/opentrace.git<br>cd opentrace<br><br># 2. Entwicklungsumgebung starten<br>docker-compose up -d<br><br># 3. Frontend-Abhängigkeiten installieren<br>cd frontend && npm install<br><br># 4. Frontend-Entwicklungsserver starten<br>npm run dev</div>
+        <h3>Schnelleinrichtung</h3>
+        <div class="code-block"># 1. Repository forken und klonen<br>git clone
+            https://github.com/your-username/opentrace.git<br>cd opentrace<br><br># 2. Entwicklungsumgebung
+            starten<br>docker-compose up -d<br><br># 3. Frontend-Abhängigkeiten installieren<br>cd frontend && npm
+            install<br><br># 4. Frontend-Entwicklungsserver starten<br>npm run dev</div>
 
         <h3>Entwicklungs-Workflow</h3>
         <div class="workflow">
             <ol>
-                <li><strong>Branch erstellen:</strong> <code>git checkout -b feature/your-feature-name</code></li>
+                <li><strong>Branch erstellen:</strong> <code>git checkout -b feature/dein-feature-name</code></li>
                 <li><strong>Änderungen vornehmen:</strong> Code und Tests schreiben</li>
                 <li><strong>Lokal testen:</strong> Sicherstellen, dass alles funktioniert</li>
                 <li><strong>Änderungen committen:</strong> Klare Commit-Nachrichten schreiben</li>
-                <li><strong>Zum Branch pushen:</strong> <code>git push origin feature/your-feature-name</code></li>
-                <li><strong>Pull Request erstellen:</strong> Änderungen beschreiben</li>
+                <li><strong>In den Branch pushen:</strong> <code>git push origin feature/dein-feature-name</code></li>
+                <li><strong>Pull Request erstellen:</strong> Beschreibe deine Änderungen</li>
             </ol>
         </div>
+    </div>
+
+    <div id="development" class="section">
+        <h2>💻 Entwicklungsumgebung</h2>
+
+        <h3>Projektstruktur</h3>
+        <div class="file-structure">opentrace/<br>├── backend/ # FastAPI Backend<br>│ ├── app/<br>│ │ ├── models.py #
+            SQLAlchemy Modelle<br>│ │ ├── schemas/ # Pydantic Schemata<br>│ │ ├── routers/ # API-Endpunkte<br>│ │ ├──
+            services/ # Business-Logik<br>│ │ ├── database.py # DB-Verbindungen<br>│ │ └── config.py #
+            Einstellungen<br>│ ├── main.py # FastAPI App<br>│ ├── requirements.txt # Python Abhängigkeiten<br>│ └──
+            Dockerfile<br>├── frontend/ # Next.js Frontend<br>│ ├── app/ # Next.js App-Verzeichnis<br>│ ├── components/
+            # React Komponenten<br>│ ├── context/ # React Kontext<br>│ ├── package.json # Node Abhängigkeiten<br>│ └──
+            Dockerfile<br>├── docker/ # Docker Konfigurationen<br>├── nginx/ # Reverse Proxy<br>└── docs/ #
+            Dokumentation</div>
+
+        <h3>Tests ausführen</h3>
+        <div class="code-block"># Backend-Tests (falls verfügbar)<br>cd backend<br>python -m pytest<br><br>#
+            Frontend-Tests (falls verfügbar)<br>cd frontend<br>npm test<br><br># Linting<br>npm run lint</div>
+
+        <h3>Code-Stil</h3>
+        <ul>
+            <li><strong>Python:</strong> Black Formatter, isort für Imports</li>
+            <li><strong>JavaScript:</strong> ESLint, Prettier</li>
+            <li><strong>Commits:</strong> Conventional Commits Format</li>
+        </ul>
     </div>
 
     <div id="contributing" class="section">
         <h2>📝 Wie man beiträgt</h2>
 
         <div class="important">
-            <strong>🎯 Fokus-Bereiche:</strong> Wir sind besonders interessiert an Beiträgen für:
+            <strong>🎯 Fokusbereiche:</strong> Wir sind besonders an Beiträgen in folgenden Bereichen interessiert:
             <ul>
                 <li>Mobile SDKs (iOS/Android)</li>
                 <li>Erweiterte Analytics-Funktionen</li>
@@ -103,85 +255,97 @@
                 <th>Schwierigkeit</th>
             </tr>
             <tr>
-                <td>🐛 Bug-Fixes</td>
-                <td>Existierende Probleme und Bugs beheben</td>
+                <td>🐛 Bug Fixes</td>
+                <td>Behebung bestehender Probleme</td>
                 <td><span class="badge beginner">Anfänger</span></td>
             </tr>
             <tr>
-                <td>✨ Neue Features</td>
-                <td>Neue Funktionalität implementieren</td>
-                <td><span class="badge intermediate">Mittel</span></td>
+                <td>✨ Features</td>
+                <td>Implementierung neuer Funktionen</td>
+                <td><span class="badge intermediate">Fortgeschritten</span></td>
             </tr>
             <tr>
                 <td>📚 Dokumentation</td>
-                <td>Dokumentation, Anleitungen, Beispiele verbessern</td>
+                <td>Verbesserung von Docs, Tutorials</td>
                 <td><span class="badge beginner">Anfänger</span></td>
             </tr>
             <tr>
                 <td>🎨 UI/UX</td>
-                <td>Benutzeroberfläche und -erfahrung verbessern</td>
-                <td><span class="badge intermediate">Mittel</span></td>
+                <td>Verbesserung von Oberfläche und Erfahrung</td>
+                <td><span class="badge intermediate">Fortgeschritten</span></td>
+            </tr>
+            <tr>
+                <td>⚡ Leistung</td>
+                <td>Optimierung von Speed und Effizienz</td>
+                <td><span class="badge advanced">Experte</span></td>
+            </tr>
+            <tr>
+                <td>🔒 Sicherheit</td>
+                <td>Verbesserung von Sicherheit und Datenschutz</td>
+                <td><span class="badge advanced">Experte</span></td>
             </tr>
         </table>
-
-        <h3>Gute erste Issues</h3>
-        <p>Suchen Sie einen Einstiegspunkt? Schauen Sie sich diese anfängerfreundlichen Aufgaben an:</p>
-        <ul>
-            <li>🔧 Rechtschreibfehler in der Dokumentation beheben</li>
-            <li>🎨 UI-Styling und Responsivität verbessern</li>
-            <li>📝 Fehlende Übersetzungen hinzufügen</li>
-            <li>🧪 Unit-Tests für bestehenden Code schreiben</li>
-            <li>📊 Neue Diagrammtypen zum Dashboard hinzufügen</li>
-        </ul>
     </div>
 
     <div id="issues" class="section">
         <h2>🐛 Mit Issues arbeiten</h2>
 
-        <h3>Issues erstellen</h3>
         <div class="important">
-            <strong>Vor dem Erstellen eines Issues:</strong>
+            <strong>Bevor Sie ein Issue erstellen:</strong>
             <ul>
-                <li>Existierende Issues auf Duplikate überprüfen</li>
-                <li>Issue-Vorlagen verwenden, falls verfügbar</li>
+                <li>Bestehende Issues auf Duplikate prüfen</li>
+                <li>Issue-Templates verwenden, falls vorhanden</li>
                 <li>Klare, detaillierte Beschreibungen geben</li>
-                <li>Schritte zur Reproduktion von Bugs einschließen</li>
-                <li>Screenshots für UI-Probleme hinzufügen</li>
+                <li>Schritte zur Reproduktion von Bugs hinzufügen</li>
+                <li>Screenshots für UI-Probleme beifügen</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="review" class="section">
+        <h2>🔍 Code-Review-Prozess</h2>
+
+        <div class="success">
+            <strong>✅ Was einen guten PR ausmacht:</strong>
+            <ul>
+                <li>Klarer, beschreibender Titel</li>
+                <li>Detaillierte Beschreibung der Änderungen</li>
+                <li>Links zu verwandten Issues</li>
+                <li>Screenshots für UI-Änderungen</li>
+                <li>Tests für neue Funktionen</li>
+                <li>Aktualisierte Dokumentation</li>
             </ul>
         </div>
 
-        <h3>Issue-Labels</h3>
-        <table>
-            <tr>
-                <th>Label</th>
-                <th>Beschreibung</th>
-                <th>Priorität</th>
-            </tr>
-            <tr>
-                <td><code>bug</code></td>
-                <td>Etwas funktioniert nicht</td>
-                <td><span class="badge high">Hoch</span></td>
-            </tr>
-            <tr>
-                <td><code>enhancement</code></td>
-                <td>Neues Feature oder Anfrage</td>
-                <td><span class="badge medium">Mittel</span></td>
-            </tr>
-            <tr>
-                <td><code>documentation</code></td>
-                <td>Dokumentationsverbesserungen</td>
-                <td><span class="badge low">Niedrig</span></td>
-            </tr>
-            <tr>
-                <td><code>good first issue</code></td>
-                <td>Perfekt für Anfänger</td>
-                <td><span class="badge low">Niedrig</span></td>
-            </tr>
-        </table>
+        <h3>Commit-Nachrichten</h3>
+        <p>Verwenden Sie das Conventional Commits Format:</p>
+        <div class="code-block">typ(bereich): beschreibung<br><br>Beispiele:<br>feat(auth): add OAuth2 login
+            support<br>fix(dashboard): resolve chart rendering bug<br>docs(api): update endpoint documentation</div>
     </div>
 
-    <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #6b7280;">
+    <div id="community" class="section">
+        <h2>🌍 Community</h2>
+
+        <ul>
+            <li><strong>📧 Email:</strong> del4pp.dev@proton.me</li>
+            <li><strong>💬 GitHub Discussions:</strong> Für Fragen und Ideen</li>
+            <li><strong>🐛 GitHub Issues:</strong> Für Bugs und Feature-Wünsche</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>📋 Zusätzliche Ressourcen</h2>
+        <ul>
+            <li><a href="README.html">Installationsanleitung</a></li>
+            <li><a href="API.html">API-Dokumentation</a></li>
+            <li><a href="ARCHITECTURE.html">Architektur-Überblick</a></li>
+        </ul>
+    </div>
+
+    <div
+        style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #6b7280;">
         Vielen Dank für Ihren Beitrag zu OpenTrace! 🚀
     </div>
 </body>
+
 </html>

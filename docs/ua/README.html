@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="uk">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,21 +14,87 @@
             line-height: 1.6;
             color: #333;
         }
-        .header { text-align: center; margin-bottom: 40px; }
-        .logo { font-size: 2em; font-weight: bold; color: #2563eb; margin-bottom: 10px; }
-        .subtitle { color: #6b7280; font-size: 1.1em; }
-        .section { margin: 30px 0; }
-        .section h2 { color: #1f2937; border-bottom: 2px solid #e5e7eb; padding-bottom: 10px; }
-        .code-block { background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #2563eb; margin: 15px 0; font-family: 'Monaco', 'Menlo', monospace; }
-        .warning { background: #fef2f2; border-left-color: #ef4444; padding: 15px; border-radius: 8px; margin: 15px 0; }
-        .success { background: #f0fdf4; border-left-color: #10b981; padding: 15px; border-radius: 8px; margin: 15px 0; }
-        .btn { display: inline-block; background: #2563eb; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px; margin: 10px 0; }
-        .btn:hover { background: #1d4ed8; }
-        ul { padding-left: 20px; }
-        li { margin: 8px 0; }
-        .flag { font-size: 1.2em; }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-size: 2em;
+            font-weight: bold;
+            color: #2563eb;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #6b7280;
+            font-size: 1.1em;
+        }
+
+        .section {
+            margin: 30px 0;
+        }
+
+        .section h2 {
+            color: #1f2937;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 10px;
+        }
+
+        .code-block {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #2563eb;
+            margin: 15px 0;
+            font-family: 'Monaco', 'Menlo', monospace;
+        }
+
+        .warning {
+            background: #fef2f2;
+            border-left-color: #ef4444;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .success {
+            background: #f0fdf4;
+            border-left-color: #10b981;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #2563eb;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 6px;
+            margin: 10px 0;
+        }
+
+        .btn:hover {
+            background: #1d4ed8;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        .flag {
+            font-size: 1.2em;
+        }
     </style>
 </head>
+
 <body>
     <div class="header">
         <div class="logo">🚀 OpenTrace Analytics</div>
@@ -36,7 +103,17 @@
 
     <div class="section">
         <h2>Швидкий старт</h2>
-        <p><strong>OpenTrace</strong> - це платформа аналітики, що ставить приватність на перше місце та гарантує повний контроль над даними. Встановіть за 2 хвилини, без cookies, без сторонніх трекерів.</p>
+        <div class="success">
+            <strong>Що нового у v1.1.5 (Stable)</strong>
+            <ul>
+                <li>📊 <strong>Custom Reports</strong>: Конструктор BI-звітів на основі кастомних пейлоадів.</li>
+                <li>💰 <strong>Revenue Tracking</strong>: Вбудована підтримка підрахунку доходу та середнього чеку.</li>
+                <li>👤 <strong>User Timeline</strong>: Детальна хронологія дій кожного окремого користувача.</li>
+                <li>📡 <strong>Live Explorer 2.0</strong>: Оновлений інспектор подій в реальному часі.</li>
+            </ul>
+        </div>
+        <p><strong>OpenTrace</strong> - це платформа аналітики, що ставить приватність на перше місце та гарантує повний
+            контроль над даними. Встановіть за 2 хвилини, без cookies, без сторонніх трекерів.</p>
 
         <h3>Вимоги до системи</h3>
         <ul>
@@ -82,7 +159,9 @@
 
         <h3>2. Інтегрувати код трекінгу</h3>
         <p>Додати цей код в <code>&lt;head&gt;</code> вашого сайту:</p>
-        <div class="code-block">&lt;!-- OpenTrace Analytics --&gt;<br>&lt;script async src="http://your-domain.com/ot.js"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data-id="ot_web_xyz123"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data-host="http://your-domain.com/api/v1/collect"&gt;&lt;/script&gt;</div>
+        <div class="code-block">&lt;!-- OpenTrace Analytics --&gt;<br>&lt;script async
+            src="http://your-domain.com/ot.js"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data-id="ot_web_xyz123"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data-host="http://your-domain.com/api/v1/collect"&gt;&lt;/script&gt;
+        </div>
 
         <h3>3. Переглядати аналітику</h3>
         <ul>
@@ -97,11 +176,15 @@
 
         <h3>Змінні середовища</h3>
         <p>Створіть файл <code>.env</code> для кастомної конфігурації:</p>
-        <div class="code-block">DOMAIN_NAME=your-domain.com<br>POSTGRES_USER=admin<br>POSTGRES_PASSWORD=your_secure_password<br>POSTGRES_DB=teleboard<br>SECRET_KEY=your_secret_key<br>ADMIN_INITIAL_PASSWORD=your_admin_password</div>
+        <div class="code-block">
+            DOMAIN_NAME=your-domain.com<br>POSTGRES_USER=admin<br>POSTGRES_PASSWORD=your_secure_password<br>POSTGRES_DB=teleboard<br>SECRET_KEY=your_secret_key<br>ADMIN_INITIAL_PASSWORD=your_admin_password
+        </div>
 
         <h3>Розширена настройка</h3>
         <p>Для продакшен-деплойменту з SSL:</p>
-        <div class="code-block"># Встановити certbot для SSL<br>sudo apt install certbot<br><br># Згенерувати SSL сертифікат<br>sudo certbot certonly --standalone -d your-domain.com<br><br># Оновити nginx конфіг для SSL</div>
+        <div class="code-block"># Встановити certbot для SSL<br>sudo apt install certbot<br><br># Згенерувати SSL
+            сертифікат<br>sudo certbot certonly --standalone -d your-domain.com<br><br># Оновити nginx конфіг для SSL
+        </div>
     </div>
 
     <div class="section">
@@ -116,7 +199,9 @@
         </ul>
 
         <h3>Ручні Docker команди</h3>
-        <div class="code-block"># Розробка<br>docker-compose up -d<br><br># Продакшен<br>docker-compose -f docker-compose.prod.yml up -d<br><br># Логи<br>docker-compose logs -f backend<br><br># Перебудувати конкретний сервіс<br>docker-compose up -d --build frontend</div>
+        <div class="code-block"># Розробка<br>docker-compose up -d<br><br># Продакшен<br>docker-compose -f
+            docker-compose.prod.yml up -d<br><br># Логи<br>docker-compose logs -f backend<br><br># Перебудувати
+            конкретний сервіс<br>docker-compose up -d --build frontend</div>
     </div>
 
     <div class="section">
@@ -135,7 +220,8 @@
         </dl>
 
         <h3>Розташування логів</h3>
-        <div class="code-block"># Системні логи<br>docker-compose logs backend<br><br># Логи бази даних<br>docker-compose logs postgres<br><br># Логи даних аналітики<br>docker-compose logs clickhouse</div>
+        <div class="code-block"># Системні логи<br>docker-compose logs backend<br><br># Логи бази
+            даних<br>docker-compose logs postgres<br><br># Логи даних аналітики<br>docker-compose logs clickhouse</div>
     </div>
 
     <div class="section">
@@ -157,8 +243,10 @@
         </ul>
     </div>
 
-    <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #6b7280;">
-        <strong>OpenTrace Analytics</strong> - Платформа аналітики з акцентом на приватність
+    <div
+        style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #6b7280;">
+        <strong>OpenTrace Analytics v1.1.5</strong> - Платформа аналітики з акцентом на приватність
     </div>
 </body>
+
 </html>
