@@ -22,7 +22,7 @@ from app.routers import (
     reports_router
 )
 
-app = FastAPI(title="OpenTrace Analytics API")
+app = FastAPI(title="OpenTrace Analytics API", version="1.1.5")
 
 app.add_middleware(
     CORSMiddleware,

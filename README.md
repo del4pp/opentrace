@@ -4,23 +4,24 @@
 
 ## Universal • Self-Hosted • Privacy-First • High-Performance Analytics Platform
 
-[![Stable Version](https://img.shields.io/badge/Stable-v1.0.5-green?style=for-the-badge&logo=git&logoColor=white)](https://github.com/del4pp/opentrace/releases/tag/v1.0.5)
-[![Test Version](https://img.shields.io/badge/Test-v1.1.6--beta-orange?style=for-the-badge&logo=git&logoColor=white)](https://github.com/del4pp/opentrace/releases)
+[![Stable Version](https://img.shields.io/badge/Stable-v1.1.5-green?style=for-the-badge&logo=git&logoColor=white)](https://github.com/del4pp/opentrace/releases/tag/v1.1.5)
 [![License](https://img.shields.io/badge/License-AGPL%20v3-green?style=for-the-badge&logo=gnu&logoColor=white)](LICENSE)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://docs.docker.com/get-docker/)
 
-### 🧪 What's New in v1.1.6 (Testing)
-- **👤 User Timeline**: Interactive chronological event stream for deep-dive behavioral analysis.
-- **👥 Behavioral Segments**: Advanced user grouping with complex AND/OR conditional logic.
-- **📉 Retention & Cohorts**: Visual heatmap analysis of user return rates over 30 days.
-- **🛡️ Native Backup & Restore**: One-click system snapshots for Postgres & ClickHouse data safety.
-- **⚡ Live View 2.0**: Enhanced real-time monitoring with instant Session ID copying.
+### 🚀 What's New in v1.1.5 (Stable)
+- **📊 Advanced Reports & BI**: Full support for custom metrics extraction from event payloads.
+- **💰 E-commerce Revenue**: Native tracking for `amount` fields with SUM/AVG aggregation.
+- **👤 User Timeline**: Chronological event stream for deep-dive behavioral analysis.
+- **👥 Behavioral Segments**: Advanced user grouping with complex conditional logic.
+- **📉 Retention & Cohorts**: Visual heatmap analysis of user return rates.
+- **📡 Live Explorer**: Real-time event inspector with smart payload summaries.
+- **⚡ Live View 2.0**: Enhanced real-time monitoring and geographic visualizing.
+- **🛡️ Native Backup**: One-click system snapshots for data safety.
 
-### ✅ Stable Features (v1.0.5)
-- **📊 Real-time Dashboard**: Live traffic monitoring and geographic map.
-- **📈 Conversion Funnels**: Multi-step path analysis and drop-off tracking.
-- **⚙️ Dynamic SMTP**: Email server configuration for password recovery.
-- **🚀 One-click Updates**: Automated system update trigger.
+### ✅ Migration from v1.0.x
+- **📈 Enhanced Funnels**: Multi-step path analysis with goal completion tracking.
+- **⚙️ Dynamic SMTP**: Fully configurable email server for system notifications.
+- **🚀 One-click Updates**: Optimized system update workflow via administrative dashboard.
 
 ### Tech Stack
 ![Next.js](https://img.shields.io/badge/Frontend-Next.js-black?style=flat-square&logo=next.js&logoColor=white)

@@ -92,7 +92,6 @@ export default function Layout({ children }) {
                 { label: t('nav.funnels'), href: '/funnels' },
                 { label: t('nav.retention'), href: '/retention' },
                 { label: t('nav.segments'), href: '/segments' },
-                { label: t('nav.heatmaps'), href: '/heatmaps' },
                 { label: t('reports.title'), href: '/reports' },
                 { label: t('nav.explorer'), href: '/explorer' },
                 { label: t('nav.live'), href: '/live' },
@@ -145,7 +144,7 @@ export default function Layout({ children }) {
                     )}
                 </div>
 
-                <nav style={{ flex: 1, overflowY: 'auto', paddingBottom: '20px' }} className="thin-scrollbar">
+                <nav style={{ flex: 1, "version": "1.1.5", paddingBottom: '20px' }} className="thin-scrollbar">
                     {navGroups.map((group, gidx) => (
                         <div key={gidx} style={{ marginBottom: '32px' }}>
                             <div style={{
