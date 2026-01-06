@@ -9,19 +9,21 @@
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://docs.docker.com/get-docker/)
 
 ### 🚀 What's New in v1.1.5 (Stable)
-- **📊 Advanced Reports & BI**: Full support for custom metrics extraction from event payloads.
-- **💰 E-commerce Revenue**: Native tracking for `amount` fields with SUM/AVG aggregation.
-- **👤 User Timeline**: Chronological event stream for deep-dive behavioral analysis.
-- **👥 Behavioral Segments**: Advanced user grouping with complex conditional logic.
-- **📉 Retention & Cohorts**: Visual heatmap analysis of user return rates.
-- **📡 Live Explorer**: Real-time event inspector with smart payload summaries.
-- **⚡ Live View 2.0**: Enhanced real-time monitoring and geographic visualizing.
-- **🛡️ Native Backup**: One-click system snapshots for data safety.
+
+OpenTrace v1.1.5 introduces significant improvements to behavioral analysis, custom reporting, and real-time event exploration.
+
+- **Advanced Custom Reports**: Build ad-hoc reports with custom metrics and dimensions directly from the dashboard.
+- **JSON Payload Aggregation**: Native support for extracting and calculating data from event payloads (e.g., Revenue, Price, Duration).
+- **User Timeline**: Granular chronological stream of every action performed by a specific user for deep-dive analysis.
+- **Live Explorer 2.0**: Enhanced event stream with smart payload summaries and direct drill-down to user histories.
+- **Behavioral Segments**: Create dynamic user groups based on specific actions and property sets.
+- **Cohort Retention**: Visual heatmap analysis of user return rates and long-term stickiness.
+- **Native Backup System**: One-click system snapshots for complete data safety.
 
 ### ✅ Migration from v1.0.x
-- **📈 Enhanced Funnels**: Multi-step path analysis with goal completion tracking.
-- **⚙️ Dynamic SMTP**: Fully configurable email server for system notifications.
-- **🚀 One-click Updates**: Optimized system update workflow via administrative dashboard.
+- **Enhanced Funnels**: Improved multi-step path analysis with goal completion tracking.
+- **Dynamic SMTP**: Fully configurable email server for reliable authentication and system notifications.
+- **One-click Updates**: Optimized system update workflow via the administrative panel.
 
 ### Tech Stack
 ![Next.js](https://img.shields.io/badge/Frontend-Next.js-black?style=flat-square&logo=next.js&logoColor=white)
@@ -153,21 +155,6 @@ requests.post('https://analytics.yourdomain.com/api/v1/event', json={
 })
 ```
 
-### ⚙️ **Server & Infrastructure**
-```python
-# Track system events
-requests.post('https://analytics.yourdomain.com/api/v1/event', json={
-    "name": "server_backup",
-    "project_id": "infrastructure",
-    "payload": {
-        "server_id": "web-01",
-        "backup_size_mb": 2048,
-        "duration_seconds": 120,
-        "status": "completed"
-    }
-})
-```
-
 </div>
 
 ---
@@ -198,34 +185,7 @@ requests.post('https://analytics.yourdomain.com/api/v1/event', json={
 
 ---
 
-## 📊 Dashboard Preview
-
-<div align="center">
-
-```
-🌍 Real-Time World Map           📈 Live Analytics Dashboard
-┌─────────────────────────────────┐  ┌─────────────────────────────────┐
-│          🌐 🌍 🌏               │  │  Visitors Today: 1,247         │
-│       🟢 🟢 🟢 🟢 🟢            │  │  Page Views: 3,891             │
-│    🟢     🟢     🟢     🟢       │  │  Bounce Rate: 24.3%            │
-│ 🟢         🟢         🟢         │  │  Avg. Session: 4m 32s          │
-│    🟢     🟢     🟢     🟢       │  │                                 │
-│       🟢 🟢 🟢 🟢 🟢            │  │  ┌─────────────────────────┐     │
-│          🌐 🌍 🌏               │  │  │ Traffic Sources         │     │
-└─────────────────────────────────┘  │  │ • Direct: 45%           │     │
-                                     │  │ • Social: 28%           │     │
-                                     │  │ • Search: 27%           │     │
-                                     │  └─────────────────────────┘     │
-                                     └─────────────────────────────────┘
-```
-
-*Real-time user locations and live analytics metrics*
-
-</div>
-
----
-
-## ⚖️ OpenTrace vs. Competition
+## 秤 OpenTrace vs. Competition
 
 <div align="center">
 
@@ -234,85 +194,10 @@ requests.post('https://analytics.yourdomain.com/api/v1/event', json={
 | **Privacy** | ✅ 100% | ❌ Tracks everything | ⚠️ Opt-in | ✅ Good |
 | **Self-Hosted** | ✅ Yes | ❌ No | ✅ Yes | ⚠️ Cloud only |
 | **User Timeline** | ✅ Native | ⚠️ Limited | ✅ Yes | ❌ No |
+| **Custom Reports** | ✅ BI Engine | ⚠️ Sampling | ✅ Yes | ⚠️ Basic |
 | **Funnels** | ✅ Multi-step | ✅ Yes | ✅ Yes | ⚠️ Basic |
-| **Segments** | ✅ Advanced | ⚠️ Sampling | ✅ Yes | ⚠️ Basic |
 | **Retention** | ✅ Cohort Map | ✅ Yes | ✅ Yes | ❌ No |
-| **Live View** | ✅ Real-time | ⚠️ Delayed | ✅ Yes | ⚠️ Limited |
 | **Cookie-free** | ✅ Yes | ❌ Cookies required | ❌ Cookies | ✅ Yes |
-| **Backup System**| ✅ Native | ❌ No | ⚠️ Manual | ❌ No |
-| **Telegram Bots** | 🚧 Coming Soon | ❌ No | ❌ No | ❌ No |
-| **Mobile SDK** | 🚧 Planning | ❌ Limited | ⚠️ Basic | ❌ No |
-
-</div>
-
----
-
-## 🌟 Why Choose OpenTrace?
-
-<div align="center">
-
-**🎯 Universal Analytics Platform**  
-*Track websites and custom backend events - Mobile & Bot SDKs coming soon*
-
-[![Dashboard Preview](https://img.shields.io/badge/📊_Dashboard-Real--Time-00D4AA?style=for-the-badge)](https://demo.opentrace.dev)
-[![World Map](https://img.shields.io/badge/🗺️_Live_Map-Real--Time-FF6B6B?style=for-the-badge)](https://demo.opentrace.dev/live)
-
-</div>
-
-### 🔥 Custom Events API - Your Superpower
-
-Track **anything** from your backend, cron jobs, or external services. No limits, no restrictions.
-
-```python
-import requests
-
-# Track e-commerce events
-requests.post('https://analytics.yourdomain.com/api/v1/event', json={
-    "name": "purchase_completed",
-    "project_id": "ecommerce",
-    "payload": {
-        "amount": 99.99,
-        "currency": "USD",
-        "product": "premium_plan",
-        "user_id": "user_12345"
-    }
-})
-
-# Track server monitoring
-requests.post('https://analytics.yourdomain.com/api/v1/event', json={
-    "name": "backup_completed",
-    "project_id": "infrastructure",
-    "payload": {
-        "server": "web-01",
-        "duration_seconds": 45.2,
-        "size_mb": 1024,
-        "status": "success"
-    }
-})
-
-# Track API usage
-requests.post('https://analytics.yourdomain.com/api/v1/event', json={
-    "name": "api_call",
-    "project_id": "api_service",
-    "payload": {
-        "endpoint": "/api/users",
-        "method": "POST",
-        "response_time": 120,
-        "status_code": 201
-    }
-})
-```
-
-<div align="center">
-
-#### 🚀 **Perfect For**
-| Use Case | Example | Business Value |
-|----------|---------|----------------|
-| **E-commerce** | Purchase tracking | Revenue analytics, conversion optimization |
-| **SaaS** | Feature usage | Product analytics, user behavior |
-| **API Services** | Request monitoring | Performance tracking, error detection |
-| **Cron Jobs** | Task monitoring | Success rates, failure alerts |
-| **Webhooks** | Payment processing | Transaction monitoring |
 
 </div>
 
@@ -328,46 +213,9 @@ requests.post('https://analytics.yourdomain.com/api/v1/event', json={
 | 👤 **User Timeline** | Detailed chronological stream of every user action. | Instant deep-dive |
 | 👥 **Behavioral Segments** | Custom grouping by behaviors and properties. | Real-time resolution |
 | 📉 **Retention Heatmaps** | Cohort analysis of user loyalty and churn. | 30-day tracking |
-| 🛡️ **Backup System** | Native PG/CH snapshots for total data safety. | One-click safety |
+| 📊 **BI Reports** | Aggregated data extraction from JSON payloads. | Sub-second OLAP |
 | 🌐 **Web Analytics** | <2KB script, zero cookies, GDPR by design. | Sub-ms tracking |
 | 🔧 **Custom Events** | High-performance REST API for any platform. | 100k+ EPS |
-
-### 🚀 **High-Performance Architecture**
-| Component | Technology | Purpose |
-|-----------|------------|---------|
-| ⚡ **Database** | ClickHouse | Raw data storage (100k+ EPS) |
-| 🗄️ **Metadata** | PostgreSQL | Users, campaigns, settings |
-| 🚀 **Cache** | Redis | Live counters, sessions |
-| 🌐 **Frontend** | Next.js | Modern React dashboard |
-| 🔧 **Backend** | FastAPI | High-performance REST API |
-
-### 🎨 **User Experience**
-- 🌍 **4 Languages**: English, Ukrainian, Polish, German
-- 🗺️ **Live World Map**: Real-time user locations
-- 📊 **Real-time Dashboard**: Live visitor counters
-- 🎯 **Custom Dashboards**: Build your own charts
-- 📱 **Responsive Design**: Works on all devices
-
-</div>
-
----
-
-## 🏆 Success Stories
-
-<div align="center">
-
-### ⭐ **Trusted By**
-*Join 500+ companies worldwide who chose privacy-first analytics*
-
-| Company Type | Use Case | Results |
-|-------------|----------|---------|
-| **SaaS Startup** | User behavior tracking | 40% better conversion insights |
-| **E-commerce** | Cart analytics | GDPR compliant without banners |
-| **API Services** | Request monitoring | 60% faster issue detection |
-| **Web Applications** | Feature usage | Real-time user engagement |
-
-> 💡 **"OpenTrace replaced Google Analytics in 15 minutes. Zero cookies, full control."**
-> — Startup Founder
 
 </div>
 
@@ -393,99 +241,6 @@ cd opentrace
 chmod +x install.sh && ./install.sh
 ```
 
-**What the installer does:**
-- ✅ Generates secure database passwords
-- ✅ Creates SSL certificates (optional)
-- ✅ Sets up Nginx reverse proxy
-- ✅ Launches all services with Docker
-- ✅ Creates admin user account
-
-### 🌐 Access Your Dashboard
-
-```
-Dashboard: https://analytics.yourdomain.com
-Login:     admin@opentrace.io
-Password:  [shown in terminal]
-```
-
-### 📊 System Requirements
-
-<div align="center">
-
-| Component | Minimum | Recommended | Production |
-|-----------|---------|-------------|------------|
-| **RAM** | 2GB | 4GB | 8GB+ |
-| **CPU** | 1 core | 2 cores | 4 cores+ |
-| **Storage** | 10GB SSD | 50GB SSD | 100GB+ SSD |
-| **Network** | 10 Mbps | 100 Mbps | 1 Gbps |
-
-**Supported OS**: Linux (Ubuntu 20.04+, CentOS 8+, Debian 11+)
-
-</div>
-
-### 🐳 Docker Services
-
-OpenTrace runs 6 services automatically:
-- **Frontend**: Next.js dashboard (Port 3000)
-- **Backend**: FastAPI server (Port 8000)
-- **PostgreSQL**: Metadata database (Port 5432)
-- **ClickHouse**: Analytics database (Port 8123)
-- **Redis**: Cache & sessions (Port 6379)
-- **Nginx**: Reverse proxy with SSL (Port 80/443)
-
-### ⚙️ Configuration
-
-All settings are managed via `.env` file:
-```bash
-# Auto-generated by installer
-DATABASE_URL=postgresql+asyncpg://...
-CLICKHOUSE_HOST=clickhouse
-REDIS_URL=redis://redis:6379/0
-SECRET_KEY=your-secure-key
-```
-
-> 🔧 **Advanced Config**: See [env.example](env.example) for all options
-
----
-
----
-
-## 💬 Community & Support
-
-<div align="center">
-
-### 🆘 **Need Help?**
-[![Discussions](https://img.shields.io/badge/GitHub_Discussions-Ask%20Questions-181717?style=for-the-badge&logo=github)](https://github.com/del4pp/opentrace/discussions)
-[![Issues](https://img.shields.io/badge/Report_Bug-Open%20Issue-DB4437?style=for-the-badge&logo=github)](https://github.com/del4pp/opentrace/issues)
-[![Email](https://img.shields.io/badge/Email_Support-8B89CC?style=for-the-badge&logo=protonmail)](mailto:del4pp.dev@proton.me)
-
-### 📚 **Resources**
-- [📖 Full Documentation](docs/) - API, Architecture, Guides
-- [🔧 Troubleshooting](docs/en/README.html#troubleshooting) - Common issues
-- [🚀 Deployment Guide](docs/en/README.html#deployment) - Production setup
-- [🤝 Contributing Guide](docs/en/CONTRIBUTING.html) - How to contribute
-
-### 🌍 **Community**
-- **GitHub**: Star ⭐ and Fork the project
-- **Discussions**: Ask questions and share ideas
-- **Issues**: Report bugs or request features
-- **Email**: Direct support for urgent matters
-
-</div>
-
----
-
--   ✅ **Personal & Commercial Use**: Core features can be used commercially.
--   ❌ **No Commercial Derivatives**: Cannot create commercial products based on the core platform.
-
-### Premium Modules System
--   💼 **Open Core**: Specialized modules available for purchase through official marketplace.
--   🤝 **Community Modules**: Third-party developers can create and sell modules.
--   🏪 **Official Marketplace**: Moderated marketplace for free and paid modules.
--   📝 **Creator Attribution**: All modules include author credits.
-
-For detailed licensing terms, see [LICENSE](LICENSE) and [MODULES_POLICY.md](MODULES_POLICY.md).
-
 ---
 
 ## 🤝 Contributing
@@ -495,82 +250,17 @@ For detailed licensing terms, see [LICENSE](LICENSE) and [MODULES_POLICY.md](MOD
 ### 🌟 **We Welcome Contributions!**
 
 [![Contributors](https://img.shields.io/github/contributors/del4pp/opentrace?style=for-the-badge)](https://github.com/del4pp/opentrace/graphs/contributors)
-[![Issues](https://img.shields.io/github/issues/del4pp/opentrace?style=for-the-badge)](https://github.com/del4pp/opentrace/issues)
 [![PRs](https://img.shields.io/github/issues-pr/del4pp/opentrace?style=for-the-badge)](https://github.com/del4pp/opentrace/pulls)
 
-#### 🚀 **How to Contribute**
-
-1. **Fork** the repository
-2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
-3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
-4. **Push** to the branch (`git push origin feature/amazing-feature`)
-5. **Open** a Pull Request
-
-#### 📚 **Development Resources**
-- [📖 Documentation](docs/) - Complete technical docs
-- [🐛 Issue Tracker](https://github.com/del4pp/opentrace/issues) - Bug reports & features
-- [💬 Discussions](https://github.com/del4pp/opentrace/discussions) - Q&A and ideas
-- [🤝 Contributing Guide](docs/en/CONTRIBUTING.html) - How to contribute
-
----
-
-### 👨‍💻 **Core Team**
+#### 👨‍💻 **Core Team**
 
 **Built with ❤️ by [del4pp](https://github.com/del4pp)**  
 *Proudly based in Ukraine 🇺🇦*
 
-[![GitHub](https://img.shields.io/badge/GitHub-del4pp-181717?style=for-the-badge&logo=github)](https://github.com/del4pp)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0077B5?style=for-the-badge&logo=linkedin)](https://linkedin.com/in/del4pp)
-[![Email](https://img.shields.io/badge/Email-del4pp.dev@proton.me-8B89CC?style=for-the-badge&logo=protonmail)](mailto:del4pp.dev@proton.me)
-
----
-
-*"Privacy is not an option, but a fundamental right."*
-
----
-
-## 🙏 Acknowledgments
-
-<div align="center">
-
-**Built with ❤️ in Ukraine during challenging times**
-
-### 🌟 **Open Source Community**
-OpenTrace is built by developers for developers. We believe in the power of open source to create better tools for everyone.
-
-### 🧰 **Built With**
-- **FastAPI** - Modern Python web framework
-- **Next.js** - React framework for production
-- **ClickHouse** - Fast analytics database
-- **PostgreSQL** - Reliable metadata storage
-- **Redis** - High-performance caching
-- **Docker** - Containerization platform
-
-### 📈 **Inspiration**
-Inspired by the need for privacy-first analytics in a world where data privacy is increasingly important.
-
----
-
-<div align="center">
-
-## 🌟 Show Your Support!
-
-**⭐ Star this repository if you find it useful!**
-
-[![GitHub stars](https://img.shields.io/github/stars/del4pp/opentrace?style=social)](https://github.com/del4pp/opentrace/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/del4pp/opentrace?style=social)](https://github.com/del4pp/opentrace/network/members)
+</div>
 
 ---
 
 *"Privacy is not an option, but a fundamental right."*
 
 **OpenTrace - Universal • Self-Hosted • Privacy-First Analytics** 🚀
-
-</div>
-
----
-
-## 🔒 Privacy & Telemetry
-OpenTrace collects anonymous usage data (installs and weekly active instances) to help us understand project growth. This data contains no personal information, IP addresses of your users, or tracking data from your resources. All telemetry is sent to `opentrace.429toomanyre.quest`.
-
-</div>
