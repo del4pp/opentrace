@@ -1,6 +1,6 @@
-# System Updates & Maintenance (v1.0.5)
+# System Updates & Maintenance (v1.1.5)
 
-OpenTrace v1.0.5 introduces an automated update system that allows you to keep your instance up to date with a single click from the administrative panel.
+OpenTrace v1.1.5 continues the evolution of our automated update architecture, providing seamless transitions between stable releases with specialized migration logic for ClickHouse and PostgreSQL metadata.
 
 ## 1. How it Works
 
