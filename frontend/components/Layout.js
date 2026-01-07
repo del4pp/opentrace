@@ -98,7 +98,6 @@ export default function Layout({ children }) {
                 { label: t('reports.title'), href: '/reports' },
                 { label: t('nav.explorer'), href: '/explorer' },
                 { label: t('nav.live'), href: '/live' },
-                { label: t('nav.timeline'), href: '/users/timeline' },
             ]
         },
         {
@@ -173,45 +172,20 @@ export default function Layout({ children }) {
                 </nav>
 
                 <div style={{
-                    padding: '16px',
+                    padding: '20px 16px',
                     borderTop: '1px solid var(--border)',
-                    background: 'rgba(255,255,255,0.02)',
+                    marginTop: 'auto'
                 }}>
-                    <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        marginBottom: '16px'
-                    }}>
-                        <div style={{
-                            display: 'flex',
-                            gap: '4px',
-                            background: '#f1f5f9',
-                            padding: '3px',
-                            borderRadius: '10px'
-                        }}>
-                            {['en', 'ua', 'pl', 'de'].map(l => (
-                                <button
-                                    key={l}
-                                    onClick={() => setLanguage(l)}
-                                    style={{
-                                        width: '28px',
-                                        height: '24px',
-                                        fontSize: '10px',
-                                        fontWeight: 800,
-                                        border: 'none',
-                                        borderRadius: '7px',
-                                        cursor: 'pointer',
-                                        background: lang === l ? '#ffffff' : 'transparent',
-                                        color: lang === l ? '#0f172a' : '#64748b',
-                                        boxShadow: lang === l ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
-                                        transition: 'all 0.2s'
-                                    }}
-                                >
-                                    {l.toUpperCase()}
-                                </button>
-                            ))}
-                        </div>
+                    <div className="lang-switcher" style={{ marginBottom: '12px' }}>
+                        {['en', 'ua', 'pl', 'de'].map(l => (
+                            <button
+                                key={l}
+                                className={`lang-btn ${lang === l ? 'active' : ''}`}
+                                onClick={() => setLanguage(l)}
+                            >
+                                {l.toUpperCase()}
+                            </button>
+                        ))}
                     </div>
 
                     <a
@@ -221,22 +195,23 @@ export default function Layout({ children }) {
                         style={{
                             display: 'flex',
                             alignItems: 'center',
-                            gap: '10px',
-                            padding: '10px 12px',
-                            background: 'linear-gradient(135deg, #0f172a, #334155)',
-                            borderRadius: '12px',
+                            justifyContent: 'center',
+                            gap: '8px',
+                            padding: '10px',
+                            background: 'var(--bg)',
+                            border: '1px solid var(--border)',
+                            borderRadius: '10px',
                             textDecoration: 'none',
-                            color: '#ffffff',
-                            fontSize: '12px',
-                            fontWeight: 600,
-                            transition: 'transform 0.2s',
-                            boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)'
+                            color: 'var(--text-muted)',
+                            fontSize: '11px',
+                            fontWeight: 700,
+                            transition: 'all 0.2s'
                         }}
-                        onMouseOver={(e) => { e.currentTarget.style.transform = 'translateY(-1px)'; }}
-                        onMouseOut={(e) => { e.currentTarget.style.transform = 'translateY(0)'; }}
+                        onMouseOver={(e) => { e.currentTarget.style.background = 'var(--bg-subtle)'; e.currentTarget.style.color = 'var(--text)'; }}
+                        onMouseOut={(e) => { e.currentTarget.style.background = 'var(--bg)'; e.currentTarget.style.color = 'var(--text-muted)'; }}
                     >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                        <span>GitHub Repo</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                        Main Version (Repo)
                     </a>
                 </div>
             </aside>
