@@ -3,8 +3,12 @@ import psutil
 import os
 import platform
 import time
-from typing import Dict
+from typing import Dict, List
 from app.security import get_current_user
+from app.database import engine, get_clickhouse_client
+from sqlalchemy import text
+import redis.asyncio as redis
+from app.config import settings
 
 router = APIRouter()
 
@@ -15,22 +19,55 @@ async def get_system_stats(current_user: dict = Depends(get_current_user)):
     uptime = time.time() - boot_time
     
     # CPU info
-    cpu_percent = psutil.cpu_percent(interval=1)
+    # interval=None returns immediately with the current utilization
+    cpu_percent = psutil.cpu_percent(interval=None)
     cpu_count = psutil.cpu_count()
     
     # Memory info
     mem = psutil.virtual_memory()
-    memory_total = mem.total
-    memory_used = mem.used
-    memory_percent = mem.percent
     
     # Disk info
     disk = psutil.disk_usage('/')
-    disk_total = disk.total
-    disk_used = disk.used
-    disk_percent = disk.percent
     
-    # Load average (not available on Windows)
+    # Processes
+    processes = []
+    # We'll take top 5 by memory usage as it's more stable than CPU for a single snapshot
+    for proc in sorted(psutil.process_iter(['pid', 'name', 'cpu_percent', 'memory_percent']), 
+                      key=lambda x: x.info['memory_percent'], reverse=True)[:5]:
+        try:
+            processes.append(proc.info)
+        except (psutil.NoSuchProcess, psutil.AccessDenied):
+            pass
+
+    # DB Status
+    db_status = {"postgres": "offline", "clickhouse": "offline", "redis": "offline"}
+    
+    # Check Postgres
+    try:
+        async with engine.connect() as conn:
+            await conn.execute(text("SELECT 1"))
+            db_status["postgres"] = "online"
+    except Exception as e:
+        print(f"Monitor: Postgres check failed: {e}")
+
+    # Check Clickhouse
+    try:
+        client = get_clickhouse_client()
+        client.command("SELECT 1")
+        db_status["clickhouse"] = "online"
+    except Exception as e:
+        print(f"Monitor: Clickhouse check failed: {e}")
+
+    # Check Redis
+    try:
+        r = redis.from_url(settings.REDIS_URL)
+        await r.ping()
+        db_status["redis"] = "online"
+        await r.close()
+    except Exception as e:
+        print(f"Monitor: Redis check failed: {e}")
+
+    # Load average
     try:
         load_avg = os.getloadavg()
     except:
@@ -50,13 +87,15 @@ async def get_system_stats(current_user: dict = Depends(get_current_user)):
             "load_avg": load_avg
         },
         "memory": {
-            "total": memory_total,
-            "used": memory_used,
-            "percent": memory_percent
+            "total": mem.total,
+            "used": mem.used,
+            "percent": mem.percent
         },
         "disk": {
-            "total": disk_total,
-            "used": disk_used,
-            "percent": disk_percent
-        }
+            "total": disk.total,
+            "used": disk.used,
+            "percent": disk.percent
+        },
+        "processes": processes,
+        "databases": db_status
     }

@@ -655,7 +655,6 @@ export const translations = {
       modules: "Модулі",
       users: "Команда",
       monitor: "Моніторинг",
-      monitor: "Моніторинг",
       groups: {
         analytics: "Аналітика",
         tracking: "Збір даних",
@@ -1243,6 +1242,21 @@ export const translations = {
       placeholder: "colleague@company.com",
       footer_note:
         "На вказану пошту буде надіслано лист із посиланням для створення акаунту.",
+    },
+    monitor: {
+      title: "Моніторинг ресурсів",
+      subtitle: "Стан інфраструктури та продуктивність сервера",
+      cpu: "Навантаження CPU",
+      memory: "Пам'ять (RAM)",
+      disk: "Дисковий простір",
+      uptime: "Час роботи",
+      load_avg: "Середнє навантаження",
+      os: "Операційна система",
+      arch: "Архітектура",
+      total_mem: "Всього RAM",
+      avail_mem: "Доступно RAM",
+      total_disk: "Всього на диску",
+      avail_disk: "Вільно на диску",
     },
     common: {
       actions: "Дії",
