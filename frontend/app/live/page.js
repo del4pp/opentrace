@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { useTranslation } from '../../context/LanguageContext';
 import { useResource } from '../../context/ResourceContext';
 import { ComposableMap, Geographies, Geography, Marker, ZoomableGroup } from "react-simple-maps";
@@ -9,6 +10,7 @@ const geoUrl = "https://raw.githubusercontent.com/euctrl-pru/eurocontrol_world_m
 
 export default function LivePage() {
     const { t } = useTranslation();
+    const router = useRouter();
     const { selectedResource } = useResource();
     const [liveData, setLiveData] = useState({ online: 0, locations: [], events: [] });
     const [pulse, setPulse] = useState(false);
@@ -200,10 +202,9 @@ export default function LivePage() {
                                             </div>
                                             {e.session_id && (
                                                 <div
-                                                    title="Click to copy Session ID"
+                                                    title="Click to view User Timeline"
                                                     onClick={() => {
-                                                        navigator.clipboard.writeText(e.session_id);
-                                                        alert("Session ID copied!");
+                                                        router.push(`/users/timeline?identity=${e.session_id}`);
                                                     }}
                                                     style={{
                                                         marginTop: '8px',

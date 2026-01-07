@@ -142,7 +142,7 @@ export default function CampaignsPage() {
                             <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
                                 <th style={{ textAlign: 'left', padding: '16px 24px', fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>Campaign Name</th>
                                 <th style={{ textAlign: 'left', padding: '16px 24px', fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>Parameters</th>
-                                <th style={{ textAlign: 'left', padding: '16px 24px', fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>Short URL</th>
+                                <th style={{ textAlign: 'left', padding: '16px 24px', fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>Tracking Link</th>
                                 <th style={{ textAlign: 'left', padding: '16px 24px', fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>Integration</th>
                                 <th style={{ textAlign: 'right', padding: '16px 24px', fontSize: '11px', fontWeight: 700, color: '#64748b', textTransform: 'uppercase' }}>Actions</th>
                             </tr>
@@ -164,8 +164,28 @@ export default function CampaignsPage() {
                                             <span style={{ fontSize: '10px', background: '#f1f5f9', padding: '3px 6px', borderRadius: '4px' }}>{item.medium}</span>
                                         </div>
                                     </td>
-                                    <td style={{ padding: '20px 24px', color: '#2563eb', fontSize: '13px', fontFamily: 'monospace' }}>
-                                        ot.io/l/{item.slug}
+                                    <td style={{ padding: '20px 24px', color: '#64748b', fontSize: '11px' }}>
+                                        <div
+                                            style={{
+                                                cursor: 'pointer',
+                                                color: '#2563eb',
+                                                background: '#eff6ff',
+                                                padding: '4px 8px',
+                                                borderRadius: '6px',
+                                                border: '1px solid #dbeafe',
+                                                display: 'inline-block',
+                                                fontFamily: 'monospace'
+                                            }}
+                                            onClick={() => {
+                                                const utms = `?utm_source=${item.source}&utm_medium=${item.medium}&utm_campaign=${item.campaign}${item.content ? `&utm_content=${item.content}` : ''}${item.term ? `&utm_term=${item.term}` : ''}`;
+                                                const link = item.is_bot_link ? `https://t.me/${item.bot_id}?start=${item.bot_start_param}` : utms;
+                                                navigator.clipboard.writeText(link);
+                                                alert("Link copied!");
+                                            }}
+                                            title="Click to copy UTM parameters"
+                                        >
+                                            {item.is_bot_link ? `t.me/${item.bot_id}?start=...` : `?utm_source=${item.source}&...`}
+                                        </div>
                                     </td>
                                     <td style={{ padding: '20px 24px' }}>
                                         {item.is_bot_link ? (
