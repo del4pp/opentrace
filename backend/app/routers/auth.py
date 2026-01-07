@@ -175,3 +175,88 @@ async def reset_password(req: schemas.PasswordResetConfirm, db: AsyncSession = D
 
     logger.info(f"Password reset successful for user {user.email}")
     return {"status": "success", "message": "Password has been reset successfully."}
+
+@router.post("/api/invite")
+async def invite_user(req: schemas.InvitationRequest, db: AsyncSession = Depends(get_db)):
+    # 1. Check if user already exists
+    res = await db.execute(select(models.User).where(models.User.email == req.email))
+    if res.scalars().first():
+        raise HTTPException(status_code=400, detail="User already exists")
+
+    # 2. Create invitation
+    token = secrets.token_urlsafe(32)
+    expires_at = datetime.utcnow() + timedelta(days=7)
+    
+    invitation = models.Invitation(
+        email=req.email,
+        token=token,
+        expires_at=expires_at,
+        invited_by_id=req.invited_by
+    )
+    db.add(invitation)
+    await db.commit()
+
+    # 3. Send email
+    invite_url = f"http://localhost:3000/accept-invitation?token={token}"
+    subject = "You are invited to OpenTrace"
+    body = f"""
+    <html>
+    <body>
+        <h2>Welcome to OpenTrace</h2>
+        <p>You have been invited to join the OpenTrace Analytics platform.</p>
+        <p>Click the link below to set up your account:</p>
+        <p><a href="{invite_url}">Join OpenTrace</a></p>
+        <p>This invitation will expire in 7 days.</p>
+    </body>
+    </html>
+    """
+
+    # Fetch SMTP settings
+    smtp_res = await db.execute(select(models.Setting))
+    all_settings = {s.key: s.value for s in smtp_res.scalars().all()}
+    
+    smtp_config = {
+        "host": all_settings.get("smtp_host", "localhost"),
+        "port": int(all_settings.get("smtp_port", 25)),
+        "user": all_settings.get("smtp_user", ""),
+        "password": all_settings.get("smtp_password", ""),
+        "from_email": all_settings.get("smtp_from", "noreply@opentrace.io")
+    }
+
+    try:
+        await send_email(req.email, subject, body, config=smtp_config)
+    except Exception as e:
+        logger.error(f"Failed to send invitation email: {e}")
+        # We don't fail the request if email fails, but maybe we should?
+        # User can still get the link from the admin if needed.
+
+    return {"status": "success", "token": token}
+
+@router.post("/api/accept-invitation")
+async def accept_invitation(req: schemas.InvitationAccept, db: AsyncSession = Depends(get_db)):
+    result = await db.execute(
+        select(models.Invitation)
+        .where(
+            models.Invitation.token == req.token,
+            models.Invitation.is_used == False,
+            models.Invitation.expires_at > datetime.utcnow()
+        )
+    )
+    invitation = result.scalars().first()
+
+    if not invitation:
+        raise HTTPException(status_code=400, detail="Invalid or expired invitation")
+
+    # Create User
+    new_user = models.User(
+        email=invitation.email,
+        name=req.name,
+        hashed_password=get_password_hash(req.password),
+        is_first_login=False
+    )
+    db.add(new_user)
+    invitation.is_used = True
+    
+    await db.commit()
+    
+    return {"status": "success", "message": "Account created successfully"}

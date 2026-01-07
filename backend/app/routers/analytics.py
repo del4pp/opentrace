@@ -331,6 +331,10 @@ class CustomEventReq(BaseModel):
     name: str
     project_id: str # maps to resource_id (uid)
     payload: Optional[dict] = {}
+    utm_source: Optional[str] = None
+    utm_medium: Optional[str] = None
+    utm_campaign: Optional[str] = None
+    session_id: Optional[str] = None
 
 @router.post("/api/v1/event")
 async def track_custom_event(req: CustomEventReq, request: FastAPIRequest):
@@ -345,12 +349,12 @@ async def track_custom_event(req: CustomEventReq, request: FastAPIRequest):
             "ip": request.client.host,
             "screen_res": "",
             "lang": "",
-            "utm_source": "",
-            "utm_medium": "",
-            "utm_campaign": "",
+            "utm_source": req.utm_source or "",
+            "utm_medium": req.utm_medium or "",
+            "utm_campaign": req.utm_campaign or "",
             "fbclid": "",
             "ttclid": "",
-            "session_id": f"ss_{random.randint(1000,9999)}",
+            "session_id": req.session_id or f"ss_{random.randint(1000,9999)}",
             "payload": json.dumps(req.payload),
             "timestamp": datetime.datetime.now()
         }

@@ -68,7 +68,7 @@ git clone https://github.com/del4pp/opentrace.git
 cd opentrace
 chmod +x install.sh && ./install.sh
 
-# Access at https://analytics.yourdomain.com
+# Access at https://analytics.example.com
 # Login: admin@opentrace.io / [generated-password]
 ```
 
@@ -114,7 +114,7 @@ make test && make lint
 ### 🛒 **E-commerce Analytics**
 ```python
 # Track purchases and revenue
-requests.post('https://analytics.yourdomain.com/api/v1/event', json={
+requests.post('https://analytics.example.com/api/v1/event', json={
     "name": "purchase_completed",
     "project_id": "ecommerce",
     "payload": {
@@ -129,7 +129,7 @@ requests.post('https://analytics.yourdomain.com/api/v1/event', json={
 ### 🔧 **SaaS Feature Tracking**
 ```python
 # Track user interactions
-requests.post('https://analytics.yourdomain.com/api/v1/event', json={
+requests.post('https://analytics.example.com/api/v1/event', json={
     "name": "feature_used",
     "project_id": "my_saas",
     "payload": {
@@ -143,7 +143,7 @@ requests.post('https://analytics.yourdomain.com/api/v1/event', json={
 ### 📊 **API Monitoring**
 ```python
 # Track API performance
-requests.post('https://analytics.yourdomain.com/api/v1/event', json={
+requests.post('https://analytics.example.com/api/v1/event', json={
     "name": "api_request",
     "project_id": "api_service",
     "payload": {

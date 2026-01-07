@@ -125,7 +125,7 @@
         <h3>Installation</h3>
         <ol>
             <li><strong>Clone the repository:</strong>
-                <div class="code-block">git clone https://github.com/your-username/opentrace.git<br>cd opentrace</div>
+                <div class="code-block">git clone https://github.com/del4pp/opentrace.git<br>cd opentrace</div>
             </li>
             <li><strong>Run the installer:</strong>
                 <div class="code-block">chmod +x install.sh<br>./install.sh</div>
@@ -138,7 +138,7 @@
             </li>
             <li><strong>Access your dashboard:</strong>
                 <ul>
-                    <li><strong>URL:</strong> <code>http://your-domain.com</code></li>
+                    <li><strong>URL:</strong> <code>http://analytics.example.com</code></li>
                     <li><strong>Login:</strong> <code>admin@opentrace.io</code></li>
                     <li><strong>Password:</strong> (shown in terminal - save it!)</li>
                 </ul>
@@ -160,7 +160,7 @@
         <h3>2. Integrate the Tracking Code</h3>
         <p>Add this code to your website's <code>&lt;head&gt;</code> section:</p>
         <div class="code-block">&lt;!-- OpenTrace Analytics --&gt;<br>&lt;script async
-            src="http://your-domain.com/ot.js"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data-id="ot_web_xyz123"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data-host="http://your-domain.com/api/v1/collect"&gt;&lt;/script&gt;
+            src="http://analytics.example.com/ot.js"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data-id="ot_web_xyz123"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data-host="http://analytics.example.com/api/v1/collect"&gt;&lt;/script&gt;
         </div>
 
         <h3>3. View Analytics</h3>
@@ -177,13 +177,13 @@
         <h3>Environment Variables</h3>
         <p>Create a <code>.env</code> file for custom configuration:</p>
         <div class="code-block">
-            DOMAIN_NAME=your-domain.com<br>POSTGRES_USER=admin<br>POSTGRES_PASSWORD=your_secure_password<br>POSTGRES_DB=teleboard<br>SECRET_KEY=your_secret_key<br>ADMIN_INITIAL_PASSWORD=your_admin_password
+            DOMAIN_NAME=analytics.example.com<br>POSTGRES_USER=admin<br>POSTGRES_PASSWORD=your_secure_password<br>POSTGRES_DB=teleboard<br>SECRET_KEY=your_secret_key<br>ADMIN_INITIAL_PASSWORD=your_admin_password
         </div>
 
         <h3>Advanced Setup</h3>
         <p>For production deployment with SSL:</p>
         <div class="code-block"># Install certbot for SSL<br>sudo apt install certbot<br><br># Generate SSL
-            certificate<br>sudo certbot certonly --standalone -d your-domain.com<br><br># Update nginx config for SSL
+            certificate<br>sudo certbot certonly --standalone -d analytics.example.com<br><br># Update nginx config for SSL
         </div>
     </div>
 
@@ -230,7 +230,7 @@
             <li><a href="API.html">API Documentation</a></li>
             <li><a href="ARCHITECTURE.html">Architecture Overview</a></li>
             <li><a href="CONTRIBUTING.html">Contributing Guide</a></li>
-            <li><a href="https://github.com/your-username/opentrace/issues">GitHub Issues</a></li>
+            <li><a href="https://github.com/del4pp/opentrace/issues">GitHub Issues</a></li>
         </ul>
     </div>
 

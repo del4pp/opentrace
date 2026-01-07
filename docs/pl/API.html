@@ -181,7 +181,7 @@
 
     <div
       style="background: #f8fafc; border-left: 4px solid #2563eb; padding: 15px; border-radius: 8px; margin: 20px 0;">
-      <strong>Podstawowy URL:</strong> <code>http://your-domain.com/api</code><br>
+      <strong>Podstawowy URL:</strong> <code>http://analytics.example.com/api</code><br>
       <strong>Uwierzytelnianie:</strong> Na podstawie sesji (wymagane logowanie administratora dla operacji zarządzania)
     </div>
   </div>
@@ -455,7 +455,7 @@
     <h4>JavaScript śledzenie</h4>
     <p>Dodaj to do sekcji <code>&lt;head&gt;</code> swojej strony:</p>
     <div class="code-block">&lt;script async
-      src="http://your-domain.com/ot.js"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data-id="your_resource_uid"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data-host="http://your-domain.com/api/v1/collect"&gt;&lt;/script&gt;
+      src="http://analytics.example.com/ot.js"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data-id="ot_web_xxxxx"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data-host="http://analytics.example.com/api/v1/collect"&gt;&lt;/script&gt;
     </div>
 
     <h4>Własne zdarzenia</h4>
@@ -466,7 +466,7 @@
 
     <h4>Śledzenie po stronie serwera</h4>
     <div class="code-block">import requests<br><br># Śledź z
-      backendu<br>requests.post('http://your-domain.com/api/v1/collect', json={<br>&nbsp;&nbsp;&nbsp;&nbsp;"rid":
+      backendu<br>requests.post('http://analytics.example.com/api/v1/collect', json={<br>&nbsp;&nbsp;&nbsp;&nbsp;"rid":
       "your_resource_id",<br>&nbsp;&nbsp;&nbsp;&nbsp;"type": "payment_success",<br>&nbsp;&nbsp;&nbsp;&nbsp;"payload":
       {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"amount":
       29,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"currency":

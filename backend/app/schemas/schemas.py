@@ -117,3 +117,12 @@ class PasswordResetRequest(BaseModel):
 class PasswordResetConfirm(BaseModel):
     token: str
     new_password: str
+
+class InvitationRequest(BaseModel):
+    email: EmailStr
+    invited_by: int
+
+class InvitationAccept(BaseModel):
+    token: str
+    name: str
+    password: str

@@ -125,7 +125,7 @@
         <h3>Встановлення</h3>
         <ol>
             <li><strong>Клонувати репозиторій:</strong>
-                <div class="code-block">git clone https://github.com/your-username/opentrace.git<br>cd opentrace</div>
+                <div class="code-block">git clone https://github.com/del4pp/opentrace.git<br>cd opentrace</div>
             </li>
             <li><strong>Запустити інсталятор:</strong>
                 <div class="code-block">chmod +x install.sh<br>./install.sh</div>
@@ -138,7 +138,7 @@
             </li>
             <li><strong>Отримати доступ до dashboard:</strong>
                 <ul>
-                    <li><strong>URL:</strong> <code>http://your-domain.com</code></li>
+                    <li><strong>URL:</strong> <code>http://analytics.example.com</code></li>
                     <li><strong>Логін:</strong> <code>admin@opentrace.io</code></li>
                     <li><strong>Пароль:</strong> (показується в терміналі - збережіть його!)</li>
                 </ul>
@@ -160,7 +160,7 @@
         <h3>2. Інтегрувати код трекінгу</h3>
         <p>Додати цей код в <code>&lt;head&gt;</code> вашого сайту:</p>
         <div class="code-block">&lt;!-- OpenTrace Analytics --&gt;<br>&lt;script async
-            src="http://your-domain.com/ot.js"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data-id="ot_web_xyz123"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data-host="http://your-domain.com/api/v1/collect"&gt;&lt;/script&gt;
+            src="http://analytics.example.com/ot.js"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data-id="ot_web_xyz123"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data-host="http://analytics.example.com/api/v1/collect"&gt;&lt;/script&gt;
         </div>
 
         <h3>3. Переглядати аналітику</h3>
@@ -177,13 +177,13 @@
         <h3>Змінні середовища</h3>
         <p>Створіть файл <code>.env</code> для кастомної конфігурації:</p>
         <div class="code-block">
-            DOMAIN_NAME=your-domain.com<br>POSTGRES_USER=admin<br>POSTGRES_PASSWORD=your_secure_password<br>POSTGRES_DB=teleboard<br>SECRET_KEY=your_secret_key<br>ADMIN_INITIAL_PASSWORD=your_admin_password
+            DOMAIN_NAME=analytics.example.com<br>POSTGRES_USER=admin<br>POSTGRES_PASSWORD=your_secure_password<br>POSTGRES_DB=teleboard<br>SECRET_KEY=your_secret_key<br>ADMIN_INITIAL_PASSWORD=your_admin_password
         </div>
 
         <h3>Розширена настройка</h3>
         <p>Для продакшен-деплойменту з SSL:</p>
         <div class="code-block"># Встановити certbot для SSL<br>sudo apt install certbot<br><br># Згенерувати SSL
-            сертифікат<br>sudo certbot certonly --standalone -d your-domain.com<br><br># Оновити nginx конфіг для SSL
+            сертифікат<br>sudo certbot certonly --standalone -d analytics.example.com<br><br># Оновити nginx конфіг для SSL
         </div>
     </div>
 
@@ -230,7 +230,7 @@
             <li><a href="API.html">Документація API</a></li>
             <li><a href="ARCHITECTURE.html">Огляд архітектури</a></li>
             <li><a href="CONTRIBUTING.html">Посібник для контриб'юторів</a></li>
-            <li><a href="https://github.com/your-username/opentrace/issues">GitHub Issues</a></li>
+            <li><a href="https://github.com/del4pp/opentrace/issues">GitHub Issues</a></li>
         </ul>
     </div>
 

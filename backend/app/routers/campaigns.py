@@ -17,6 +17,25 @@ async def get_campaigns(resource_id: Optional[int] = None, db: AsyncSession = De
     result = await db.execute(query.order_by(models.Campaign.created_at.desc()))
     return result.scalars().all()
 
+@router.get("/api/campaigns/resolve/{param}")
+async def resolve_campaign(param: str, db: AsyncSession = Depends(get_db)):
+    # Clean param if it has 'utm_' prefix or similar
+    clean_param = param.replace("utm_", "") if param.startswith("utm_") else param
+    
+    result = await db.execute(select(models.Campaign).where(models.Campaign.bot_start_param == clean_param))
+    campaign = result.scalar_one_or_none()
+    
+    if not campaign:
+        raise HTTPException(status_code=404, detail="Campaign not found")
+        
+    return {
+        "utm_source": campaign.source,
+        "utm_medium": campaign.medium,
+        "utm_campaign": campaign.campaign,
+        "utm_content": campaign.content,
+        "utm_term": campaign.term
+    }
+
 @router.post("/api/campaigns", response_model=schemas.Campaign)
 async def create_campaign(campaign: schemas.CampaignCreate, db: AsyncSession = Depends(get_db)):
     db_campaign = models.Campaign(**campaign.dict())

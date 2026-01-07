@@ -12,3 +12,4 @@ from .retention import router as retention_router
 from .segments import router as segments_router
 from .users import router as users_router
 from .reports import router as reports_router
+from .modules import router as modules_router

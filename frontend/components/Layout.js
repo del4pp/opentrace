@@ -14,7 +14,7 @@ export default function Layout({ children }) {
     const [isChecking, setIsChecking] = useState(true);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-    const isPublicPage = pathname === '/login' || pathname === '/' || pathname.startsWith('/forgot-password') || pathname.startsWith('/reset-password');
+    const isPublicPage = pathname === '/login' || pathname === '/' || pathname.startsWith('/forgot-password') || pathname.startsWith('/reset-password') || pathname.startsWith('/accept-invitation');
 
     useEffect(() => {
         const savedTheme = localStorage.getItem('ot_theme') || 'dark';
@@ -110,6 +110,8 @@ export default function Layout({ children }) {
             title: t('nav.groups.system'),
             items: [
                 { label: t('nav.settings'), href: '/settings' },
+                { label: t('nav.users'), href: '/users' },
+                { label: t('nav.modules'), href: '/modules' },
             ]
         }
     ];

@@ -61,7 +61,7 @@
         <p>OpenTrace provides a comprehensive REST API for managing resources, campaigns, events, and retrieving analytics data. All endpoints return JSON responses.</p>
 
         <div class="info">
-            <strong>Base URL:</strong> <code>http://your-domain.com/api</code><br>
+            <strong>Base URL:</strong> <code>http://analytics.example.com/api</code><br>
             <strong>Authentication:</strong> Session-based (admin login required for management operations)
         </div>
     </div>
@@ -341,13 +341,13 @@
 
         <h4>JavaScript Tracking</h4>
         <p>Add this to your website's <code>&lt;head&gt;</code>:</p>
-        <div class="code-block">&lt;script async src="http://your-domain.com/ot.js"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data-id="your_resource_uid"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data-host="http://your-domain.com/api/v1/collect"&gt;&lt;/script&gt;</div>
+        <div class="code-block">&lt;script async src="http://analytics.example.com/ot.js"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data-id="ot_web_xxxxx"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data-host="http://analytics.example.com/api/v1/collect"&gt;&lt;/script&gt;</div>
 
         <h4>Custom Events</h4>
         <div class="code-block">// Track custom events<br>window.ot.track('button_click', {<br>&nbsp;&nbsp;button_name: 'hero_cta',<br>&nbsp;&nbsp;page_section: 'header'<br>});<br><br>// Track purchases<br>window.ot.track('purchase', {<br>&nbsp;&nbsp;amount: 99.99,<br>&nbsp;&nbsp;currency: 'USD',<br>&nbsp;&nbsp;product_id: 'premium_plan'<br>});</div>
 
         <h4>Server-side Tracking</h4>
-        <div class="code-block">import requests<br><br># Track from backend<br>requests.post('http://your-domain.com/api/v1/collect', json={<br>&nbsp;&nbsp;&nbsp;&nbsp;"rid": "your_resource_id",<br>&nbsp;&nbsp;&nbsp;&nbsp;"type": "payment_success",<br>&nbsp;&nbsp;&nbsp;&nbsp;"payload": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"amount": 29,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"currency": "USD",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"plan": "pro"<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>})</div>
+        <div class="code-block">import requests<br><br># Track from backend<br>requests.post('http://analytics.example.com/api/v1/collect', json={<br>&nbsp;&nbsp;&nbsp;&nbsp;"rid": "your_resource_id",<br>&nbsp;&nbsp;&nbsp;&nbsp;"type": "payment_success",<br>&nbsp;&nbsp;&nbsp;&nbsp;"payload": {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"amount": 29,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"currency": "USD",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"plan": "pro"<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>})</div>
     </div>
 
     <div id="errors" class="section">

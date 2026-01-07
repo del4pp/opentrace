@@ -19,7 +19,8 @@ from app.routers import (
     retention_router,
     segments_router,
     users_router,
-    reports_router
+    reports_router,
+    modules_router
 )
 
 app = FastAPI(title="OpenTrace Analytics API", version="1.1.5")
@@ -42,6 +43,7 @@ async def startup():
             async with engine.begin() as conn:
                 await conn.run_sync(models.Base.metadata.create_all)
                 try:
+                    await conn.execute(text("ALTER TABLE users ADD COLUMN IF NOT EXISTS name VARCHAR"))
                     await conn.execute(text("ALTER TABLE users ADD COLUMN IF NOT EXISTS is_first_login BOOLEAN DEFAULT TRUE"))
                     await conn.execute(text("ALTER TABLE campaigns ADD COLUMN IF NOT EXISTS resource_id INTEGER REFERENCES resources(id)"))
                     await conn.execute(text("ALTER TABLE tags ADD COLUMN IF NOT EXISTS resource_id INTEGER REFERENCES resources(id)"))
@@ -112,3 +114,4 @@ app.include_router(retention_router)
 app.include_router(segments_router)
 app.include_router(users_router)
 app.include_router(reports_router)
+app.include_router(modules_router)

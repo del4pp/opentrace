@@ -7,6 +7,7 @@ class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String, unique=True, index=True)
+    name = Column(String, nullable=True)
     hashed_password = Column(String)
     is_first_login = Column(Boolean, default=True)
     created_at = Column(DateTime, default=datetime.utcnow)
@@ -129,3 +130,22 @@ class Report(Base):
     resource_id = Column(Integer, ForeignKey("resources.id"))
     config = Column(Text) # JSON string with report settings (type, metrics, filters)
     created_at = Column(DateTime, default=datetime.utcnow)
+class Module(Base):
+    __tablename__ = "modules"
+    id = Column(Integer, primary_key=True, index=True)
+    slug = Column(String, unique=True, index=True)
+    name = Column(String)
+    version = Column(String)
+    license_key = Column(String, nullable=True)
+    is_active = Column(Boolean, default=False)
+    installed_at = Column(DateTime, default=datetime.utcnow)
+    config = Column(Text, nullable=True) # Module specific settings
+class Invitation(Base):
+    __tablename__ = "invitations"
+    id = Column(Integer, primary_key=True, index=True)
+    email = Column(String, index=True)
+    token = Column(String, unique=True, index=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    expires_at = Column(DateTime)
+    is_used = Column(Boolean, default=False)
+    invited_by_id = Column(Integer, ForeignKey("users.id"))

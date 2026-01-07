@@ -19,7 +19,7 @@ class SettingUpdate(BaseModel):
     key: str
     value: str
 
-VERSION = "1.1.0"
+VERSION = "1.1.5"
 PROJECT_ID = "opentrace"
 
 @router.get("/api/health")

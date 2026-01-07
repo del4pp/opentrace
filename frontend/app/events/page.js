@@ -41,6 +41,17 @@ export default function EventsPage() {
     const [deletePassword, setDeletePassword] = useState('');
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
+    // Telegram UTM Generator state
+    const [showTelegramModal, setShowTelegramModal] = useState(false);
+    const [telegramGenerator, setTelegramGenerator] = useState({
+        username: '',
+        source: '',
+        medium: 'bot',
+        campaign: '',
+        generatedLink: '',
+        generatedCode: ''
+    });
+
     const fetchData = async () => {
         if (!selectedResource) return;
         setLoading(true);
@@ -138,6 +149,7 @@ export default function EventsPage() {
                 setEditingEvent(null);
                 setForm({ name: '', trigger: 'click', selector: '', resource_id: selectedResource?.id || '' });
                 setActions([]);
+                setTelegramGenerator({ username: '', source: '', medium: 'bot', campaign: '', generatedLink: '', generatedCode: '' });
                 setCurrentAction({
                     action_type: 'facebook_conversion',
                     pixel_id: '',
@@ -147,6 +159,53 @@ export default function EventsPage() {
                 });
             }
         } catch (err) { alert("Error saving event"); }
+    };
+
+    const handleGenerateTelegramUTM = async () => {
+        const randomTag = Array.from({ length: 12 }, () => "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".charAt(Math.floor(Math.random() * 62))).join('');
+
+        try {
+            const campaignData = {
+                name: `Bot Auto: ${telegramGenerator.source || 'Direct'} / ${telegramGenerator.campaign || 'None'}`,
+                source: telegramGenerator.source || 'telegram',
+                medium: telegramGenerator.medium || 'bot',
+                campaign: telegramGenerator.campaign || 'campaign',
+                slug: `bot_${randomTag}_${Date.now()}`,
+                is_bot_link: true,
+                bot_id: telegramGenerator.username,
+                bot_start_param: randomTag,
+                project_id: selectedResource?.uid || 'ot_web_xxxxx',
+                resource_id: selectedResource?.id
+            };
+
+            const res = await fetch(`${API_URL}/campaigns`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(campaignData)
+            });
+
+            if (res.ok) {
+                const link = `https://t.me/${telegramGenerator.username || 'YourBot'}?start=utm_${randomTag}`;
+
+                const snippet = `// 1. Resolve campaign metadata
+campaign = ot.resolve_bot_param("${randomTag}")
+# returns: {"utm_source": "...", "utm_medium": "...", ...}
+
+// 2. Or let the SDK handle it automatically (track_event)
+ot.track_event(
+    name="bot_start",
+    bot_param="${randomTag}",
+    session_id=str(message.from_user.id)
+)`;
+
+                setTelegramGenerator({ ...telegramGenerator, generatedLink: link, generatedCode: snippet });
+            } else {
+                alert(t('events.botUTM.error_db') || "Failed to register campaign");
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Error connecting to server");
+        }
     };
 
     const openEdit = (ev) => {
@@ -204,7 +263,10 @@ export default function EventsPage() {
                     </div>
                     <p className="subtitle">{t('events.subtitle')}</p>
                 </div>
-                <button className="btn-premium" onClick={() => setShowModal(true)}>{t('events.add')}</button>
+                <div style={{ display: 'flex', gap: '12px' }}>
+                    <button className="btn-premium" style={{ background: '#0ea5e9', borderColor: '#0ea5e9' }} onClick={() => setShowTelegramModal(true)}>🤖 Bot UTM Generator</button>
+                    <button className="btn-premium" onClick={() => setShowModal(true)}>{t('events.add')}</button>
+                </div>
             </div>
 
             <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '16px', overflow: 'hidden' }}>
@@ -445,6 +507,92 @@ export default function EventsPage() {
                     </div>
                 </div>
             )}
+            {showTelegramModal && (
+                <div className="modal-overlay" onClick={() => setShowTelegramModal(false)}>
+                    <div className="modal-content" style={{ maxWidth: '600px' }} onClick={e => e.stopPropagation()}>
+                        <h2 style={{ marginBottom: '8px' }}>🚀 {t('events.botUTM.title')}</h2>
+                        <p style={{ color: '#64748b', fontSize: '14px', marginBottom: '24px' }}>{t('events.botUTM.subtitle')}</p>
+
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                            <div className="form-field">
+                                <label>{t('events.botUTM.botUsername')}</label>
+                                <input
+                                    className="input-lux"
+                                    value={telegramGenerator.username}
+                                    onChange={e => setTelegramGenerator({ ...telegramGenerator, username: e.target.value.replace('@', '') })}
+                                    placeholder="YourBotUsername"
+                                />
+                            </div>
+                            <div className="form-field">
+                                <label>{t('events.botUTM.source')}</label>
+                                <input
+                                    className="input-lux"
+                                    value={telegramGenerator.source}
+                                    onChange={e => setTelegramGenerator({ ...telegramGenerator, source: e.target.value })}
+                                    placeholder="telegram, ads, influencer..."
+                                />
+                            </div>
+                        </div>
+
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                            <div className="form-field">
+                                <label>{t('events.botUTM.medium')}</label>
+                                <input
+                                    className="input-lux"
+                                    value={telegramGenerator.medium}
+                                    onChange={e => setTelegramGenerator({ ...telegramGenerator, medium: e.target.value })}
+                                    placeholder="bot, cpc, post..."
+                                />
+                            </div>
+                            <div className="form-field">
+                                <label>{t('events.botUTM.campaign')}</label>
+                                <input
+                                    className="input-lux"
+                                    value={telegramGenerator.campaign}
+                                    onChange={e => setTelegramGenerator({ ...telegramGenerator, campaign: e.target.value })}
+                                    placeholder="summer_promo"
+                                />
+                            </div>
+                        </div>
+
+                        <button
+                            className="btn-premium"
+                            style={{ width: '100%', marginTop: '8px' }}
+                            onClick={handleGenerateTelegramUTM}
+                        >
+                            {t('events.botUTM.generate')}
+                        </button>
+
+                        {telegramGenerator.generatedLink && (
+                            <div style={{ marginTop: '24px', padding: '16px', background: '#f0f9ff', borderRadius: '12px', border: '1px solid #bae6fd' }}>
+                                <div style={{ fontSize: '11px', fontWeight: 700, color: '#0369a1', textTransform: 'uppercase', marginBottom: '8px' }}>{t('events.botUTM.yourLink')}</div>
+                                <div style={{ display: 'flex', gap: '8px' }}>
+                                    <input className="input-lux" readOnly value={telegramGenerator.generatedLink} style={{ fontSize: '13px', background: '#fff' }} />
+                                    <button className="btn-premium" style={{ whiteSpace: 'nowrap', padding: '0 16px' }} onClick={() => navigator.clipboard.writeText(telegramGenerator.generatedLink)}>{t('events.botUTM.copy')}</button>
+                                </div>
+
+                                <div style={{ fontSize: '11px', fontWeight: 700, color: '#0369a1', textTransform: 'uppercase', margin: '16px 0 8px' }}>{t('events.botUTM.snippet')}</div>
+                                <pre style={{
+                                    fontSize: '11px',
+                                    background: '#1e293b',
+                                    color: '#f8fafc',
+                                    padding: '12px',
+                                    borderRadius: '8px',
+                                    overflowX: 'auto',
+                                    margin: 0
+                                }}>
+                                    {telegramGenerator.generatedCode}
+                                </pre>
+                            </div>
+                        )}
+
+                        <div style={{ marginTop: '24px', textAlign: 'center' }}>
+                            <button type="button" className="btn-premium" style={{ background: '#fff', color: '#0f172a', border: '1px solid #e2e8f0' }} onClick={() => setShowTelegramModal(false)}>{t('events.botUTM.close')}</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
+
     );
 }
