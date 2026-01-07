@@ -45,7 +45,7 @@ export default function UsersPage() {
     };
 
     return (
-        <Layout>
+        <div style={{ maxWidth: '1200px' }}>
             <div style={{ marginBottom: '40px' }}>
                 <h1 style={{ fontSize: '32px', fontWeight: 900, letterSpacing: '-0.04em', marginBottom: '8px' }}>
                     Team Management
@@ -94,6 +94,6 @@ export default function UsersPage() {
                     </p>
                 </form>
             </div>
-        </Layout>
+        </div>
     );
 }

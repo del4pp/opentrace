@@ -85,16 +85,22 @@ export default function Layout({ children }) {
         window.location.href = '/login';
     };
 
+    const [isProfileOpen, setIsProfileOpen] = useState(false);
+
     const navGroups = [
         {
             title: t('nav.groups.analytics'),
             items: [
+                { label: t('nav.dashboard'), href: '/dashboard' },
+                { label: t('nav.views'), href: '/analytics' },
                 { label: t('nav.funnels'), href: '/funnels' },
                 { label: t('nav.retention'), href: '/retention' },
                 { label: t('nav.segments'), href: '/segments' },
+                { label: t('nav.heatmaps'), href: '/heatmaps' },
                 { label: t('reports.title'), href: '/reports' },
                 { label: t('nav.explorer'), href: '/explorer' },
                 { label: t('nav.live'), href: '/live' },
+                { label: t('nav.timeline'), href: '/users/timeline' },
             ]
         },
         {
@@ -110,7 +116,6 @@ export default function Layout({ children }) {
             title: t('nav.groups.system'),
             items: [
                 { label: t('nav.settings'), href: '/settings' },
-                { label: t('nav.users'), href: '/users' },
                 { label: t('nav.modules'), href: '/modules' },
             ]
         }
@@ -256,44 +261,98 @@ export default function Layout({ children }) {
                         </div>
                         <div suppressHydrationWarning style={{ fontSize: '12px', fontWeight: 700, color: '#64748b', display: 'flex', alignItems: 'center', gap: '32px' }}>
                             <span>{new Date().toLocaleDateString()}</span>
-
                             <div style={{
                                 paddingLeft: '24px',
                                 borderLeft: '1px solid #e2e8f0',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '16px',
-                                cursor: 'pointer',
-                                padding: '8px 16px',
-                                borderRadius: '12px',
-                                transition: 'all 0.2s'
-                            }}
-                                className="profile-trigger"
-                                onMouseOver={(e) => e.currentTarget.style.background = '#f8fafc'}
-                                onMouseOut={(e) => e.currentTarget.style.background = 'none'}
-                            >
-                                <div style={{ textAlign: 'right' }}>
-                                    <div style={{ fontSize: '13px', fontWeight: 800, color: '#0f172a' }}>Admin User</div>
-                                    <div style={{ fontSize: '10px', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>System Administrator</div>
-                                </div>
-                                <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'linear-gradient(135deg, #0f172a, #334155)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '14px', fontWeight: 700 }}>
-                                    AD
-                                </div>
-                                <button
-                                    onClick={(e) => { e.stopPropagation(); handleLogout(); }}
+                                position: 'relative'
+                            }}>
+                                <div
                                     style={{
-                                        background: 'none',
-                                        border: 'none',
-                                        color: '#f43f5e',
-                                        fontSize: '12px',
-                                        fontWeight: 800,
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '16px',
                                         cursor: 'pointer',
-                                        padding: '4px 8px',
-                                        marginLeft: '8px'
+                                        padding: '8px 16px',
+                                        borderRadius: '12px',
+                                        transition: 'all 0.2s'
                                     }}
+                                    className="profile-trigger"
+                                    onClick={() => setIsProfileOpen(!isProfileOpen)}
+                                    onMouseOver={(e) => e.currentTarget.style.background = '#f8fafc'}
+                                    onMouseOut={(e) => !isProfileOpen && (e.currentTarget.style.background = 'none')}
                                 >
-                                    Logout
-                                </button>
+                                    <div style={{ textAlign: 'right' }}>
+                                        <div style={{ fontSize: '13px', fontWeight: 800, color: '#0f172a' }}>Admin User</div>
+                                        <div style={{ fontSize: '10px', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>System Administrator</div>
+                                    </div>
+                                    <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'linear-gradient(135deg, #0f172a, #334155)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '14px', fontWeight: 700 }}>
+                                        AD
+                                    </div>
+                                </div>
+
+                                {isProfileOpen && (
+                                    <>
+                                        <div
+                                            style={{ position: 'fixed', inset: 0, zIndex: 990 }}
+                                            onClick={() => setIsProfileOpen(false)}
+                                        ></div>
+                                        <div style={{
+                                            position: 'absolute',
+                                            top: '100%',
+                                            right: 0,
+                                            marginTop: '8px',
+                                            width: '200px',
+                                            background: '#ffffff',
+                                            border: '1px solid #e2e8f0',
+                                            borderRadius: '12px',
+                                            boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)',
+                                            zIndex: 1000,
+                                            overflow: 'hidden',
+                                            padding: '8px'
+                                        }}>
+                                            <Link
+                                                href="/users"
+                                                style={{
+                                                    display: 'block',
+                                                    padding: '10px 12px',
+                                                    fontSize: '13px',
+                                                    fontWeight: 600,
+                                                    color: '#475569',
+                                                    textDecoration: 'none',
+                                                    borderRadius: '8px',
+                                                    transition: 'background 0.2s'
+                                                }}
+                                                onMouseOver={(e) => e.currentTarget.style.background = '#f1f5f9'}
+                                                onMouseOut={(e) => e.currentTarget.style.background = 'none'}
+                                                onClick={() => setIsProfileOpen(false)}
+                                            >
+                                                👥 {t('nav.users')}
+                                            </Link>
+                                            <div style={{ margin: '8px 0', borderTop: '1px solid #f1f5f9' }}></div>
+                                            <button
+                                                onClick={handleLogout}
+                                                style={{
+                                                    width: '100%',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    padding: '10px 12px',
+                                                    fontSize: '13px',
+                                                    fontWeight: 600,
+                                                    color: '#f43f5e',
+                                                    background: 'none',
+                                                    border: 'none',
+                                                    borderRadius: '8px',
+                                                    cursor: 'pointer',
+                                                    transition: 'background 0.2s'
+                                                }}
+                                                onMouseOver={(e) => e.currentTarget.style.background = '#fff1f2'}
+                                                onMouseOut={(e) => e.currentTarget.style.background = 'none'}
+                                            >
+                                                🚪 Logout
+                                            </button>
+                                        </div>
+                                    </>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -302,7 +361,7 @@ export default function Layout({ children }) {
                 <div style={{ maxWidth: '1200px', margin: '40px auto', padding: '0 24px', width: '100%' }}>
                     {children}
                 </div>
-            </main>
-        </div>
+            </main >
+        </div >
     );
 }
