@@ -22,6 +22,7 @@ export const translations = {
       features: "Features",
       modules: "Modules",
       users: "Team",
+      monitor: "Resource Monitor",
       groups: {
         analytics: "Insights",
         tracking: "Data Collection",
@@ -610,6 +611,21 @@ export const translations = {
       footer_note:
         "An invitation email will be sent with a link to set up their account.",
     },
+    monitor: {
+      title: "Resource Monitor",
+      subtitle: "Full-stack infrastructure health and performance",
+      cpu: "Processor Load",
+      memory: "Memory Usage",
+      disk: "Storage Space",
+      uptime: "Server Uptime",
+      load_avg: "Load Average",
+      os: "Operating System",
+      arch: "Architecture",
+      total_mem: "Total RAM",
+      avail_mem: "Available RAM",
+      total_disk: "Total Disk Space",
+      avail_disk: "Available Disk Space",
+    },
     common: {
       actions: "Actions",
       delete: "Delete",
@@ -638,6 +654,8 @@ export const translations = {
       features: "Можливості",
       modules: "Модулі",
       users: "Команда",
+      monitor: "Моніторинг",
+      monitor: "Моніторинг",
       groups: {
         analytics: "Аналітика",
         tracking: "Збір даних",

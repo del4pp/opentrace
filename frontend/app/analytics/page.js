@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from '../../context/LanguageContext';
 import { useResource } from '../../context/ResourceContext';
 import HelpButton from '../../components/HelpButton';
+import { exportToCSV } from '../../utils/export';
 
 const API_URL = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api'}`;
 
@@ -60,6 +61,17 @@ export default function AnalyticsPage() {
         }
     }, [selectedResource, dateRange, customDates]);
 
+    const handleExport = () => {
+        if (!stats) return;
+        // Transform stats into a flat structure for CSV
+        const exportData = stats.sources.map(s => ({
+            Source: s.dim,
+            Visitors: s.val,
+            Total_Events: stats.summary.events
+        }));
+        exportToCSV(exportData, 'explorer_report');
+    };
+
     return (
         <div className="fade-in">
             <div style={{ marginBottom: '40px' }}>
@@ -112,135 +124,120 @@ export default function AnalyticsPage() {
                         </>
                     )}
 
-                    <button onClick={fetchAnalytics} className="btn-premium" style={{ height: '42px', marginLeft: 'auto' }}>
-                        {loading ? 'Refreshing...' : t('analytics.apply')}
+                    <div style={{ flex: 1 }}></div>
+
+                    <button
+                        className="btn-premium"
+                        style={{ background: '#fff', color: '#0f172a', border: '1px solid #e2e8f0' }}
+                        onClick={handleExport}
+                        disabled={!stats}
+                    >
+                        📤 Export (CSV)
+                    </button>
+                    <button className="btn-premium" onClick={fetchAnalytics} disabled={loading}>
+                        {loading ? '...' : '🔄 Sync'}
                     </button>
                 </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '24px', marginBottom: '32px' }}>
-                {[
-                    { key: 'visitors', label: t('analytics.metrics.visitors'), val: stats?.metrics?.visitors || 0 },
-                    { key: 'views', label: t('analytics.metrics.views'), val: stats?.metrics?.views || 0 },
-                    { key: 'bounce', label: t('dashboard.stats.bounce'), val: (stats?.metrics?.bounce_rate || 0) + '%' },
-                ].map((m) => (
-                    <div key={m.key} className="card-stat" style={{ padding: '24px' }}>
-                        <div style={{ fontSize: '11px', fontWeight: 800, color: '#94a3b8', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '0.05em' }}>
-                            {m.label}
+            {stats && (
+                <>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '24px', marginBottom: '32px' }}>
+                        <div className="card-stat" style={{ padding: '24px' }}>
+                            <div style={{ fontSize: '13px', color: '#64748b', fontWeight: 600, textTransform: 'uppercase', marginBottom: '8px' }}>
+                                {t('analytics.metrics.visitors')}
+                            </div>
+                            <div style={{ fontSize: '28px', fontWeight: 900 }}>{formatNumber(stats.summary.visitors)}</div>
                         </div>
-                        <div style={{ fontSize: '28px', fontWeight: 800 }}>{m.val}</div>
+                        <div className="card-stat" style={{ padding: '24px' }}>
+                            <div style={{ fontSize: '13px', color: '#64748b', fontWeight: 600, textTransform: 'uppercase', marginBottom: '8px' }}>
+                                {t('analytics.metrics.pageviews')}
+                            </div>
+                            <div style={{ fontSize: '28px', fontWeight: 900 }}>{formatNumber(stats.summary.events)}</div>
+                        </div>
+                        <div className="card-stat" style={{ padding: '24px' }}>
+                            <div style={{ fontSize: '13px', color: '#64748b', fontWeight: 600, textTransform: 'uppercase', marginBottom: '8px' }}>
+                                {t('analytics.metrics.bounce')}
+                            </div>
+                            <div style={{ fontSize: '28px', fontWeight: 900 }}>{stats.summary.bounce_rate}%</div>
+                        </div>
+                        <div className="card-stat" style={{ padding: '24px' }}>
+                            <div style={{ fontSize: '13px', color: '#64748b', fontWeight: 600, textTransform: 'uppercase', marginBottom: '8px' }}>
+                                {t('analytics.metrics.duration')}
+                            </div>
+                            <div style={{ fontSize: '28px', fontWeight: 900 }}>{Math.round(stats.summary.avg_duration)}s</div>
+                        </div>
+                    </div>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '32px' }}>
+                        {/* Traffic Sources */}
+                        <div className="card-stat" style={{ padding: '0', overflow: 'hidden' }}>
+                            <div style={{ padding: '20px 24px', borderBottom: '1px solid #f1f5f9', fontWeight: 700 }}>{t('analytics.trafficSources')}</div>
+                            <div style={{ padding: '20px 24px' }}>
+                                {stats.sources.map((s, i) => (
+                                    <div key={i} style={{ marginBottom: '16px' }}>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', marginBottom: '6px' }}>
+                                            <span style={{ fontWeight: 600 }}>{s.dim}</span>
+                                            <span style={{ color: '#64748b' }}>{formatNumber(s.val)} ({Math.round(s.val / stats.summary.visitors * 100)}%)</span>
+                                        </div>
+                                        <div style={{ height: '6px', background: '#f1f5f9', borderRadius: '3px', overflow: 'hidden' }}>
+                                            <div style={{ height: '100%', background: '#3b82f6', width: `${(s.val / stats.summary.visitors * 100)}%` }}></div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Recent Events */}
+                        <div className="card-stat" style={{ padding: '0', overflow: 'hidden' }}>
+                            <div style={{ padding: '20px 24px', borderBottom: '1px solid #f1f5f9', fontWeight: 700 }}>{t('analytics.trackedEvents.title')}</div>
+                            <div style={{ padding: '0' }}>
+                                {stats.events.length === 0 ? (
+                                    <div style={{ padding: '40px', textAlign: 'center', color: '#94a3b8' }}>{t('analytics.trackedEvents.empty')}</div>
+                                ) : (
+                                    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                                        <thead style={{ background: '#f8fafc', borderBottom: '1px solid #f1f5f9' }}>
+                                            <tr>
+                                                <th style={{ textAlign: 'left', padding: '12px 24px', fontSize: '11px', color: '#64748b' }}>{t('analytics.eventType')}</th>
+                                                <th style={{ textAlign: 'right', padding: '12px 24px', fontSize: '11px', color: '#64748b' }}>Hits</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {stats.events.map((e, i) => (
+                                                <tr key={i} style={{ borderBottom: '1px solid #f8fafc' }}>
+                                                    <td style={{ padding: '12px 24px', fontSize: '13px', fontWeight: 600 }}>{e.dim}</td>
+                                                    <td style={{ padding: '12px 24px', textAlign: 'right', fontSize: '13px', color: '#64748b' }}>{formatNumber(e.val)}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '32px', marginTop: '32px' }}>
+                        <BreakdownCard title={t('analytics.osBreakdown')} data={stats.os} total={stats.summary.visitors} />
+                        <BreakdownCard title={t('analytics.browserBreakdown')} data={stats.browsers} total={stats.summary.visitors} />
+                        <BreakdownCard title={t('analytics.deviceBreakdown')} data={stats.devices} total={stats.summary.visitors} />
+                    </div>
+                </>
+            )}
+        </div>
+    );
+}
+
+function BreakdownCard({ title, data, total }) {
+    return (
+        <div className="card-stat" style={{ padding: '0', overflow: 'hidden' }}>
+            <div style={{ padding: '20px 24px', borderBottom: '1px solid #f1f5f9', fontWeight: 700 }}>{title}</div>
+            <div style={{ padding: '20px 24px' }}>
+                {data.map((d, i) => (
+                    <div key={i} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', padding: '10px 0', borderBottom: i === data.length - 1 ? 'none' : '1px solid #f8fafc' }}>
+                        <span style={{ fontWeight: 600 }}>{d.dim}</span>
+                        <span style={{ color: '#64748b' }}>{formatNumber(d.val)}</span>
                     </div>
                 ))}
-            </div>
-
-            {/* Row 1: Traffic Sources & Events */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '32px', marginBottom: '32px' }}>
-                <div className="card-stat" style={{ padding: '32px' }}>
-                    <h3 style={{ marginBottom: '24px', fontSize: '18px' }}>{t('analytics.trafficSources')}</h3>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                        {!stats?.sources?.length ? (
-                            <div style={{ color: '#94a3b8' }}>No data available.</div>
-                        ) : (
-                            stats.sources.map((ch, i) => (
-                                <div key={i}>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px', fontSize: '14px' }}>
-                                        <span style={{ fontWeight: 600 }}>{ch.name}</span>
-                                        <span style={{ color: '#64748b', fontWeight: 700 }}>{ch.pct}% <span style={{ fontSize: '12px', fontWeight: 400 }}>({ch.val})</span></span>
-                                    </div>
-                                    <div style={{ height: '8px', background: '#f1f5f9', borderRadius: '10px', overflow: 'hidden' }}>
-                                        <div style={{ height: '100%', background: i === 0 ? '#2563eb' : '#cbd5e1', width: `${ch.pct}%` }}></div>
-                                    </div>
-                                </div>
-                            ))
-                        )}
-                    </div>
-                </div>
-
-                <div className="card-stat" style={{ padding: '32px' }}>
-                    <h3 style={{ marginBottom: '24px', fontSize: '18px' }}>{t('analytics.trackedEvents.title')}</h3>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                        {!stats?.events?.length ? (
-                            <div style={{ color: '#94a3b8' }}>{t('analytics.trackedEvents.empty')}</div>
-                        ) : (
-                            stats.events.map((ev, i) => (
-                                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 16px', background: '#f8fafc', borderRadius: '10px' }}>
-                                    <span style={{ fontWeight: 600, color: '#0f172a' }}>{ev.name}</span>
-                                    <span style={{ fontWeight: 800, color: '#2563eb', background: '#eff6ff', padding: '4px 12px', borderRadius: '6px', fontSize: '14px' }}>{formatNumber(ev.val)}</span>
-                                </div>
-                            ))
-                        )}
-                    </div>
-                </div>
-            </div>
-
-            {/* Row 2: OS & Browsers */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '32px', marginBottom: '32px' }}>
-                <div className="card-stat" style={{ padding: '32px' }}>
-                    <h3 style={{ marginBottom: '24px', fontSize: '18px' }}>{t('analytics.osBreakdown')}</h3>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                        {!stats?.os?.length ? (
-                            <div style={{ color: '#94a3b8' }}>No data available.</div>
-                        ) : (
-                            stats.os.map((item, i) => (
-                                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <span style={{ color: '#64748b', fontSize: '14px' }}>{item.name}</span>
-                                    <span style={{ fontWeight: 700 }}>{formatNumber(item.val)}</span>
-                                </div>
-                            ))
-                        )}
-                    </div>
-                </div>
-
-                <div className="card-stat" style={{ padding: '32px' }}>
-                    <h3 style={{ marginBottom: '24px', fontSize: '18px' }}>{t('analytics.browserBreakdown')}</h3>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                        {!stats?.browsers?.length ? (
-                            <div style={{ color: '#94a3b8' }}>No data available.</div>
-                        ) : (
-                            stats.browsers.map((item, i) => (
-                                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <span style={{ color: '#64748b', fontSize: '14px' }}>{item.name}</span>
-                                    <span style={{ fontWeight: 700 }}>{formatNumber(item.val)}</span>
-                                </div>
-                            ))
-                        )}
-                    </div>
-                </div>
-            </div>
-
-            {/* Row 3: Devices & Referrers */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '32px' }}>
-                <div className="card-stat" style={{ padding: '32px' }}>
-                    <h3 style={{ marginBottom: '24px', fontSize: '18px' }}>{t('analytics.deviceBreakdown')}</h3>
-                    <div style={{ display: 'flex', gap: '32px' }}>
-                        {!stats?.devices?.length ? (
-                            <div style={{ color: '#94a3b8' }}>No data available.</div>
-                        ) : (
-                            stats.devices.map((item, i) => (
-                                <div key={i} style={{ textAlign: 'center', flex: 1 }}>
-                                    <div style={{ fontSize: '12px', color: '#94a3b8', textTransform: 'uppercase', fontWeight: 800, marginBottom: '8px' }}>{item.name}</div>
-                                    <div style={{ fontSize: '24px', fontWeight: 800, color: '#0f172a' }}>{formatNumber(item.val)}</div>
-                                </div>
-                            ))
-                        )}
-                    </div>
-                </div>
-
-                <div className="card-stat" style={{ padding: '32px' }}>
-                    <h3 style={{ marginBottom: '24px', fontSize: '18px' }}>{t('analytics.topReferrers')}</h3>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                        {!stats?.referrers?.length ? (
-                            <div style={{ color: '#94a3b8' }}>No referrers detected.</div>
-                        ) : (
-                            stats.referrers.map((item, i) => (
-                                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px' }}>
-                                    <span style={{ color: '#2563eb', fontWeight: 600 }}>{item.name}</span>
-                                    <span style={{ color: '#64748b' }}>{formatNumber(item.val)}</span>
-                                </div>
-                            ))
-                        )}
-                    </div>
-                </div>
             </div>
         </div>
     );

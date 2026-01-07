@@ -20,7 +20,8 @@ from app.routers import (
     segments_router,
     users_router,
     reports_router,
-    modules_router
+    modules_router,
+    monitor_router
 )
 
 app = FastAPI(title="OpenTrace Analytics API", version="1.1.5")
@@ -115,3 +116,4 @@ app.include_router(segments_router)
 app.include_router(users_router)
 app.include_router(reports_router)
 app.include_router(modules_router)
+app.include_router(monitor_router)

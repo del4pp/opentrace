@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from '../../context/LanguageContext';
 import { useResource } from '../../context/ResourceContext';
 import HelpButton from '../../components/HelpButton';
+import { exportToCSV } from '../../utils/export';
 
 const API_URL = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api'}`;
 
@@ -167,6 +168,14 @@ export default function ReportsPage() {
                     </select>
                     <button className="btn-premium" style={{ background: '#0f172a' }} onClick={() => setShowBuilder(!showBuilder)}>
                         {showBuilder ? 'Hide Panel' : 'Edit Report'}
+                    </button>
+                    <button
+                        className="btn-premium"
+                        style={{ background: '#fff', color: '#0f172a', border: '1px solid #e2e8f0' }}
+                        onClick={() => exportToCSV(reportData, 'custom_report')}
+                        disabled={!reportData.length}
+                    >
+                        📤 Export
                     </button>
                     <button className="btn-premium" onClick={runReport} disabled={loading}>
                         {loading ? '...' : t('reports.adhoc')}

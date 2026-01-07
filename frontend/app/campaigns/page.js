@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from '../../context/LanguageContext';
 import { useResource } from '../../context/ResourceContext';
 import HelpButton from '../../components/HelpButton';
+import { exportToCSV } from '../../utils/export';
 
 const API_URL = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api'}`;
 
@@ -128,9 +129,18 @@ export default function CampaignsPage() {
                     </div>
                     <p className="subtitle">{t('campaigns.subtitle')}</p>
                 </div>
-                <button className="btn-premium" onClick={() => setShowModal(true)}>
-                    {t('campaigns.create')}
-                </button>
+                <div style={{ display: 'flex', gap: '12px' }}>
+                    <button
+                        className="btn-premium"
+                        style={{ background: '#fff', color: '#0f172a', border: '1px solid #e2e8f0' }}
+                        onClick={() => exportToCSV(campaigns, 'campaigns')}
+                    >
+                        📤 Export
+                    </button>
+                    <button className="btn-premium" onClick={() => setShowModal(true)}>
+                        {t('campaigns.create')}
+                    </button>
+                </div>
             </div>
 
             <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: '16px', overflow: 'hidden' }}>
