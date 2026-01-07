@@ -10,9 +10,12 @@ export default function Layout({ children }) {
     const router = useRouter();
     const { t, lang, setLanguage } = useTranslation();
     const { resources, selectedResource, selectResource, loading: resLoading } = useResource();
+
+    // Hooks MUST be at the top level
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isChecking, setIsChecking] = useState(true);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isProfileOpen, setIsProfileOpen] = useState(false);
 
     const isPublicPage = pathname === '/login' || pathname === '/' || pathname.startsWith('/forgot-password') || pathname.startsWith('/reset-password') || pathname.startsWith('/accept-invitation');
 
@@ -85,8 +88,6 @@ export default function Layout({ children }) {
         window.location.href = '/login';
     };
 
-    const [isProfileOpen, setIsProfileOpen] = useState(false);
-
     const navGroups = [
         {
             title: t('nav.groups.analytics'),
@@ -121,10 +122,6 @@ export default function Layout({ children }) {
         }
     ];
 
-    if (isChecking) {
-        return null;
-    }
-
     return (
         <div className="app-shell">
             {/* Mobile Header */}
@@ -151,7 +148,7 @@ export default function Layout({ children }) {
                     )}
                 </div>
 
-                <nav style={{ flex: 1, "version": "1.1.5", paddingBottom: '20px' }} className="thin-scrollbar">
+                <nav style={{ flex: 1, paddingBottom: '20px' }} className="thin-scrollbar">
                     {navGroups.map((group, gidx) => (
                         <div key={gidx} style={{ marginBottom: '32px' }}>
                             <div style={{
@@ -178,7 +175,6 @@ export default function Layout({ children }) {
                     ))}
                 </nav>
 
-                {/* Sticky Bottom Section */}
                 <div style={{
                     padding: '20px 8px 8px',
                     borderTop: '1px solid var(--border)',
@@ -236,7 +232,6 @@ export default function Layout({ children }) {
             )}
 
             <main className="main-view">
-                {/* Top Bar with Resource Switcher */}
                 <div className="top-bar">
                     <div style={{ maxWidth: '1200px', margin: '0 auto', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 24px' }}>
                         <div className="resource-switcher">
@@ -361,7 +356,7 @@ export default function Layout({ children }) {
                 <div style={{ maxWidth: '1200px', margin: '40px auto', padding: '0 24px', width: '100%' }}>
                     {children}
                 </div>
-            </main >
-        </div >
+            </main>
+        </div>
     );
 }
