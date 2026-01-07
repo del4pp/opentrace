@@ -92,8 +92,6 @@ export default function Layout({ children }) {
         {
             title: t('nav.groups.analytics'),
             items: [
-                { label: t('nav.dashboard'), href: '/dashboard' },
-                { label: t('nav.views'), href: '/analytics' },
                 { label: t('nav.funnels'), href: '/funnels' },
                 { label: t('nav.retention'), href: '/retention' },
                 { label: t('nav.segments'), href: '/segments' },
@@ -321,7 +319,7 @@ export default function Layout({ children }) {
                                                 onMouseOut={(e) => e.currentTarget.style.background = 'none'}
                                                 onClick={() => setIsProfileOpen(false)}
                                             >
-                                                👥 {t('nav.users')}
+                                                {t('nav.users')}
                                             </Link>
                                             <div style={{ margin: '8px 0', borderTop: '1px solid #f1f5f9' }}></div>
                                             <button
@@ -343,7 +341,7 @@ export default function Layout({ children }) {
                                                 onMouseOver={(e) => e.currentTarget.style.background = '#fff1f2'}
                                                 onMouseOut={(e) => e.currentTarget.style.background = 'none'}
                                             >
-                                                🚪 Logout
+                                                Logout
                                             </button>
                                         </div>
                                     </>

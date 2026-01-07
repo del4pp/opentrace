@@ -27,10 +27,14 @@ def send_email_via_smtp(to_email: str, subject: str, body: str, config: dict = N
         host = config.get("host", "localhost")
         port = int(config.get("port", 25))
         
-        server = smtplib.SMTP(host, port, timeout=30)
+        if port == 465:
+            server = smtplib.SMTP_SSL(host, port, timeout=30)
+        else:
+            server = smtplib.SMTP(host, port, timeout=30)
+        
         server.set_debuglevel(0)
         
-        if port == 587 or port == 465:
+        if port == 587:
             server.starttls()
             
         user = config.get("user")
@@ -38,13 +42,13 @@ def send_email_via_smtp(to_email: str, subject: str, body: str, config: dict = N
         if user and password:
             server.login(user, password)
             
-        server.sendmail(msg['From'], to_email, msg.as_string())
+        server.sendmail(config.get("from_email", "noreply@localhost"), to_email, msg.as_string())
         server.quit()
 
         logger.info(f"Email sent successfully to {to_email} via {host}")
         return True
     except Exception as e:
-        logger.error(f"Failed to send email via SMTP ({config.get('host')}): {e}")
+        logger.error(f"Failed to send email via SMTP ({config.get('host')}): {str(e)}")
         return False
 
 def send_email_via_mail_command(to_email: str, subject: str, body: str, from_email: str = "noreply@localhost") -> bool:

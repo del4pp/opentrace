@@ -100,7 +100,7 @@ async def forgot_password(req: schemas.PasswordResetRequest, db: AsyncSession = 
     db.add(reset_token)
     await db.commit()
 
-    reset_url = f"http://localhost:3000/reset-password?token={token}"
+    reset_url = f"{settings.FRONTEND_URL}/reset-password?token={token}"
     subject = "Password Reset Request"
     body = f"""
     <html>
@@ -197,7 +197,7 @@ async def invite_user(req: schemas.InvitationRequest, db: AsyncSession = Depends
     await db.commit()
 
     # 3. Send email
-    invite_url = f"http://localhost:3000/accept-invitation?token={token}"
+    invite_url = f"{settings.FRONTEND_URL}/accept-invitation?token={token}"
     subject = "You are invited to OpenTrace"
     body = f"""
     <html>
@@ -224,11 +224,12 @@ async def invite_user(req: schemas.InvitationRequest, db: AsyncSession = Depends
     }
 
     try:
-        await send_email(req.email, subject, body, config=smtp_config)
+        email_sent = await send_email(req.email, subject, body, config=smtp_config)
+        if not email_sent:
+            raise Exception("Email sending function returned False")
     except Exception as e:
         logger.error(f"Failed to send invitation email: {e}")
-        # We don't fail the request if email fails, but maybe we should?
-        # User can still get the link from the admin if needed.
+        raise HTTPException(status_code=500, detail=f"Failed to send invitation email: {str(e)}. Link: {invite_url}")
 
     return {"status": "success", "token": token}
 
