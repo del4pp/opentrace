@@ -4,7 +4,7 @@ import os
 import platform
 import time
 from typing import Dict
-from app.routers.auth import get_current_user
+from app.security import get_current_user
 
 router = APIRouter()
 
