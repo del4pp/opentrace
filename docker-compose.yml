@@ -24,6 +24,7 @@ services:
     volumes:
       - clickhouse_data:/var/lib/clickhouse
       - ./docker/clickhouse/scripts:/docker-entrypoint-initdb.d
+      - ./docker/clickhouse/config.d/logs.xml:/etc/clickhouse-server/config.d/logs.xml
     ulimits:
       nofile:
         soft: 262144
@@ -37,7 +38,7 @@ services:
       - "6379:6379"
 
   backend:
-    build: 
+    build:
       context: ./backend
       dockerfile: Dockerfile
     container_name: teleboard-backend
