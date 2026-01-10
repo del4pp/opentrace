@@ -502,6 +502,35 @@ export const translations = {
         retention: "Infinite Data Retention",
         security: "Secure Architecture",
         api: "API Access"
+      },
+      module_store: {
+        version: "Version",
+        status: {
+          available: "Available",
+          installed: "Installed",
+          disabled: "Disabled"
+        },
+        settings: "Settings",
+        enable: "Enable",
+        disable: "Disable",
+        details: "Details"
+      },
+      smart_reports: {
+        title: "Smart Reports Config",
+        subtitle: "Setup your automated performance reports.",
+        channels: "Delivery Channels",
+        resources: "Target Resources",
+        telegram: "Telegram Bot Token",
+        chat_id: "Telegram Chat ID",
+        discord: "Discord Webhook URL",
+        email: "Email Recipients (comma separated)",
+        frequency: "Report Frequency",
+        daily: "Daily",
+        weekly: "Every 7 Days",
+        time: "Delivery Time (Server Time)",
+        save: "Save Settings",
+        saving: "Saving...",
+        cancel: "Cancel"
       }
     },
     forgot_password: {
@@ -1165,6 +1194,35 @@ export const translations = {
         retention: "Безлімітне зберігання",
         security: "Захищена архітектура",
         api: "Доступ до API"
+      },
+      module_store: {
+        version: "Версія",
+        status: {
+          available: "Доступно",
+          installed: "Встановлено",
+          disabled: "Вимкнено"
+        },
+        settings: "Налаштування",
+        enable: "Увімкнути",
+        disable: "Вимкнути",
+        details: "Деталі"
+      },
+      smart_reports: {
+        title: "Конфігурація Smart Reports",
+        subtitle: "Налаштуйте автоматичні звіти про ефективність.",
+        channels: "Канали доставки",
+        resources: "Цільові ресурси",
+        telegram: "Токен Telegram-бота",
+        chat_id: "ID чату Telegram",
+        discord: "Discord Webhook URL",
+        email: "Отримувачі Email (через кому)",
+        frequency: "Частота звітів",
+        daily: "Щодня",
+        weekly: "Кожні 7 днів",
+        time: "Час доставки (серверний)",
+        save: "Зберегти налаштування",
+        saving: "Збереження...",
+        cancel: "Скасувати"
       }
     },
     forgot_password: {
@@ -1692,6 +1750,35 @@ export const translations = {
         retention: "Nieskończona retencja danych",
         security: "Bezpieczna architektura",
         api: "Dostęp do API"
+      },
+      module_store: {
+        version: "Wersja",
+        status: {
+          available: "Dostępny",
+          installed: "Zainstalowany",
+          disabled: "Wyłączony"
+        },
+        settings: "Ustawienia",
+        enable: "Włącz",
+        disable: "Wyłącz",
+        details: "Szczegóły"
+      },
+      smart_reports: {
+        title: "Konfiguracja Smart Reports",
+        subtitle: "Skonfiguruj automatyczne raporty wydajności.",
+        channels: "Kanały dostawy",
+        resources: "Zasoby docelowe",
+        telegram: "Token bota Telegram",
+        chat_id: "ID czatu Telegram",
+        discord: "Discord Webhook URL",
+        email: "Odbiorcy e-mail (розділені комою)",
+        frequency: "Częstotliwość raportów",
+        daily: "Codziennie",
+        weekly: "Co 7 dni",
+        time: "Czas dostawy (czas serwera)",
+        save: "Zapisz ustawienia",
+        saving: "Zapisywanie...",
+        cancel: "Anuluj"
       }
     },
   },
@@ -2057,6 +2144,35 @@ export const translations = {
         retention: "Unendliche Datenspeicherung",
         security: "Sichere Architektur",
         api: "API-Zugriff"
+      },
+      module_store: {
+        version: "Version",
+        status: {
+          available: "Verfügbar",
+          installed: "Installiert",
+          disabled: "Deaktiviert"
+        },
+        settings: "Einstellungen",
+        enable: "Aktivieren",
+        disable: "Deaktivieren",
+        details: "Details"
+      },
+      smart_reports: {
+        title: "Smart Reports Konfiguration",
+        subtitle: "Richten Sie Ihre automatisierten Leistungsberichte ein.",
+        channels: "Zustellungskanäle",
+        resources: "Zielressourcen",
+        telegram: "Telegram-Bot-Token",
+        chat_id: "Telegram-Chat-ID",
+        discord: "Discord-Webhook-URL",
+        email: "E-Mail-Empfänger (kommagetrennt)",
+        frequency: "Berichtsfrequenz",
+        daily: "Täglich",
+        weekly: "Alle 7 Tage",
+        time: "Zustellungszeit (Serverzeit)",
+        save: "Einstellungen speichern",
+        saving: "Speichern...",
+        cancel: "Abbrechen"
       }
     },
   },

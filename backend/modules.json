@@ -2,8 +2,9 @@
     {
         "slug": "smart-reports",
         "name": "Smart Reports & Alerts",
+        "version": "1.0.4",
         "price": "Free",
         "icon": "📊",
-        "desc": "Automated daily/weekly performance reports and server health monitoring via Telegram or Email."
+        "desc": "Automated performance reports and server health monitoring via Telegram, Discord or Email."
     }
 ]

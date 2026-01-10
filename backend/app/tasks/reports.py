@@ -14,11 +14,14 @@ async def get_system_stats():
     disk = psutil.disk_usage('/').percent
     return f"🖥 Server: CPU {cpu}%, RAM {mem}%, Disk {disk}%"
 
-async def generate_report_content():
-    # In a real app, we'd query ClickHouse/Postgres here
+async def generate_report_content(resources_ids=None):
+    # In a real app, we'd query ClickHouse/Postgres here and filter by resources_ids
     # For demo, we'll return simulated data
+    scope = f"Scope: {len(resources_ids)} resources" if resources_ids else "Scope: All resources"
+    
     return (
-        "📈 *OpenTrace Daily Report*\n\n"
+        "📈 *OpenTrace Smart Report*\n\n"
+        f"📍 {scope}\n"
         "👥 Users: 1,240 (+12%)\n"
         "🎯 Conversions: 89 (7.2%)\n"
         "⚡ API Speed: 42ms\n\n"
@@ -28,16 +31,24 @@ async def generate_report_content():
 
 async def send_telegram_notify(token, chat_id, message):
     url = f"https://api.telegram.org/bot{token}/sendMessage"
-    payload = {
-        "chat_id": chat_id,
-        "text": message,
-        "parse_mode": "Markdown"
-    }
+    payload = {"chat_id": chat_id, "text": message, "parse_mode": "Markdown"}
     async with httpx.AsyncClient() as client:
         try:
-            await client.post(url, json=payload)
+            await client.post(url, json=payload, timeout=10.0)
         except Exception as e:
             print(f"Failed to send telegram: {e}")
+
+async def send_discord_notify(webhook_url, message):
+    payload = {"content": message}
+    async with httpx.AsyncClient() as client:
+        try:
+            await client.post(webhook_url, json=payload, timeout=10.0)
+        except Exception as e:
+            print(f"Failed to send discord: {e}")
+
+async def send_email_notify(recipients, message):
+    # Simulated email sending - in production use SMTP or Mailgun
+    print(f"Simulating email to {recipients}: {message[:50]}...")
 
 async def reports_scheduler():
     while True:
@@ -48,19 +59,28 @@ async def reports_scheduler():
                 
                 if module and module.config:
                     config = json.loads(module.config)
-                    # Config example: {"telegram_token": "...", "chat_id": "...", "frequency": "daily", "time": "09:00", "last_sent": "..."}
                     
                     now = datetime.now()
                     current_time = now.strftime("%H:%M")
                     current_date = now.strftime("%Y-%m-%d")
                     
                     if config.get("time") == current_time and config.get("last_sent_date") != current_date:
-                        print(f"Sending scheduled report for module {module.id}")
+                        print(f"Processing scheduled report for module {module.id}")
                         
-                        report = await generate_report_content()
+                        resources_ids = config.get("resources", [])
+                        report = await generate_report_content(resources_ids)
                         
-                        if config.get("telegram_token") and config.get("chat_id"):
+                        # Delivery channels
+                        channels = config.get("channels", [])
+                        
+                        if "telegram" in channels and config.get("telegram_token") and config.get("chat_id"):
                             await send_telegram_notify(config["telegram_token"], config["chat_id"], report)
+                        
+                        if "discord" in channels and config.get("discord_webhook"):
+                            await send_discord_notify(config["discord_webhook"], report)
+                            
+                        if "email" in channels and config.get("emails"):
+                            await send_email_notify(config["emails"], report)
                         
                         # Update last sent
                         config["last_sent_date"] = current_date
@@ -70,7 +90,7 @@ async def reports_scheduler():
         except Exception as e:
             print(f"Error in reports_scheduler: {e}")
             
-        await asyncio.sleep(60) # Check every minute
+        await asyncio.sleep(60)
 
 def start_reports_task():
     loop = asyncio.get_event_loop()
