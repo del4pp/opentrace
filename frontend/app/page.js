@@ -246,13 +246,13 @@ export default function LandingPage() {
                 <a href="https://t.me/opentrace_analytics" target="_blank" className={styles.socialIcon} title="Telegram">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m22 2-7 20-4-9-9-4Z" /><path d="M22 2 11 13" /></svg>
                 </a>
-                <a href="https://discord.gg/opentrace" target="_blank" className={styles.socialIcon} title="Discord">
+                <a href="https://discord.gg/KtXftmzkD" target="_blank" className={styles.socialIcon} title="Discord">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="12" r="1" /><circle cx="15" cy="12" r="1" /><path d="M7.5 7.1c2.1-.9 4.9-.9 7 0M5 19l4.5-1.5M19 19l-4.5-1.5" /></svg>
                 </a>
                 <a href="https://github.com/del4pp/opentrace" target="_blank" className={styles.socialIcon} title="GitHub">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" /></svg>
                 </a>
-                <a href="https://instagram.com/opentrace" target="_blank" className={styles.socialIcon} title="Instagram">
+                <a href="https://www.instagram.com/opentrace.analytics" target="_blank" className={styles.socialIcon} title="Instagram">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" x2="17.51" y1="6.5" y2="6.5" /></svg>
                 </a>
               </div>
