@@ -17,8 +17,30 @@ CENTRAL_STORE_API = "https://store.opentrace.dev/api/verify"
 
 @router.get("")
 async def get_modules(db: AsyncSession = Depends(get_db)):
+    # 1. Get registry (available items)
+    try:
+        with open("modules.json", "r") as f:
+            registry = json.load(f)
+    except:
+        registry = []
+
+    # 2. Get installed (from DB)
     result = await db.execute(select(Module))
-    return result.scalars().all()
+    installed = {m.slug: m for m in result.scalars().all()}
+
+    # 3. Merge
+    output = []
+    for item in registry:
+        slug = item['slug']
+        if slug in installed:
+            item['status'] = 'installed' if installed[slug].is_active else 'disabled'
+            item['id_db'] = installed[slug].id
+        else:
+            item['status'] = 'available'
+            item['id_db'] = None
+        output.append(item)
+    
+    return output
 
 @router.post("/install")
 async def install_module(req: InstallModuleReq, request: Request, db: AsyncSession = Depends(get_db)):
