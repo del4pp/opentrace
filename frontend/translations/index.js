@@ -474,6 +474,35 @@ export const translations = {
         resources: "Resources",
         community: "Community",
       },
+      stats_block: {
+        speed: "Query Speed",
+        integrity: "Data Integrity",
+        scalability: "Scalability",
+        events: "Billion+ Events"
+      },
+      tech_stack: {
+        title: "Built for Scale",
+        subtitle: "Developed with the most advanced technical stack to ensure stability and performance.",
+        fastapi: {
+          title: "FastAPI Engine",
+          desc: "Asynchronous core handling thousands of requests per second with minimal overhead."
+        },
+        clickhouse: {
+          title: "ClickHouse Storage",
+          desc: "The world's fastest columnar database for analytical workloads and real-time reporting."
+        },
+        nextjs: {
+          title: "Next.js Interface",
+          desc: "Responsive and modern frontend built with the latest React patterns for fluid experience."
+        }
+      },
+      enterprise: {
+        tier: "Tier-1 Infrastructure",
+        dashboards: "Custom Dashboards",
+        retention: "Infinite Data Retention",
+        security: "Secure Architecture",
+        api: "API Access"
+      }
     },
     forgot_password: {
       title: "Reset Password",
@@ -1108,6 +1137,35 @@ export const translations = {
         resources: "Ресурси",
         community: "Спільнота",
       },
+      stats_block: {
+        speed: "Швидкість запитів",
+        integrity: "Цілісність даних",
+        scalability: "Масштабованість",
+        events: "Мільярди подій"
+      },
+      tech_stack: {
+        title: "Побудовано для масштабу",
+        subtitle: "Розроблено з використанням найсучаснішого технічного стеку для забезпечення стабільності та швидкості.",
+        fastapi: {
+          title: "Двигун FastAPI",
+          desc: "Асинхронне ядро, що обробляє тисячі запитів на секунду з мінімальними затримками."
+        },
+        clickhouse: {
+          title: "Сховище ClickHouse",
+          desc: "Найшвидша у світі колонкова база даних для аналітичних задач та звітів у реальному часі."
+        },
+        nextjs: {
+          title: "Інтерфейс Next.js",
+          desc: "Адаптивний та сучасний фронтенд, побудований на новітніх паттернах React для плавної роботи."
+        }
+      },
+      enterprise: {
+        tier: "Tier-1 Інфраструктура",
+        dashboards: "Кастомні дашборди",
+        retention: "Безлімітне зберігання",
+        security: "Захищена архітектура",
+        api: "Доступ до API"
+      }
     },
     forgot_password: {
       title: "Відновлення паролю",
@@ -1606,6 +1664,35 @@ export const translations = {
         resources: "Zasoby",
         community: "Społeczność",
       },
+      stats_block: {
+        speed: "Szybkość zapytań",
+        integrity: "Integralność danych",
+        scalability: "Skalowalność",
+        events: "Miliardy zdarzeń"
+      },
+      tech_stack: {
+        title: "Zbudowane dla skali",
+        subtitle: "Opracowane przy użyciu najnowocześniejszego stosu technologicznego w celu zapewnienia stabilności i wydajności.",
+        fastapi: {
+          title: "Silnik FastAPI",
+          desc: "Asynchroniczny rdzeń obsługujący tysiące żądań na sekundę przy minimalnym obciążeniu."
+        },
+        clickhouse: {
+          title: "Magazyn ClickHouse",
+          desc: "Najszybsza na świecie kolumnowa baza danych do obciążeń analitycznych i raportowania w czasie rzeczywistym."
+        },
+        nextjs: {
+          title: "Interfejs Next.js",
+          desc: "Responsive i nowoczesny frontend zbudowany z najnowszych wzorców React dla płynnego doświadczenia."
+        }
+      },
+      enterprise: {
+        tier: "Infrastruktura Tier-1",
+        dashboards: "Niestandardowe pulpity",
+        retention: "Nieskończona retencja danych",
+        security: "Bezpieczna architektura",
+        api: "Dostęp do API"
+      }
     },
   },
   de: {
@@ -1942,6 +2029,35 @@ export const translations = {
         resources: "Ressourcen",
         community: "Community",
       },
+      stats_block: {
+        speed: "Abfragegeschwindigkeit",
+        integrity: "Datenintegrität",
+        scalability: "Skalierbarkeit",
+        events: "Milliarden+ Ereignisse"
+      },
+      tech_stack: {
+        title: "Für Skalierung gebaut",
+        subtitle: "Entwickelt mit dem fortschrittlichsten technischen Stack, um Stabilität und Leistung zu gewährleisten.",
+        fastapi: {
+          title: "FastAPI Engine",
+          desc: "Asynchroner Kern, der Tausende von Anfragen pro Sekunde mit minimalem Overhead verarbeitet."
+        },
+        clickhouse: {
+          title: "ClickHouse Speicher",
+          desc: "Die weltweit schnellste spaltenorientierte Datenbank für analytische Workloads und Echtzeit-Reporting."
+        },
+        nextjs: {
+          title: "Next.js Oberfläche",
+          desc: "Reaktionsschnelles und modernes Frontend, gebaut mit den neuesten React-Mustern für ein flüssiges Erlebnis."
+        }
+      },
+      enterprise: {
+        tier: "Tier-1 Infrastruktur",
+        dashboards: "Eigene Dashboards",
+        retention: "Unendliche Datenspeicherung",
+        security: "Sichere Architektur",
+        api: "API-Zugriff"
+      }
     },
   },
 };

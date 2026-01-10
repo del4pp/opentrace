@@ -54,7 +54,7 @@ export default function LandingPage() {
           <nav className={styles.desktopNav}>
             <div className={styles.navLinks}>
               <a href="#features" className={styles.navItem}>{t('landing.nav.features')}</a>
-              <a href="#tech" className={styles.navItem}>Technology</a>
+              <a href="#tech" className={styles.navItem}>{t('landing.nav.opensource')}</a>
               <a href="#insights" className={styles.navItem}>Insights</a>
             </div>
 
@@ -87,10 +87,9 @@ export default function LandingPage() {
       {/* Hero */}
       <section className={styles.heroSection}>
         <div className={styles.heroContent}>
-          <h1 className={styles.heroTitle}>Master Your Product Analytics</h1>
+          <h1 className={styles.heroTitle}>{t('landing.hero.title')}</h1>
           <p className={styles.heroSubtitle}>
-            Gain deep insights into your users' behavior with high-performance event tracking.
-            Real-time data processing for modern businesses.
+            {t('landing.hero.subtitle')}
           </p>
           <div className={styles.heroActions}>
             <Link href="/login" className={styles.primaryBtn}>
@@ -138,16 +137,16 @@ export default function LandingPage() {
       <section id="insights" className={styles.statsSection}>
         <div className={styles.statsGrid}>
           <div className={styles.statItem}>
-            <div className={styles.statLabel}>Query Speed</div>
+            <div className={styles.statLabel}>{t('landing.stats_block.speed')}</div>
             <div className={styles.statValue}>&lt; 0.05s</div>
           </div>
           <div className={styles.statItem}>
-            <div className={styles.statLabel}>Data Integrity</div>
+            <div className={styles.statLabel}>{t('landing.stats_block.integrity')}</div>
             <div className={styles.statValue}>99.9%</div>
           </div>
           <div className={styles.statItem}>
-            <div className={styles.statLabel}>Scalability</div>
-            <div className={styles.statValue}>Billion+ Events</div>
+            <div className={styles.statLabel}>{t('landing.stats_block.scalability')}</div>
+            <div className={styles.statValue}>{t('landing.stats_block.events')}</div>
           </div>
         </div>
       </section>
@@ -156,24 +155,24 @@ export default function LandingPage() {
       <section id="tech" className={styles.featuresSection} style={{ background: '#fafafa' }}>
         <div className={styles.featuresContainer}>
           <div className={styles.sectionHeader}>
-            <h2 className={styles.sectionTitle}>Built for Scale</h2>
-            <p className={styles.sectionSubtitle}>Developed with the most advanced technical stack to ensure stability and performance.</p>
+            <h2 className={styles.sectionTitle}>{t('landing.tech_stack.title')}</h2>
+            <p className={styles.sectionSubtitle}>{t('landing.tech_stack.subtitle')}</p>
           </div>
           <div className={styles.featuresGrid}>
             <div className={styles.featureCard} style={{ background: '#fff' }}>
               <div className={styles.featureIcon}>⚡</div>
-              <h3 className={styles.featureTitle}>FastAPI Engine</h3>
-              <p className={styles.featureDesc}>Asynchronous core handling thousands of requests per second with minimal overhead.</p>
+              <h3 className={styles.featureTitle}>{t('landing.tech_stack.fastapi.title')}</h3>
+              <p className={styles.featureDesc}>{t('landing.tech_stack.fastapi.desc')}</p>
             </div>
             <div className={styles.featureCard} style={{ background: '#fff' }}>
               <div className={styles.featureIcon}>📊</div>
-              <h3 className={styles.featureTitle}>ClickHouse Storage</h3>
-              <p className={styles.featureDesc}>The world's fastest columnar database for analytical workloads and real-time reporting.</p>
+              <h3 className={styles.featureTitle}>{t('landing.tech_stack.clickhouse.title')}</h3>
+              <p className={styles.featureDesc}>{t('landing.tech_stack.clickhouse.desc')}</p>
             </div>
             <div className={styles.featureCard} style={{ background: '#fff' }}>
               <div className={styles.featureIcon}>⚛️</div>
-              <h3 className={styles.featureTitle}>Next.js Interface</h3>
-              <p className={styles.featureDesc}>Responsive and modern frontend built with the latest React patterns for fluid experience.</p>
+              <h3 className={styles.featureTitle}>{t('landing.tech_stack.nextjs.title')}</h3>
+              <p className={styles.featureDesc}>{t('landing.tech_stack.nextjs.desc')}</p>
             </div>
           </div>
         </div>
@@ -213,12 +212,17 @@ export default function LandingPage() {
             <div className={styles.cardType}>Enterprise Edition</div>
             <div className={styles.cardPrice}>Tier-1<span className={styles.cardPricePeriod}> Infrastructure</span></div>
             <div className={styles.cardFeatures}>
-              {['Custom Dashboards', 'Infinite Data Retention', 'Secure Architecture', 'API Access'].map((item, i) => (
+              {[
+                { key: 'dashboards', en: 'Custom Dashboards' },
+                { key: 'retention', en: 'Infinite Data Retention' },
+                { key: 'security', en: 'Secure Architecture' },
+                { key: 'api', en: 'API Access' }
+              ].map((item, i) => (
                 <div key={i} className={styles.cardFeatureItem}>
                   <div className={styles.checkIcon}>
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
                   </div>
-                  <span style={{ fontSize: '15px' }}>{item}</span>
+                  <span style={{ fontSize: '15px' }}>{t(`landing.enterprise.${item.key}`)}</span>
                 </div>
               ))}
             </div>
@@ -238,17 +242,31 @@ export default function LandingPage() {
               <div className={styles.footerDesc}>
                 {t('landing.footer.tagline')}
               </div>
+              <div className={styles.socialLinks}>
+                <a href="https://t.me/opentrace_analytics" target="_blank" className={styles.socialIcon} title="Telegram">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m22 2-7 20-4-9-9-4Z" /><path d="M22 2 11 13" /></svg>
+                </a>
+                <a href="https://discord.gg/opentrace" target="_blank" className={styles.socialIcon} title="Discord">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="12" r="1" /><circle cx="15" cy="12" r="1" /><path d="M7.5 7.1c2.1-.9 4.9-.9 7 0M5 19l4.5-1.5M19 19l-4.5-1.5" /></svg>
+                </a>
+                <a href="https://github.com/del4pp/opentrace" target="_blank" className={styles.socialIcon} title="GitHub">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" /></svg>
+                </a>
+                <a href="https://instagram.com/opentrace" target="_blank" className={styles.socialIcon} title="Instagram">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" x2="17.51" y1="6.5" y2="6.5" /></svg>
+                </a>
+              </div>
             </div>
             <div className={styles.footerLinks}>
               <div>
-                <div className={styles.footerGroupTitle}>Product</div>
+                <div className={styles.footerGroupTitle}>{t('landing.footer.product')}</div>
                 <div className={styles.footerGroupLinks}>
-                  <a href="#features" className={styles.footerLink}>Features</a>
-                  <a href="#tech" className={styles.footerLink}>Tech</a>
+                  <a href="#features" className={styles.footerLink}>{t('landing.nav.features')}</a>
+                  <a href="#tech" className={styles.footerLink}>{t('landing.nav.opensource')}</a>
                 </div>
               </div>
               <div>
-                <div className={styles.footerGroupTitle}>Company</div>
+                <div className={styles.footerGroupTitle}>{t('landing.footer.community')}</div>
                 <div className={styles.footerGroupLinks}>
                   <a href="#" className={styles.footerLink}>About</a>
                   <a href="#" className={styles.footerLink}>Contact</a>
