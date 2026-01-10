@@ -5,7 +5,7 @@ from typing import List
 from .. import models
 from ..schemas import schemas
 from ..database import get_db
-from ..security import check_admin_auth
+from ..security import check_admin_auth, requires_admin
 
 router = APIRouter(tags=["Resources"])
 
@@ -15,7 +15,7 @@ async def get_resources(db: AsyncSession = Depends(get_db)):
     return result.scalars().all()
 
 @router.post("/api/resources", response_model=schemas.Resource)
-async def create_resource(resource: schemas.ResourceCreate, db: AsyncSession = Depends(get_db)):
+async def create_resource(resource: schemas.ResourceCreate, db: AsyncSession = Depends(get_db), admin = Depends(requires_admin)):
     db_resource = models.Resource(**resource.dict())
     db.add(db_resource)
     await db.commit()
@@ -23,7 +23,7 @@ async def create_resource(resource: schemas.ResourceCreate, db: AsyncSession = D
     return db_resource
 
 @router.put("/api/resources/{resource_id}", response_model=schemas.Resource)
-async def update_resource(resource_id: int, resource_update: schemas.ResourceUpdate, db: AsyncSession = Depends(get_db)):
+async def update_resource(resource_id: int, resource_update: schemas.ResourceUpdate, db: AsyncSession = Depends(get_db), admin = Depends(requires_admin)):
     result = await db.execute(select(models.Resource).where(models.Resource.id == resource_id))
     db_resource = result.scalar_one_or_none()
 
@@ -39,7 +39,7 @@ async def update_resource(resource_id: int, resource_update: schemas.ResourceUpd
     return db_resource
 
 @router.delete("/api/resources/{resource_id}")
-async def delete_resource(resource_id: int, req: schemas.DeleteRequest, db: AsyncSession = Depends(get_db)):
+async def delete_resource(resource_id: int, req: schemas.DeleteRequest, db: AsyncSession = Depends(get_db), admin = Depends(requires_admin)):
     if not await check_admin_auth(req.password, db):
         raise HTTPException(status_code=403, detail="Invalid password")
     

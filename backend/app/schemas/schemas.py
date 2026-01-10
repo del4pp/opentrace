@@ -120,6 +120,7 @@ class PasswordResetConfirm(BaseModel):
 
 class InvitationRequest(BaseModel):
     email: EmailStr
+    role: str = "admin"
     invited_by: int
 
 class InvitationAccept(BaseModel):

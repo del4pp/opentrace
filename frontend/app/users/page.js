@@ -7,6 +7,7 @@ const API_URL = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api
 export default function UsersPage() {
     const [email, setEmail] = useState('');
     const [loading, setLoading] = useState(false);
+    const [role, setRole] = useState('admin');
     const [msg, setMsg] = useState('');
     const [error, setError] = useState('');
 
@@ -26,6 +27,7 @@ export default function UsersPage() {
                 },
                 body: JSON.stringify({
                     email,
+                    role,
                     invited_by: user.user_id
                 })
             });
@@ -78,6 +80,24 @@ export default function UsersPage() {
                             onChange={e => setEmail(e.target.value)}
                             required
                         />
+                    </div>
+
+                    <div className="form-field" style={{ marginTop: '20px' }}>
+                        <label>User Role</label>
+                        <select
+                            className="input-lux"
+                            value={role}
+                            onChange={e => setRole(e.target.value)}
+                            style={{ width: '100%', padding: '12px' }}
+                        >
+                            <option value="admin">Admin (Full Access)</option>
+                            <option value="demo">Demo (View Only)</option>
+                        </select>
+                        <p style={{ fontSize: '11px', color: '#94a3b8', marginTop: '4px' }}>
+                            {role === 'admin'
+                                ? 'Admin can manage resources, campaigns, and settings.'
+                                : 'Demo users can only view charts and reports.'}
+                        </p>
                     </div>
 
                     <button

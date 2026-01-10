@@ -58,6 +58,7 @@ async def login(creds: schemas.LoginRequest, db: AsyncSession = Depends(get_db))
     return {
         "user_id": user.id,
         "email": user.email,
+        "role": user.role if hasattr(user, 'role') else 'admin',
         "is_first_login": user.is_first_login if user.is_first_login is not None else False,
         "access_token": access_token,
         "token_type": "bearer"
@@ -189,6 +190,7 @@ async def invite_user(req: schemas.InvitationRequest, db: AsyncSession = Depends
     
     invitation = models.Invitation(
         email=req.email,
+        role=req.role,
         token=token,
         expires_at=expires_at,
         invited_by_id=req.invited_by
@@ -252,6 +254,7 @@ async def accept_invitation(req: schemas.InvitationAccept, db: AsyncSession = De
     new_user = models.User(
         email=invitation.email,
         name=req.name,
+        role=invitation.role,
         hashed_password=get_password_hash(req.password),
         is_first_login=False
     )

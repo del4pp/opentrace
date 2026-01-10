@@ -5,7 +5,7 @@ from typing import List, Optional
 from .. import models
 from ..schemas import schemas
 from ..database import get_db
-from ..security import check_admin_auth
+from ..security import check_admin_auth, requires_admin
 
 router = APIRouter(tags=["Campaigns"])
 
@@ -37,7 +37,7 @@ async def resolve_campaign(param: str, db: AsyncSession = Depends(get_db)):
     }
 
 @router.post("/api/campaigns", response_model=schemas.Campaign)
-async def create_campaign(campaign: schemas.CampaignCreate, db: AsyncSession = Depends(get_db)):
+async def create_campaign(campaign: schemas.CampaignCreate, db: AsyncSession = Depends(get_db), admin = Depends(requires_admin)):
     db_campaign = models.Campaign(**campaign.dict())
     db.add(db_campaign)
     await db.commit()
@@ -45,7 +45,7 @@ async def create_campaign(campaign: schemas.CampaignCreate, db: AsyncSession = D
     return db_campaign
 
 @router.delete("/api/campaigns/{id}")
-async def delete_campaign(id: int, req: schemas.DeleteRequest, db: AsyncSession = Depends(get_db)):
+async def delete_campaign(id: int, req: schemas.DeleteRequest, db: AsyncSession = Depends(get_db), admin = Depends(requires_admin)):
     if not await check_admin_auth(req.password, db):
         raise HTTPException(status_code=403, detail="Invalid password")
     

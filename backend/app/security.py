@@ -78,6 +78,14 @@ async def get_current_user(
         print(f"Auth unexpected error: {str(e)}")
         raise HTTPException(status_code=401, detail="Internal auth error")
 
+async def requires_admin(user: models.User = Depends(get_current_user)):
+    if user.role != "admin":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Administrative privileges required"
+        )
+    return user
+
 async def check_admin_auth(password: str, db: AsyncSession) -> bool:
     # Try the default admin first
     result = await db.execute(select(models.User).where(models.User.email == "admin@opentrace.io"))

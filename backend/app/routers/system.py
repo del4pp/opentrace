@@ -9,6 +9,7 @@ import asyncio
 import subprocess
 from datetime import datetime
 from ..database import get_clickhouse_client
+from ..security import requires_admin
 
 router = APIRouter(tags=["System"])
 
@@ -52,7 +53,7 @@ async def check_update():
     return {"current": VERSION, "update_available": False}
 
 @router.post("/api/system/perform-update")
-async def perform_update(db: AsyncSession = Depends(get_db)):
+async def perform_update(db: AsyncSession = Depends(get_db), admin = Depends(requires_admin)):
     import os
     
     # Path inside container that is mapped to host
@@ -80,7 +81,7 @@ async def get_show_demo(db: AsyncSession = Depends(get_db)):
     return {"show_demo": (setting.value == "true") if setting else True}
 
 @router.post("/api/settings")
-async def update_setting(req: SettingUpdate, db: AsyncSession = Depends(get_db)):
+async def update_setting(req: SettingUpdate, db: AsyncSession = Depends(get_db), admin = Depends(requires_admin)):
     res = await db.execute(select(models.Setting).where(models.Setting.key == req.key))
     setting = res.scalars().first()
     if not setting:
@@ -92,7 +93,7 @@ async def update_setting(req: SettingUpdate, db: AsyncSession = Depends(get_db))
     return {"status": "success"}
 
 @router.post("/api/admin/update-email")
-async def update_admin_email(req: EmailUpdate, db: AsyncSession = Depends(get_db)):
+async def update_admin_email(req: EmailUpdate, db: AsyncSession = Depends(get_db), admin = Depends(requires_admin)):
     res = await db.execute(select(models.User).order_by(models.User.id))
     user = res.scalars().first()
     if not user:
@@ -102,7 +103,7 @@ async def update_admin_email(req: EmailUpdate, db: AsyncSession = Depends(get_db
     await db.commit()
     return {"status": "success", "new_email": user.email}
 @router.post("/api/admin/reset-password")
-async def reset_password(db: AsyncSession = Depends(get_db)):
+async def reset_password(db: AsyncSession = Depends(get_db), admin = Depends(requires_admin)):
     res = await db.execute(select(models.User).order_by(models.User.id))
     user = res.scalars().first()
     if not user:
@@ -117,7 +118,7 @@ async def reset_password(db: AsyncSession = Depends(get_db)):
         
     return {"status": "success", "message": f"Reset link sent to {user.email}"}
 @router.post("/api/system/backup")
-async def create_backup():
+async def create_backup(admin = Depends(requires_admin)):
     backup_dir = "/app/data/backups"
     os.makedirs(backup_dir, exist_ok=True)
     
@@ -169,7 +170,7 @@ async def list_backups():
     return sorted(backups, key=lambda x: x['created_at'], reverse=True)
 
 @router.post("/api/system/restore")
-async def restore_backup(filename: str):
+async def restore_backup(filename: str, admin = Depends(requires_admin)):
     backup_path = f"/app/data/backups/{filename}"
     if not os.path.exists(backup_path):
         raise HTTPException(status_code=404, detail="Backup file not found")

@@ -16,6 +16,7 @@ export default function Layout({ children }) {
     const [isChecking, setIsChecking] = useState(true);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isProfileOpen, setIsProfileOpen] = useState(false);
+    const [userRole, setUserRole] = useState('admin');
 
     const isPublicPage = pathname === '/login' || pathname === '/' || pathname.startsWith('/forgot-password') || pathname.startsWith('/reset-password') || pathname.startsWith('/accept-invitation');
 
@@ -38,6 +39,9 @@ export default function Layout({ children }) {
                     const userData = JSON.parse(user);
                     if (userData && userData.user_id) {
                         setIsAuthenticated(true);
+                        if (userData && userData.role) {
+                            setUserRole(userData.role);
+                        }
                         if (userData.is_first_login && pathname !== '/profile' && !isPublicPage) {
                             router.replace('/profile');
                         }
@@ -111,10 +115,10 @@ export default function Layout({ children }) {
         },
         {
             title: t('nav.groups.system'),
-            items: [
+            items: userRole === 'admin' ? [
                 { label: t('nav.settings'), href: '/settings' },
                 { label: t('nav.modules'), href: '/modules' },
-            ]
+            ] : []
         }
     ];
 
@@ -269,8 +273,15 @@ export default function Layout({ children }) {
                                     onMouseOut={(e) => !isProfileOpen && (e.currentTarget.style.background = 'none')}
                                 >
                                     <div style={{ textAlign: 'right' }}>
-                                        <div style={{ fontSize: '13px', fontWeight: 800, color: '#0f172a' }}>Admin User</div>
-                                        <div style={{ fontSize: '10px', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>System Administrator</div>
+                                        <div style={{ fontSize: '13px', fontWeight: 800, color: 'var(--text)' }}>
+                                            {JSON.parse(localStorage.getItem('user'))?.email?.split('@')[0] || 'User'}
+                                            {userRole === 'demo' && (
+                                                <span style={{ marginLeft: '8px', padding: '2px 6px', background: '#f59e0b', color: '#fff', borderRadius: '4px', fontSize: '10px' }}>DEMO</span>
+                                            )}
+                                        </div>
+                                        <div style={{ fontSize: '10px', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                                            {userRole === 'admin' ? 'System Administrator' : 'Viewer (Read Only)'}
+                                        </div>
                                     </div>
                                     <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'linear-gradient(135deg, #0f172a, #334155)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '14px', fontWeight: 700 }}>
                                         AD

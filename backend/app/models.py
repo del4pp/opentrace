@@ -8,6 +8,7 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String, unique=True, index=True)
     name = Column(String, nullable=True)
+    role = Column(String, default="admin") # 'admin' or 'demo'
     hashed_password = Column(String)
     is_first_login = Column(Boolean, default=True)
     created_at = Column(DateTime, default=datetime.utcnow)
@@ -144,6 +145,7 @@ class Invitation(Base):
     __tablename__ = "invitations"
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String, index=True)
+    role = Column(String, default="admin") # 'admin' or 'demo'
     token = Column(String, unique=True, index=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     expires_at = Column(DateTime)
