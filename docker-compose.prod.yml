@@ -36,7 +36,6 @@ services:
     volumes:
       - clickhouse_data:/var/lib/clickhouse
       - ./docker/clickhouse/scripts:/docker-entrypoint-initdb.d
-      - ./docker/clickhouse/config.d/logs.xml:/etc/clickhouse-server/config.d/logs.xml
     ulimits:
       nofile:
         soft: 262144
@@ -76,11 +75,11 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        NEXT_PUBLIC_API_URL: http://${DOMAIN_NAME:-localhost}:8080/api
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8080/api}
     container_name: teleboard-frontend
     restart: always
     environment:
-      NEXT_PUBLIC_API_URL: http://${DOMAIN_NAME:-localhost}:8080/api
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8080/api}
     depends_on:
       - backend
 
