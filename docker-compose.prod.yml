@@ -6,23 +6,12 @@ services:
     container_name: teleboard-gateway
     restart: always
     ports:
-      - "80:80"
-      - "443:443"
+      - "8080:80"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
     depends_on:
       - frontend
       - backend
-
-  certbot:
-    image: certbot/certbot
-    container_name: teleboard-certbot
-    volumes:
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
   postgres:
     image: postgres:15-alpine
@@ -87,11 +76,11 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        NEXT_PUBLIC_API_URL: ${API_PROTOCOL:-https}://${DOMAIN_NAME:-localhost}/api
+        NEXT_PUBLIC_API_URL: http://${DOMAIN_NAME:-localhost}:8080/api
     container_name: teleboard-frontend
     restart: always
     environment:
-      NEXT_PUBLIC_API_URL: ${API_PROTOCOL:-https}://${DOMAIN_NAME:-localhost}/api
+      NEXT_PUBLIC_API_URL: http://${DOMAIN_NAME:-localhost}:8080/api
     depends_on:
       - backend
 

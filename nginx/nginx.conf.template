@@ -39,7 +39,7 @@ http {
             proxy_set_header Host $host;
         }
 
-        # WebSocket support for Live View (if needed via backend)
+        # WebSocket support for Live View
         location /ws/ {
             proxy_pass http://backend:8000/ws/;
             proxy_http_version 1.1;
