@@ -34,7 +34,7 @@ export default function LandingPage() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [router]);
 
-  const features = getFeatures(t);
+  const featuresList = getFeatures(t);
 
   return (
     <div className={styles.container}>
@@ -87,10 +87,6 @@ export default function LandingPage() {
       {/* Hero */}
       <section className={styles.heroSection}>
         <div className={styles.heroContent}>
-          <div className={styles.heroBadge}>
-            <span className={styles.heroBadgeDot}></span>
-            Advanced Infrastructure
-          </div>
           <h1 className={styles.heroTitle}>Master Your Product Analytics</h1>
           <p className={styles.heroSubtitle}>
             Gain deep insights into your users' behavior with high-performance event tracking.
@@ -187,11 +183,11 @@ export default function LandingPage() {
       <section id="features" className={styles.featuresSection}>
         <div className={styles.featuresContainer}>
           <div className={styles.sectionHeader}>
-            <h2 className={styles.sectionTitle}>Comprehensive Capabilities</h2>
-            <p className={styles.sectionSubtitle}>Everything you need to track, analyze, and grow your digital product.</p>
+            <h2 className={styles.sectionTitle}>{t('landing.features.title')}</h2>
+            <p className={styles.sectionSubtitle}>{t('landing.features.subtitle')}</p>
           </div>
           <div className={styles.featuresGrid}>
-            {features.slice(0, 6).map((f, i) => (
+            {featuresList.slice(0, 6).map((f, i) => (
               <div key={i} className={styles.featureCard}>
                 <div className={styles.featureIcon}>
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -209,9 +205,9 @@ export default function LandingPage() {
       {/* Deployment Section */}
       <section className={styles.pricingSection}>
         <div className={styles.pricingContainer}>
-          <h2 className={styles.pricingTitle}>Ready to get started?</h2>
+          <h2 className={styles.pricingTitle}>{t('landing.cta.title')}</h2>
           <p className={styles.pricingDesc}>
-            Join dozens of teams already using OpenTrace to optimize their user journeys.
+            {t('landing.cta.desc')}
           </p>
           <div className={styles.pricingCard}>
             <div className={styles.cardType}>Enterprise Edition</div>
@@ -227,7 +223,7 @@ export default function LandingPage() {
               ))}
             </div>
             <Link href="/login" className={styles.cardBtn}>
-              Launch Dashboard
+              {t('landing.cta.button')}
             </Link>
           </div>
         </div>
@@ -240,8 +236,7 @@ export default function LandingPage() {
             <div>
               <div className={styles.footerBrand}>OpenTrace</div>
               <div className={styles.footerDesc}>
-                Premium analytics for modern product teams. <br />
-                Performance first, data driven.
+                {t('landing.footer.tagline')}
               </div>
             </div>
             <div className={styles.footerLinks}>
@@ -262,7 +257,7 @@ export default function LandingPage() {
             </div>
           </div>
           <div className={styles.copyright}>
-            © 2026 OpenTrace Systems. All rights reserved.
+            {t('footer.copyright')}
           </div>
         </div>
       </footer>
