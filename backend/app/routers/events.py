@@ -5,7 +5,7 @@ from typing import List, Optional
 from .. import models
 from ..schemas import schemas
 from ..database import get_db
-from ..security import check_admin_auth
+from ..security import check_admin_auth, requires_admin
 
 router = APIRouter(tags=["Events"])
 
@@ -43,7 +43,7 @@ async def get_events(resource_id: Optional[int] = None, db: AsyncSession = Depen
     return events_with_stats
 
 @router.post("/api/events", response_model=schemas.Event)
-async def create_event(event: schemas.EventCreate, db: AsyncSession = Depends(get_db)):
+async def create_event(event: schemas.EventCreate, db: AsyncSession = Depends(get_db), admin = Depends(requires_admin)):
     db_event = models.Event(**event.dict())
     db.add(db_event)
     await db.commit()
@@ -51,7 +51,7 @@ async def create_event(event: schemas.EventCreate, db: AsyncSession = Depends(ge
     return db_event
 
 @router.delete("/api/events/{id}")
-async def delete_event(id: int, req: schemas.DeleteRequest, db: AsyncSession = Depends(get_db)):
+async def delete_event(id: int, req: schemas.DeleteRequest, db: AsyncSession = Depends(get_db), admin = Depends(requires_admin)):
     if not await check_admin_auth(req.password, db):
         raise HTTPException(status_code=403, detail="Invalid password")
     
@@ -66,7 +66,7 @@ async def delete_event(id: int, req: schemas.DeleteRequest, db: AsyncSession = D
     return {"status": "deleted"}
 
 @router.put("/api/events/{id}")
-async def update_event(id: int, event: schemas.EventUpdate, db: AsyncSession = Depends(get_db)):
+async def update_event(id: int, event: schemas.EventUpdate, db: AsyncSession = Depends(get_db), admin = Depends(requires_admin)):
     result = await db.execute(select(models.Event).where(models.Event.id == id))
     db_event = result.scalar_one_or_none()
     
