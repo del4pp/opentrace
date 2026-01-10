@@ -108,47 +108,77 @@ async def send_to_conversion_api(event_name: str, data: dict, fbclid: str = None
         await log_system("ERROR", "CAPI", str(e))
 
 @router.get("/api/dashboard/stats")
-async def get_dashboard_stats(resource_id: Optional[str] = None, db: AsyncSession = Depends(get_db)):
+async def get_dashboard_stats(resource_id: Optional[str] = None, start: Optional[str] = None, end: Optional[str] = None, db: AsyncSession = Depends(get_db)):
     try:
         client = get_clickhouse_client()
         params = {}
         filters = ["1=1"]
-        if resource_id and resource_id not in ('null', 'undefined'):
+        if resource_id and resource_id not in ('null', 'undefined', ''):
             filters.append("resource_id = {rid:String}")
             params['rid'] = resource_id
+        
+        # Date filtering
+        date_filter = "timestamp >= now() - INTERVAL 24 HOUR"
+        if start and end:
+            date_filter = "toDate(timestamp) >= {start:String} AND toDate(timestamp) <= {end:String}"
+            params['start'] = start
+            params['end'] = end
+        
         where_clause = "WHERE " + " AND ".join(filters)
+        where_with_date = f"{where_clause} AND {date_filter}"
 
-        stats_query = f"SELECT uniqExact(session_id) as visitors, count(*) as views FROM telemetry {where_clause} AND timestamp >= now() - INTERVAL 24 HOUR"
+        stats_query = f"SELECT uniqExact(session_id) as visitors, count(*) as views FROM telemetry {where_with_date}"
         stats_res = client.query(stats_query, parameters=params).first_row
         visitors, views = stats_res if stats_res else (0, 0)
         
         # Bounce Rate approximation
-        bounce_query = f"SELECT count(*) FROM (SELECT session_id, count(*) as c FROM telemetry {where_clause} AND timestamp >= now() - INTERVAL 24 HOUR GROUP BY session_id HAVING c = 1)"
+        bounce_query = f"SELECT count(*) FROM (SELECT session_id, count(*) as c FROM telemetry {where_with_date} GROUP BY session_id HAVING c = 1)"
         bounce_res = client.query(bounce_query, parameters=params).first_row
         bounce_count = bounce_res[0] if bounce_res else 0
         bounce_rate = (bounce_count / visitors * 100) if visitors > 0 else 0
 
-        chart_query = f"SELECT toStartOfHour(timestamp) as h, count(*) FROM telemetry {where_clause} AND timestamp >= now() - INTERVAL 24 HOUR GROUP BY h ORDER BY h"
+        # Chart Data (dynamic granularity based on range)
+        range_days = 1
+        if start and end:
+            s_dt = datetime.datetime.strptime(start, '%Y-%m-%d')
+            e_dt = datetime.datetime.strptime(end, '%Y-%m-%d')
+            range_days = (e_dt - s_dt).days + 1
+
+        if range_days <= 2:
+            chart_query = f"SELECT toStartOfHour(timestamp) as t, count(*) FROM telemetry {where_with_date} GROUP BY t ORDER BY t"
+            # Return last 24 points or similar for the sparkline
+        else:
+            chart_query = f"SELECT toDate(timestamp) as t, count(*) FROM telemetry {where_with_date} GROUP BY t ORDER BY t"
+
         chart_res = client.query(chart_query, parameters=params).result_rows
         
-        now_dt_utc = datetime.datetime.now(datetime.timezone.utc).replace(minute=0, second=0, microsecond=0, tzinfo=None)
-        last_24_hours = [(now_dt_utc - datetime.timedelta(hours=i)) for i in range(23, -1, -1)]
-        counts_map = {row[0].replace(minute=0, second=0, microsecond=0): row[1] for row in chart_res}
-        raw_counts = [counts_map.get(hr, 0) for hr in last_24_hours]
-        max_val = max(raw_counts) if raw_counts and max(raw_counts) > 0 else 1
-        chart_data = [int((c / max_val) * 100) for c in raw_counts]
+        # Simple normalization for the mini-chart
+        raw_vals = [row[1] for row in chart_res] if chart_res else [0]
+        max_val = max(raw_vals) if max(raw_vals) > 0 else 1
+        chart_data = [int((v / max_val) * 100) for v in raw_vals]
+        # Pad or trim if it's 24h dashboard
+        if not start and not end:
+            # Last 24 hours logic
+            now_dt = datetime.datetime.now().replace(minute=0, second=0, microsecond=0)
+            last_24 = {(now_dt - datetime.timedelta(hours=i)): 0 for i in range(24)}
+            for row in chart_res:
+                t_key = row[0].replace(minute=0, second=0, microsecond=0)
+                if t_key in last_24: last_24[t_key] = row[1]
+            sorted_counts = [last_24[k] for k in sorted(last_24.keys())]
+            max_v = max(sorted_counts) if max(sorted_counts) > 0 else 1
+            chart_data = [int((c / max_v) * 100) for c in sorted_counts]
 
-        # Real-time online count
-        r_pattern = resource_id if resource_id and resource_id != 'undefined' else '*'
+        # Real-time online count (stays independent of global date filter)
+        r_pattern = resource_id if resource_id and resource_id != 'undefined' and resource_id != '' else '*'
         online_count = len(redis_client.keys(f"ot:active:{r_pattern}:*"))
 
-        session_dur_query = f"SELECT avg(dur) FROM (SELECT session_id, dateDiff('second', min(timestamp), max(timestamp)) as dur FROM telemetry {where_clause} AND timestamp >= now() - INTERVAL 24 HOUR GROUP BY session_id) WHERE dur > 0"
+        session_dur_query = f"SELECT avg(dur) FROM (SELECT session_id, dateDiff('second', min(timestamp), max(timestamp)) as dur FROM telemetry {where_with_date} GROUP BY session_id) WHERE dur > 0"
         dur_raw = client.query(session_dur_query, parameters=params).first_row
         dur_val = int(dur_raw[0]) if dur_raw and dur_raw[0] else 0
         session_str = f"{dur_val // 60}m {dur_val % 60}s"
 
-        # Audience Breakdown for Dashboard
-        audience_query = f"SELECT multiIf(user_agent LIKE '%Mobi%', 'Mobile', 'Desktop') as dev, count(*) as c FROM telemetry {where_clause} AND timestamp >= now() - INTERVAL 24 HOUR GROUP BY dev ORDER BY c DESC"
+        # Audience Breakdown
+        audience_query = f"SELECT multiIf(user_agent LIKE '%Mobi%', 'Mobile', 'Desktop') as dev, count(*) as c FROM telemetry {where_with_date} GROUP BY dev ORDER BY c DESC"
         audience_res = client.query(audience_query, parameters=params).result_rows
         total = sum(r[1] for r in audience_res) if audience_res else 0
         audience = {r[0]: int(r[1]/total*100) if total > 0 else 0 for r in audience_res}
@@ -159,6 +189,9 @@ async def get_dashboard_stats(resource_id: Optional[str] = None, db: AsyncSessio
             "audience": audience, "online": online_count,
             "retention": {"d7": "0.0%", "d30": "0.0%", "new_vs_returning": {"new": 100, "returning": 0}}
         }
+    except Exception as e:
+        print(f"Stats Error: {e}")
+        return {"visitors": 0, "views": 0, "session": "-", "bounce": "-", "chart_data": [], "retention": {"d7": "-", "d30": "-", "new_vs_returning": {"new": 0, "returning": 0}}}
     except Exception as e:
         print(f"Stats Error: {e}")
         return {"visitors": 0, "views": 0, "session": "-", "bounce": "-", "chart_data": [], "retention": {"d7": "-", "d30": "-", "new_vs_returning": {"new": 0, "returning": 0}}}
