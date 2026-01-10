@@ -182,16 +182,13 @@ export default function LandingPage() {
       {/* Pricing Section */}
       <section id="pricing" className={styles.pricingSection}>
         <div className={styles.pricingContainer}>
-          <div className={styles.pricingBadge}>
-            Open Source
-          </div>
           <h2 className={styles.pricingTitle}>Absolutely Free. Always.</h2>
           <p className={styles.pricingDesc}>
             We believe analytics should be accessible to everyone. Host it yourself, own your data, and never pay a penny for basic tracking.
           </p>
 
           <div className={styles.pricingCard}>
-            <div className={styles.cardType}>Self-Hosted</div>
+            <div className={styles.cardType}>Community Edition</div>
             <div className={styles.cardPrice}>$0<span className={styles.cardPricePeriod}>/mo</span></div>
             <div className={styles.cardFeatures}>
               {['Unlimited Events', 'Unlimited Websites', 'Full Data Ownership', 'Community Support'].map((item, i) => (
@@ -204,7 +201,7 @@ export default function LandingPage() {
               ))}
             </div>
             <a href="https://github.com/opentrace" target="_blank" className={styles.cardBtn}>
-              Deploy Now
+              Get Started
             </a>
           </div>
         </div>
