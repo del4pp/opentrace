@@ -33,13 +33,10 @@ body {
   background: var(--bg);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  height: 100vh;
-  overflow: hidden;
 }
 
 html {
-  height: 100vh;
-  overflow: hidden;
+  scroll-behavior: smooth;
 }
 
 /* Base Layout */

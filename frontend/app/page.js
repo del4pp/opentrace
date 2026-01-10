@@ -42,7 +42,6 @@ export default function LandingPage() {
       {/* Header */}
       <header className={`${styles.stickyHeader} ${scrolled ? styles.scrolledHeader : ''}`}>
         <div className={styles.headerContainer}>
-          {/* Logo */}
           <div className={styles.logoGroup}>
             <div className={styles.logoIcon}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -52,14 +51,11 @@ export default function LandingPage() {
             <span className={styles.logoText}>OpenTrace</span>
           </div>
 
-          {/* Nav */}
           <nav className={styles.desktopNav}>
             <div className={styles.navLinks}>
-              {['features', 'opensource'].map(item => (
-                <a key={item} href={`#${item}`} className={styles.navItem}>
-                  {item === 'features' ? t('landing.nav.features') : t('landing.nav.opensource')}
-                </a>
-              ))}
+              <a href="#features" className={styles.navItem}>{t('landing.nav.features')}</a>
+              <a href="#tech" className={styles.navItem}>Technology</a>
+              <a href="#insights" className={styles.navItem}>Insights</a>
             </div>
 
             <div className={styles.navActions}>
@@ -80,7 +76,6 @@ export default function LandingPage() {
             </div>
           </nav>
 
-          {/* Mobile Menu Toggle */}
           <div className={styles.mobileMenuToggle}>
             <Link href="/login" className={styles.mobileLoginBtn}>
               Login
@@ -94,30 +89,31 @@ export default function LandingPage() {
         <div className={styles.heroContent}>
           <div className={styles.heroBadge}>
             <span className={styles.heroBadgeDot}></span>
-            {t('landing.hero.badge')}
+            Advanced Infrastructure
           </div>
-          <h1 className={styles.heroTitle}>{t('landing.hero.title')}</h1>
-          <p className={styles.heroSubtitle}>{t('landing.hero.subtitle')}</p>
+          <h1 className={styles.heroTitle}>Master Your Product Analytics</h1>
+          <p className={styles.heroSubtitle}>
+            Gain deep insights into your users' behavior with high-performance event tracking.
+            Real-time data processing for modern businesses.
+          </p>
           <div className={styles.heroActions}>
             <Link href="/login" className={styles.primaryBtn}>
               {t('landing.hero.cta')}
             </Link>
             <a href="https://github.com/opentrace" target="_blank" className={styles.secondaryBtn}>
-              GitHub
+              Documentation
             </a>
           </div>
         </div>
 
-        {/* Right: Abstract UI Visual */}
         <div className={styles.heroVisual}>
           <div className={styles.visualCard}>
-            {/* Mock Chart */}
             <div className={styles.chartHeader}>
               <div>
-                <div className={styles.chartLabel}>Active Users</div>
+                <div className={styles.chartLabel}>Daily Active Users</div>
                 <div className={styles.chartValue}>24,592</div>
               </div>
-              <div className={styles.chartChange}>+12.4%</div>
+              <div className={styles.chartChange}>↑ 12.4%</div>
             </div>
             <div className={styles.chartBars}>
               {[40, 65, 50, 80, 55, 90, 70, 85, 60, 95, 75, 100].map((h, i) => (
@@ -125,33 +121,65 @@ export default function LandingPage() {
               ))}
             </div>
           </div>
-          {/* Floating Element */}
           <div className={styles.cleanFloat}>
             <div className={styles.floatHeader}>
               <div className={styles.floatDot}></div>
-              <div className={styles.floatTitle}>Live Traffic</div>
+              <div className={styles.floatTitle}>Real-time Stream</div>
             </div>
             <div className={`${styles.floatRow} ${styles.floatRowBorder}`}>
-              <span>USA</span>
-              <span>8,421</span>
+              <span>Session Initialized</span>
+              <span>just now</span>
             </div>
             <div className={styles.floatRow}>
-              <span>Germany</span>
-              <span>4,120</span>
+              <span>Conversion Logged</span>
+              <span>2s ago</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Stats - Tech Style */}
-      <section className={styles.statsSection}>
+      {/* Stats */}
+      <section id="insights" className={styles.statsSection}>
         <div className={styles.statsGrid}>
-          {stats.map((stat, i) => (
-            <div key={i} className={styles.statItem}>
-              <div className={styles.statLabel}>{stat.label}</div>
-              <div className={styles.statValue}>{stat.value}</div>
+          <div className={styles.statItem}>
+            <div className={styles.statLabel}>Query Speed</div>
+            <div className={styles.statValue}>&lt; 0.05s</div>
+          </div>
+          <div className={styles.statItem}>
+            <div className={styles.statLabel}>Data Integrity</div>
+            <div className={styles.statValue}>99.9%</div>
+          </div>
+          <div className={styles.statItem}>
+            <div className={styles.statLabel}>Scalability</div>
+            <div className={styles.statValue}>Billion+ Events</div>
+          </div>
+        </div>
+      </section>
+
+      {/* Technical Block */}
+      <section id="tech" className={styles.featuresSection} style={{ background: '#fafafa' }}>
+        <div className={styles.featuresContainer}>
+          <div className={styles.sectionHeader}>
+            <h2 className={styles.sectionTitle}>Built for Scale</h2>
+            <p className={styles.sectionSubtitle}>Developed with the most advanced technical stack to ensure stability and performance.</p>
+          </div>
+          <div className={styles.featuresGrid}>
+            <div className={styles.featureCard} style={{ background: '#fff' }}>
+              <div className={styles.featureIcon}>⚡</div>
+              <h3 className={styles.featureTitle}>FastAPI Engine</h3>
+              <p className={styles.featureDesc}>Asynchronous core handling thousands of requests per second with minimal overhead.</p>
             </div>
-          ))}
+            <div className={styles.featureCard} style={{ background: '#fff' }}>
+              <div className={styles.featureIcon}>📊</div>
+              <h3 className={styles.featureTitle}>ClickHouse Storage</h3>
+              <p className={styles.featureDesc}>The world's fastest columnar database for analytical workloads and real-time reporting.</p>
+            </div>
+            <div className={styles.featureCard} style={{ background: '#fff' }}>
+              <div className={styles.featureIcon}>⚛️</div>
+              <h3 className={styles.featureTitle}>Next.js Interface</h3>
+              <p className={styles.featureDesc}>Responsive and modern frontend built with the latest React patterns for fluid experience.</p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -159,12 +187,11 @@ export default function LandingPage() {
       <section id="features" className={styles.featuresSection}>
         <div className={styles.featuresContainer}>
           <div className={styles.sectionHeader}>
-            <h2 className={styles.sectionTitle}>{t('landing.features.title')}</h2>
-            <p className={styles.sectionSubtitle}>{t('landing.features.subtitle')}</p>
+            <h2 className={styles.sectionTitle}>Comprehensive Capabilities</h2>
+            <p className={styles.sectionSubtitle}>Everything you need to track, analyze, and grow your digital product.</p>
           </div>
-
           <div className={styles.featuresGrid}>
-            {features.map((f, i) => (
+            {features.slice(0, 6).map((f, i) => (
               <div key={i} className={styles.featureCard}>
                 <div className={styles.featureIcon}>
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -179,19 +206,18 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Pricing Section */}
-      <section id="pricing" className={styles.pricingSection}>
+      {/* Deployment Section */}
+      <section className={styles.pricingSection}>
         <div className={styles.pricingContainer}>
-          <h2 className={styles.pricingTitle}>Absolutely Free. Always.</h2>
+          <h2 className={styles.pricingTitle}>Ready to get started?</h2>
           <p className={styles.pricingDesc}>
-            We believe analytics should be accessible to everyone. Host it yourself, own your data, and never pay a penny for basic tracking.
+            Join dozens of teams already using OpenTrace to optimize their user journeys.
           </p>
-
           <div className={styles.pricingCard}>
-            <div className={styles.cardType}>Community Edition</div>
-            <div className={styles.cardPrice}>$0<span className={styles.cardPricePeriod}>/mo</span></div>
+            <div className={styles.cardType}>Enterprise Edition</div>
+            <div className={styles.cardPrice}>Tier-1<span className={styles.cardPricePeriod}> Infrastructure</span></div>
             <div className={styles.cardFeatures}>
-              {['Unlimited Events', 'Unlimited Websites', 'Full Data Ownership', 'Community Support'].map((item, i) => (
+              {['Custom Dashboards', 'Infinite Data Retention', 'Secure Architecture', 'API Access'].map((item, i) => (
                 <div key={i} className={styles.cardFeatureItem}>
                   <div className={styles.checkIcon}>
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
@@ -200,34 +226,10 @@ export default function LandingPage() {
                 </div>
               ))}
             </div>
-            <a href="https://github.com/opentrace" target="_blank" className={styles.cardBtn}>
-              Get Started
-            </a>
+            <Link href="/login" className={styles.cardBtn}>
+              Launch Dashboard
+            </Link>
           </div>
-        </div>
-      </section>
-
-      {/* Language Section */}
-      <section className={styles.langSection}>
-        <h2 className={styles.langTitle}>{t('landing.languages.title')}</h2>
-        <div className={styles.langGrid}>
-          {[
-            { code: 'en', label: 'English' },
-            { code: 'ua', label: 'Ukrainian' },
-            { code: 'pl', label: 'Polish' },
-            { code: 'de', label: 'German' }
-          ].map(l => (
-            <button
-              key={l.code}
-              onClick={() => setLanguage(l.code)}
-              className={styles.langCard}
-            >
-              <div className={styles.langIcon}>
-                {l.code.toUpperCase()}
-              </div>
-              <span className={styles.langLabel}>{l.label}</span>
-            </button>
-          ))}
         </div>
       </section>
 
@@ -238,31 +240,29 @@ export default function LandingPage() {
             <div>
               <div className={styles.footerBrand}>OpenTrace</div>
               <div className={styles.footerDesc}>
-                Open-source analytics for everyone. <br />
-                Privacy focused, self-hosted, powerful.
+                Premium analytics for modern product teams. <br />
+                Performance first, data driven.
               </div>
             </div>
             <div className={styles.footerLinks}>
               <div>
                 <div className={styles.footerGroupTitle}>Product</div>
                 <div className={styles.footerGroupLinks}>
-                  {['Features', 'Pricing'].map(i => (
-                    <a key={i} href="#" className={styles.footerLink}>{i}</a>
-                  ))}
+                  <a href="#features" className={styles.footerLink}>Features</a>
+                  <a href="#tech" className={styles.footerLink}>Tech</a>
                 </div>
               </div>
               <div>
-                <div className={styles.footerGroupTitle}>Resources</div>
+                <div className={styles.footerGroupTitle}>Company</div>
                 <div className={styles.footerGroupLinks}>
-                  {['Documentation', 'GitHub', 'API'].map(i => (
-                    <a key={i} href="#" className={styles.footerLink}>{i}</a>
-                  ))}
+                  <a href="#" className={styles.footerLink}>About</a>
+                  <a href="#" className={styles.footerLink}>Contact</a>
                 </div>
               </div>
             </div>
           </div>
           <div className={styles.copyright}>
-            © 2025 OpenTrace Analytics. AGPL v3 License.
+            © 2026 OpenTrace Systems. All rights reserved.
           </div>
         </div>
       </footer>
