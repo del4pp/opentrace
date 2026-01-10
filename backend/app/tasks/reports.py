@@ -15,8 +15,6 @@ async def get_system_stats():
     return f"🖥 Server: CPU {cpu}%, RAM {mem}%, Disk {disk}%"
 
 async def generate_report_content(resources_ids=None):
-    # In a real app, we'd query ClickHouse/Postgres here and filter by resources_ids
-    # For demo, we'll return simulated data
     scope = f"Scope: {len(resources_ids)} resources" if resources_ids else "Scope: All resources"
     
     return (
@@ -47,7 +45,6 @@ async def send_discord_notify(webhook_url, message):
             print(f"Failed to send discord: {e}")
 
 async def send_email_notify(recipients, message):
-    # Simulated email sending - in production use SMTP or Mailgun
     print(f"Simulating email to {recipients}: {message[:50]}...")
 
 async def reports_scheduler():

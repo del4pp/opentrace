@@ -1195,7 +1195,8 @@ export const translations = {
         security: "Захищена архітектура",
         api: "Доступ до API"
       },
-    },
+    }
+  },
   module_store: {
     version: "Версія",
     status: {
@@ -1751,7 +1752,8 @@ export const translations = {
         security: "Bezpieczna architektura",
         api: "Dostęp do API"
       },
-    },
+    }
+  },
   module_store: {
     version: "Wersja",
     status: {
@@ -2145,35 +2147,36 @@ de: {
             security: "Sichere Architektur",
               api: "API-Zugriff"
     },
-  },
-  module_store: {
-    version: "Version",
-      status: {
-      available: "Verfügbar",
-        installed: "Installiert",
-          disabled: "Deaktiviert"
-    },
-    settings: "Einstellungen",
-      enable: "Aktivieren",
-        disable: "Deaktivieren",
-          details: "Details"
-  },
-  smart_reports: {
-    title: "Smart Reports Konfiguration",
-      subtitle: "Richten Sie Ihre automatisierten Leistungsberichte ein.",
-        channels: "Zustellungskanäle",
-          resources: "Zielressourcen",
-            telegram: "Telegram-Bot-Token",
-              chat_id: "Telegram-Chat-ID",
-                discord: "Discord-Webhook-URL",
-                  email: "E-Mail-Empfänger (kommagetrennt)",
-                    frequency: "Berichtsfrequenz",
-                      daily: "Täglich",
-                        weekly: "Alle 7 Tage",
-                          time: "Zustellungszeit (Serverzeit)",
-                            save: "Einstellungen speichern",
-                              saving: "Speichern...",
-                                cancel: "Abbrechen"
-  },
+  }
 },
+module_store: {
+  version: "Version",
+    status: {
+    available: "Verfügbar",
+      installed: "Installiert",
+        disabled: "Deaktiviert"
+  },
+  settings: "Einstellungen",
+    enable: "Aktivieren",
+      disable: "Deaktivieren",
+        details: "Details"
+},
+smart_reports: {
+  title: "Smart Reports Konfiguration",
+    subtitle: "Richten Sie Ihre automatisierten Leistungsberichte ein.",
+      channels: "Zustellungskanäle",
+        resources: "Zielressourcen",
+          telegram: "Telegram-Bot-Token",
+            chat_id: "Telegram-Chat-ID",
+              discord: "Discord-Webhook-URL",
+                email: "E-Mail-Empfänger (kommagetrennt)",
+                  frequency: "Berichtsfrequenz",
+                    daily: "Täglich",
+                      weekly: "Alle 7 Tage",
+                        time: "Zustellungszeit (Serverzeit)",
+                          save: "Einstellungen speichern",
+                            saving: "Speichern...",
+                              cancel: "Abbrechen"
+},
+  },
 };
