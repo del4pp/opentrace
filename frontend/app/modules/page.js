@@ -10,6 +10,9 @@ export default function ModulesPage() {
     const [status, setStatus] = useState(null);
     const [availableModules, setAvailableModules] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [configModal, setConfigModal] = useState(null); // stores module slug if modal open
+    const [moduleConfig, setModuleConfig] = useState({});
+    const [savingConfig, setSavingConfig] = useState(false);
 
     const fetchModules = async () => {
         try {
@@ -47,7 +50,7 @@ export default function ModulesPage() {
                 },
                 body: JSON.stringify({
                     license_key: activationCode,
-                    module_slug: activationCode.includes('-') ? activationCode.split('-')[0] : 'tg-advanced'
+                    module_slug: activationCode.includes('-') ? activationCode.split('-')[0] : (availableModules.length > 0 ? availableModules[0].slug : 'smart-reports')
                 })
             });
 
@@ -76,6 +79,42 @@ export default function ModulesPage() {
             }
         } catch (err) {
             console.error(err);
+        }
+    };
+
+    const openConfig = async (slug) => {
+        setConfigModal(slug);
+        try {
+            const token = localStorage.getItem('access_token');
+            const res = await fetch(`${API_URL}/modules/${slug}/config`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (res.ok) {
+                const data = await res.json();
+                setModuleConfig(data.config || {});
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    const saveConfig = async () => {
+        setSavingConfig(true);
+        try {
+            const token = localStorage.getItem('access_token');
+            await fetch(`${API_URL}/modules/${configModal}/config`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(moduleConfig)
+            });
+            setConfigModal(null);
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setSavingConfig(false);
         }
     };
 
@@ -137,30 +176,85 @@ export default function ModulesPage() {
                             <h3 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '8px' }}>{m.name}</h3>
                             <p style={{ fontSize: '14px', color: '#64748b', marginBottom: '24px', flex: 1 }}>{m.desc}</p>
 
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto' }}>
-                                <span style={{ fontSize: '16px', fontWeight: 900 }}>{m.price}</span>
-                                {m.status === 'available' ? (
-                                    <button className="btn-premium" style={{ padding: '8px 16px', fontSize: '12px', background: '#fff', color: '#0f172a', border: '1px solid #e2e8f0' }}>
-                                        Details
-                                    </button>
-                                ) : (
-                                    <button
-                                        onClick={() => handleToggle(m.id_db)}
-                                        className="btn-premium"
-                                        style={{
-                                            padding: '8px 16px',
-                                            fontSize: '12px',
-                                            background: m.status === 'installed' ? '#fff' : '#0f172a',
-                                            color: m.status === 'installed' ? '#f43f5e' : '#fff',
-                                            border: m.status === 'installed' ? '1px solid #fecaca' : 'none'
-                                        }}
-                                    >
-                                        {m.status === 'installed' ? 'Disable' : 'Enable'}
+                            <div style={{ display: 'flex', gap: '10px', marginTop: 'auto' }}>
+                                {m.status === 'installed' && (
+                                    <button onClick={() => openConfig(m.slug)} className="btn-secondary" style={{ padding: '8px 16px', fontSize: '12px', flex: 1 }}>
+                                        Settings
                                     </button>
                                 )}
+                                <button
+                                    onClick={() => m.status === 'available' ? openConfig(m.slug) : handleToggle(m.id_db)}
+                                    className="btn-premium"
+                                    style={{
+                                        padding: '8px 16px',
+                                        fontSize: '12px',
+                                        background: m.status === 'installed' ? '#fee2e2' : '#0f172a',
+                                        color: m.status === 'installed' ? '#ef4444' : '#fff',
+                                        border: 'none',
+                                        flex: 2
+                                    }}
+                                >
+                                    {m.status === 'installed' ? 'Disable' : (m.status === 'disabled' ? 'Enable' : 'Details')}
+                                </button>
                             </div>
                         </div>
                     ))}
+                </div>
+            )}
+
+            {configModal === 'smart-reports' && (
+                <div className="modal-overlay">
+                    <div className="modal-content" style={{ maxWidth: '500px' }}>
+                        <h2 style={{ marginBottom: '8px' }}>Smart Reports Config</h2>
+                        <p className="subtitle" style={{ marginBottom: '24px' }}>Setup your automated performance reports.</p>
+
+                        <div className="form-field">
+                            <label>Telegram Bot Token</label>
+                            <input
+                                className="input-lux"
+                                value={moduleConfig.telegram_token || ''}
+                                onChange={e => setModuleConfig({ ...moduleConfig, telegram_token: e.target.value })}
+                                placeholder="123456789:ABC..."
+                            />
+                        </div>
+
+                        <div className="form-field">
+                            <label>Telegram Chat ID</label>
+                            <input
+                                className="input-lux"
+                                value={moduleConfig.chat_id || ''}
+                                onChange={e => setModuleConfig({ ...moduleConfig, chat_id: e.target.value })}
+                                placeholder="-100..."
+                            />
+                        </div>
+
+                        <div className="form-field">
+                            <label>Report Frequency</label>
+                            <select
+                                className="select-lux"
+                                value={moduleConfig.frequency || 'daily'}
+                                onChange={e => setModuleConfig({ ...moduleConfig, frequency: e.target.value })}
+                            >
+                                <option value="daily">Daily</option>
+                                <option value="weekly">Every 7 Days</option>
+                            </select>
+                        </div>
+
+                        <div className="form-field">
+                            <label>Delivery Time (Server Time)</label>
+                            <input
+                                type="time"
+                                className="input-lux"
+                                value={moduleConfig.time || '09:00'}
+                                onChange={e => setModuleConfig({ ...moduleConfig, time: e.target.value })}
+                            />
+                        </div>
+
+                        <div style={{ display: 'flex', gap: '12px', marginTop: '32px' }}>
+                            <button className="btn-secondary" onClick={() => setConfigModal(null)} style={{ flex: 1 }}>Cancel</button>
+                            <button className="btn-premium" onClick={saveConfig} style={{ flex: 1 }}>{savingConfig ? 'Saving...' : 'Save Settings'}</button>
+                        </div>
+                    </div>
                 </div>
             )}
         </div>

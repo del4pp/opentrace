@@ -95,6 +95,12 @@ async def startup():
                 print("✗ Database initialization failed after all retries")
 
     try:
+        from app.tasks.reports import start_reports_task
+        start_reports_task()
+    except Exception as e:
+        print(f"⚠ Reports scheduler error: {e}")
+
+    try:
         from app.telemetry import send_telemetry
         import asyncio
         asyncio.create_task(send_telemetry())

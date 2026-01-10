@@ -1,51 +1,9 @@
 [
     {
-        "slug": "tg-advanced",
-        "name": "Telegram Bot Deep-Insights",
-        "price": "$89",
-        "icon": "🤖",
-        "desc": "Full lifecycle tracking from ad click to bot interaction."
-    },
-    {
-        "slug": "formula-engine",
-        "name": "Advanced Formula Engine",
-        "price": "Installed",
-        "icon": "🧪",
-        "desc": "Create custom KPIs using SQL-like expressions."
-    },
-    {
-        "slug": "white-label",
-        "name": "Agency White-Label",
-        "price": "$149",
-        "icon": "🏢",
-        "desc": "Remove branding and use your own agency logo."
-    },
-    {
-        "slug": "crm-sync",
-        "name": "CRM Auto-Sync",
-        "price": "$59",
-        "icon": "🔄",
-        "desc": "Real-time data push to HubSpot, Pipedrive or Salesforce."
-    },
-    {
-        "slug": "geo-pro",
-        "name": "IP Intelligence Pro",
-        "price": "$29",
-        "icon": "🌍",
-        "desc": "Precise city-level geolocation and ISP detection."
-    },
-    {
-        "slug": "slack-alerts",
-        "name": "Discord/Slack Alerts",
+        "slug": "smart-reports",
+        "name": "Smart Reports & Alerts",
         "price": "Free",
-        "icon": "🔔",
-        "desc": "Get instant notifications for traffic anomalies."
-    },
-    {
-        "slug": "ml-forecast",
-        "name": "AI Traffic Forecast",
-        "price": "$199",
-        "icon": "🧠",
-        "desc": "Predict performance based on historical trends."
+        "icon": "📊",
+        "desc": "Automated daily/weekly performance reports and server health monitoring via Telegram or Email."
     }
 ]

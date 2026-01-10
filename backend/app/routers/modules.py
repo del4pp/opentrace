@@ -93,3 +93,28 @@ async def toggle_module(module_id: int, db: AsyncSession = Depends(get_db)):
     module.is_active = not module.is_active
     await db.commit()
     return {"status": "success", "is_active": module.is_active}
+
+@router.get("/{slug}/config")
+async def get_module_config(slug: str, db: AsyncSession = Depends(get_db)):
+    res = await db.execute(select(Module).where(Module.slug == slug))
+    module = res.scalars().first()
+    if not module:
+        return {"config": {}}
+    
+    try:
+        config = json.loads(module.config) if module.config else {}
+    except:
+        config = {}
+    return {"config": config, "is_active": module.is_active}
+
+@router.post("/{slug}/config")
+async def save_module_config(slug: str, config: dict, db: AsyncSession = Depends(get_db)):
+    res = await db.execute(select(Module).where(Module.slug == slug))
+    module = res.scalars().first()
+    if not module:
+        # Auto-install/activate if saving config? Maybe safer to just require activation first
+        raise HTTPException(status_code=404, detail="Module not activated. Please activate it first.")
+    
+    module.config = json.dumps(config)
+    await db.commit()
+    return {"status": "success", "message": "Configuration saved"}
