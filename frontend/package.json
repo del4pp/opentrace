@@ -11,7 +11,7 @@
   "dependencies": {
     "d3-geo": "^3.1.1",
     "next": "^14.2.3",
-    "react": "^18.3.1",
+    "react": "^19.2.3",
     "react-dom": "^18.3.1",
     "react-simple-maps": "^3.0.0",
     "topojson-client": "^3.1.0"
