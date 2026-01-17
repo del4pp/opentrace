@@ -118,9 +118,6 @@ export default function Layout({ children }) {
             items: userRole === 'admin' ? [
                 { label: t('nav.settings'), href: '/settings' },
                 { label: t('nav.modules'), href: '/modules' },
-                { label: t('nav.users'), href: '/users' },
-                { label: t('nav.monitor'), href: '/monitor' },
-                { label: t('nav.docs'), href: '/docs' },
             ] : []
         }
     ];
@@ -346,6 +343,24 @@ export default function Layout({ children }) {
                                                 onClick={() => setIsProfileOpen(false)}
                                             >
                                                 {t('nav.monitor')}
+                                            </Link>
+                                            <Link
+                                                href="/docs"
+                                                style={{
+                                                    display: 'block',
+                                                    padding: '10px 12px',
+                                                    fontSize: '13px',
+                                                    fontWeight: 600,
+                                                    color: '#475569',
+                                                    textDecoration: 'none',
+                                                    borderRadius: '8px',
+                                                    transition: 'background 0.2s'
+                                                }}
+                                                onMouseOver={(e) => e.currentTarget.style.background = '#f1f5f9'}
+                                                onMouseOut={(e) => e.currentTarget.style.background = 'none'}
+                                                onClick={() => setIsProfileOpen(false)}
+                                            >
+                                                {t('nav.docs')}
                                             </Link>
                                             <div style={{ margin: '8px 0', borderTop: '1px solid #f1f5f9' }}></div>
                                             <button
