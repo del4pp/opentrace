@@ -35,8 +35,9 @@ class Campaign(Base):
     slug = Column(String, unique=True, index=True) # Short code for tracking
     is_bot_link = Column(Boolean, default=False)
     bot_id = Column(String, nullable=True) # Username or ID of the bot
-    bot_start_param = Column(String, nullable=True) # The generated iJN2r4nQk
+    bot_start_param = Column(String, nullable=True)
     resource_id = Column(Integer, ForeignKey("resources.id"), nullable=True) # Link to resource
+    project_id = Column(String, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
 
 class Event(Base):

@@ -138,6 +138,7 @@ export const translations = {
         copy: "Copy",
         snippet: "Implementation Snippet",
         close: "Close Constructor",
+        error_db: "Database error: Failed to save tracking link."
       },
     },
     tags: {
@@ -828,6 +829,7 @@ export const translations = {
         copy: "Копіювати",
         snippet: "Приклад інтеграції",
         close: "Закрити конструктор",
+        error_db: "Помилка бази даних: Не вдалося зберегти посилання."
       },
     },
     tags: {
@@ -1196,189 +1198,189 @@ export const translations = {
         api: "Доступ до API"
       },
     },
-  module_store: {
-    version: "Версія",
-    status: {
-      available: "Доступно",
-      installed: "Встановлено",
-      disabled: "Вимкнено"
+    module_store: {
+      version: "Версія",
+      status: {
+        available: "Доступно",
+        installed: "Встановлено",
+        disabled: "Вимкнено"
+      },
+      settings: "Налаштування",
+      enable: "Увімкнути",
+      disable: "Вимкнути",
+      details: "Деталі"
     },
-    settings: "Налаштування",
-    enable: "Увімкнути",
-    disable: "Вимкнути",
-    details: "Деталі"
-  },
-  smart_reports: {
-    title: "Конфігурація Smart Reports",
-    subtitle: "Налаштуйте автоматичні звіти про ефективність.",
-    channels: "Канали доставки",
-    resources: "Цільові ресурси",
-    telegram: "Токен Telegram-бота",
-    chat_id: "ID чату Telegram",
-    discord: "Discord Webhook URL",
-    email: "Отримувачі Email (через кому)",
-    frequency: "Частота звітів",
-    daily: "Щодня",
-    weekly: "Кожні 7 днів",
-    time: "Час доставки (серверний)",
-    save: "Зберегти налаштування",
-    saving: "Збереження...",
-    cancel: "Скасувати"
-  },
-  forgot_password: {
-    title: "Відновлення паролю",
-    desc: "Введіть email для отримання посилання.",
-    email: "Електронна пошта",
-    submit: "Надіслати посилання",
-    back: "Назад до входу",
-    new_pass_title: "Встановити новий пароль",
-    new_pass: "Новий пароль",
-    confirm_pass: "Підтвердити пароль",
-    reset_btn: "Змінити пароль",
-    success: "Пароль успішно змінено!",
-  },
-  auth: {
-    title: "Авторизація",
-    subtitle: "Увійдіть до панелі керування",
-    email: "Електронна пошта",
-    password: "Ваш пароль",
-    submit: "Увійти",
-    login_failed: "Помилка входу",
-    invalid_credentials: "Невірні дані",
-    forgot_link: "Забули пароль?",
-    login: {
+    smart_reports: {
+      title: "Конфігурація Smart Reports",
+      subtitle: "Налаштуйте автоматичні звіти про ефективність.",
+      channels: "Канали доставки",
+      resources: "Цільові ресурси",
+      telegram: "Токен Telegram-бота",
+      chat_id: "ID чату Telegram",
+      discord: "Discord Webhook URL",
+      email: "Отримувачі Email (через кому)",
+      frequency: "Частота звітів",
+      daily: "Щодня",
+      weekly: "Кожні 7 днів",
+      time: "Час доставки (серверний)",
+      save: "Зберегти налаштування",
+      saving: "Збереження...",
+      cancel: "Скасувати"
+    },
+    forgot_password: {
+      title: "Відновлення паролю",
+      desc: "Введіть email для отримання посилання.",
+      email: "Електронна пошта",
+      submit: "Надіслати посилання",
+      back: "Назад до входу",
+      new_pass_title: "Встановити новий пароль",
+      new_pass: "Новий пароль",
+      confirm_pass: "Підтвердити пароль",
+      reset_btn: "Змінити пароль",
+      success: "Пароль успішно змінено!",
+    },
+    auth: {
       title: "Авторизація",
       subtitle: "Увійдіть до панелі керування",
       email: "Електронна пошта",
       password: "Ваш пароль",
       submit: "Увійти",
-      forgot: "Забули пароль?",
+      login_failed: "Помилка входу",
+      invalid_credentials: "Невірні дані",
+      forgot_link: "Забули пароль?",
+      login: {
+        title: "Авторизація",
+        subtitle: "Увійдіть до панелі керування",
+        email: "Електронна пошта",
+        password: "Ваш пароль",
+        submit: "Увійти",
+        forgot: "Забули пароль?",
+      },
+    },
+    profile: {
+      title: "Налаштування профілю",
+      alert_first_login:
+        "Попередження безпеки: Ви використовуєте тимчасовий пароль. Будь ласка, змініть його.",
+      change_password: "Змінити пароль",
+      current: "Поточний пароль",
+      new: "Новий пароль",
+      confirm: "Підтвердити новий пароль",
+      submit: "Оновити пароль",
+      success: "Пароль успішно змінено!",
+      mismatch: "Паролі не співпадають",
+      logged_in_as: "Ви увійшли як",
+    },
+    modals: {
+      delete_confirm: "Підтвердження видалення",
+      delete_message: "Введіть пароль адміністратора для видалення.",
+      admin_password: "Пароль адміністратора",
+      cancel: "Скасувати",
+      delete: "Видалити",
+    },
+    funnels: {
+      title: "Воронки конверсій",
+      subtitle: "Аналіз шляхів користувачів та відтоку",
+      help: {
+        title: "Аналітика воронок",
+        content:
+          "Воронка — це послідовність кроків, які робить користувач для досягнення цілі. Тут ви можете відстежувати конверсію між етапами, знаходити точки відтоку та бачити середній час переходу.",
+      },
+      create: "Створити воронку",
+      builder: "Конструктор воронки",
+      compare: "Порівняти воронки",
+      stats: {
+        conversion: "Конверсія",
+        dropoff: "Відтік",
+        ttc: "Час до конверсії",
+        sessions: "Всього сесій",
+        steps: "Кроки",
+      },
+      fields: {
+        name: "Назва воронки",
+        stepName: "Назва кроку",
+        type: "Тип тригера",
+        value: "Значення (URL або подія)",
+        stepValue: "Цінність ($)",
+        isGoal: "Ціль?",
+      },
+    },
+    retention: {
+      title: "Утримання та Когорти",
+      subtitle: "Показники повернення користувачів протягом 30 днів",
+      cohort: "Когорта",
+      size: "Розмір",
+      day: "День",
+      percentage: "Відсотки",
+      absolute: "Абсолютно",
+      help: {
+        title: "Когортний аналіз",
+        content:
+          "Когортний аналіз групує користувачів за датою їхнього першого візиту та відстежує, скільки з них повертаються протягом наступних 30 днів. Високе утримання — найкращий показник відповідності продукту ринку та довгострокової цінності користувачів.",
+      },
+    },
+    segments: {
+      title: "Сегменти поведінки",
+      subtitle: "Створюйте динамічні групи користувачів на основі дій",
+      create: "Новий сегмент",
+      builder: "Конструктор сегментів",
+      name: "Назва сегмента",
+      logic: "Логіка",
+      addCondition: "Додати умову",
+      addGroup: "Додати групу",
+      preview: "Попередній перегляд",
+      matches: "користувачів відповідають сегменту",
+      help: {
+        title: "Просунута сегментація",
+        content:
+          "Сегменти дозволяють фільтрувати користувачів за їхньою поведінкою. Наприклад, ви можете знайти тих, хто 'Відкрив додаток', але 'Не здійснив покупку' протягом 3 днів.",
+      },
+    },
+    timeline: {
+      title: "Хронологія користувача",
+      subtitle: "Повний потік подій для конкретного ідентифікатора",
+      searchPlaceholder: "Введіть user_id або session_id...",
+      noIdentity: "Будь ласка, введіть ідентифікатор для перегляду хронології",
+      eventContext: "Контекст події",
+      properties: "Властивості",
+      noEvents: "Подій для цього користувача не знайдено",
+      help: {
+        title: "Аналіз хронології",
+        content:
+          "Timeline надає детальний перегляд кожної дії конкретного користувача. Використовуйте це для дебагу, розуміння шляхів конверсії або підготовки до продажів.",
+      },
+    },
+    users_page: {
+      title: "Керування командою",
+      subtitle: "Запрошуйте та керуйте членами вашої команди",
+      invite_title: "Запросити учасника",
+      email_label: "Email адреса",
+      send_btn: "Надіслати запрошення",
+      loading: "Надсилання...",
+      success: "Запрошення успішно надіслано!",
+      placeholder: "colleague@company.com",
+      footer_note:
+        "На вказану пошту буде надіслано лист із посиланням для створення акаунту.",
+    },
+    monitor: {
+      title: "Моніторинг ресурсів",
+      subtitle: "Стан інфраструктури та продуктивність сервера",
+      cpu: "Навантаження CPU",
+      memory: "Пам'ять (RAM)",
+      disk: "Дисковий простір",
+      uptime: "Час роботи",
+      load_avg: "Середнє навантаження",
+      os: "Операційна система",
+      arch: "Архітектура",
+      total_mem: "Всього RAM",
+      avail_mem: "Доступно RAM",
+      total_disk: "Всього на диску",
+      avail_disk: "Вільно на диску",
+    },
+    common: {
+      actions: "Дії",
+      delete: "Видалити",
     },
   },
-  profile: {
-    title: "Налаштування профілю",
-    alert_first_login:
-      "Попередження безпеки: Ви використовуєте тимчасовий пароль. Будь ласка, змініть його.",
-    change_password: "Змінити пароль",
-    current: "Поточний пароль",
-    new: "Новий пароль",
-    confirm: "Підтвердити новий пароль",
-    submit: "Оновити пароль",
-    success: "Пароль успішно змінено!",
-    mismatch: "Паролі не співпадають",
-    logged_in_as: "Ви увійшли як",
-  },
-  modals: {
-    delete_confirm: "Підтвердження видалення",
-    delete_message: "Введіть пароль адміністратора для видалення.",
-    admin_password: "Пароль адміністратора",
-    cancel: "Скасувати",
-    delete: "Видалити",
-  },
-  funnels: {
-    title: "Воронки конверсій",
-    subtitle: "Аналіз шляхів користувачів та відтоку",
-    help: {
-      title: "Аналітика воронок",
-      content:
-        "Воронка — це послідовність кроків, які робить користувач для досягнення цілі. Тут ви можете відстежувати конверсію між етапами, знаходити точки відтоку та бачити середній час переходу.",
-    },
-    create: "Створити воронку",
-    builder: "Конструктор воронки",
-    compare: "Порівняти воронки",
-    stats: {
-      conversion: "Конверсія",
-      dropoff: "Відтік",
-      ttc: "Час до конверсії",
-      sessions: "Всього сесій",
-      steps: "Кроки",
-    },
-    fields: {
-      name: "Назва воронки",
-      stepName: "Назва кроку",
-      type: "Тип тригера",
-      value: "Значення (URL або подія)",
-      stepValue: "Цінність ($)",
-      isGoal: "Ціль?",
-    },
-  },
-  retention: {
-    title: "Утримання та Когорти",
-    subtitle: "Показники повернення користувачів протягом 30 днів",
-    cohort: "Когорта",
-    size: "Розмір",
-    day: "День",
-    percentage: "Відсотки",
-    absolute: "Абсолютно",
-    help: {
-      title: "Когортний аналіз",
-      content:
-        "Когортний аналіз групує користувачів за датою їхнього першого візиту та відстежує, скільки з них повертаються протягом наступних 30 днів. Високе утримання — найкращий показник відповідності продукту ринку та довгострокової цінності користувачів.",
-    },
-  },
-  segments: {
-    title: "Сегменти поведінки",
-    subtitle: "Створюйте динамічні групи користувачів на основі дій",
-    create: "Новий сегмент",
-    builder: "Конструктор сегментів",
-    name: "Назва сегмента",
-    logic: "Логіка",
-    addCondition: "Додати умову",
-    addGroup: "Додати групу",
-    preview: "Попередній перегляд",
-    matches: "користувачів відповідають сегменту",
-    help: {
-      title: "Просунута сегментація",
-      content:
-        "Сегменти дозволяють фільтрувати користувачів за їхньою поведінкою. Наприклад, ви можете знайти тих, хто 'Відкрив додаток', але 'Не здійснив покупку' протягом 3 днів.",
-    },
-  },
-  timeline: {
-    title: "Хронологія користувача",
-    subtitle: "Повний потік подій для конкретного ідентифікатора",
-    searchPlaceholder: "Введіть user_id або session_id...",
-    noIdentity: "Будь ласка, введіть ідентифікатор для перегляду хронології",
-    eventContext: "Контекст події",
-    properties: "Властивості",
-    noEvents: "Подій для цього користувача не знайдено",
-    help: {
-      title: "Аналіз хронології",
-      content:
-        "Timeline надає детальний перегляд кожної дії конкретного користувача. Використовуйте це для дебагу, розуміння шляхів конверсії або підготовки до продажів.",
-    },
-  },
-  users_page: {
-    title: "Керування командою",
-    subtitle: "Запрошуйте та керуйте членами вашої команди",
-    invite_title: "Запросити учасника",
-    email_label: "Email адреса",
-    send_btn: "Надіслати запрошення",
-    loading: "Надсилання...",
-    success: "Запрошення успішно надіслано!",
-    placeholder: "colleague@company.com",
-    footer_note:
-      "На вказану пошту буде надіслано лист із посиланням для створення акаунту.",
-  },
-  monitor: {
-    title: "Моніторинг ресурсів",
-    subtitle: "Стан інфраструктури та продуктивність сервера",
-    cpu: "Навантаження CPU",
-    memory: "Пам'ять (RAM)",
-    disk: "Дисковий простір",
-    uptime: "Час роботи",
-    load_avg: "Середнє навантаження",
-    os: "Операційна система",
-    arch: "Архітектура",
-    total_mem: "Всього RAM",
-    avail_mem: "Доступно RAM",
-    total_disk: "Всього на диску",
-    avail_disk: "Вільно на диску",
-  },
-  common: {
-    actions: "Дії",
-    delete: "Видалити",
-  },
-},
   pl: {
     nav: {
       dashboard: "Panel",
@@ -1408,13 +1410,13 @@ export const translations = {
       tag: "Self-Hosted • Prywatność",
       title: "Własne dane analityczne.",
       subtitle:
-      "Potężna alternatywa dla Google Analytics z otwartym kodem źródłowym. Śledź wszystko bez narażania prywatności.",
+        "Potężna alternatywa dla Google Analytics z otwartym kodem źródłowym. Śledź wszystko bez narażania prywatności.",
       ctaPrimary: "Rozpocznij",
       ctaSecondary: "Zobacz na GitHub",
       help: {
         title: "Witamy w OpenTrace",
         content:
-        "OpenTrace to platforma analityczna nowej generacji. Możesz jej używać do śledzenia stron, aplikacji mobilnych i botów Telegram. Wszystkie dane są przetwarzane w czasie rzeczywistym i pozostają na Twojej infrastrukturze.",
+          "OpenTrace to platforma analityczna nowej generacji. Możesz jej używać do śledzenia stron, aplikacji mobilnych i botów Telegram. Wszystkie dane są przetwarzane w czasie rzeczywistym i pozostają na Twojej infrastrukturze.",
       },
     },
     dashboard: {
@@ -1429,7 +1431,7 @@ export const translations = {
       help: {
         title: "O Panelu",
         content:
-        "Panel zapewnia ogólny widok całej infrastruktury. Tutaj możesz śledzić ruch w czasie rzeczywistym, współczynniki konwersji i stan podłączonych zasobów.",
+          "Panel zapewnia ogólny widok całej infrastruktury. Tutaj możesz śledzić ruch w czasie rzeczywistym, współczynniki konwersji i stan podłączonych zasobów.",
       },
     },
     resources: {
@@ -1439,7 +1441,7 @@ export const translations = {
       help: {
         title: "Zarządzanie zasobami",
         content:
-        "Zasoby są rdzeniem Twojego śledzenia. Dodaj tutaj swoje strony lub boty Telegram, aby otrzymać unikalny identyfikator śledzenia (Tracking ID).",
+          "Zasoby są rdzeniem Twojego śledzenia. Dodaj tutaj swoje strony lub boty Telegram, aby otrzymać unikalny identyfikator śledzenia (Tracking ID).",
       },
       table: {
         name: "Nazwa zasobu",
@@ -1467,7 +1469,7 @@ export const translations = {
       help: {
         title: "Śledzenie kampanii",
         content:
-        "Twórz śledzone linki dla swoich reklam. Używaj generatora UTM dla stron lub generatora deep-linków dla botów Telegram.",
+          "Twórz śledzone linki dla swoich reklam. Używaj generatora UTM dla stron lub generatora deep-linków dla botów Telegram.",
       },
       table: {
         source: "Źródło",
@@ -1484,7 +1486,7 @@ export const translations = {
       help: {
         title: "Regulacja zdarzeń",
         content:
-        "Skonfiguruj, jakie akcje śledzić. Możesz zdefiniować kliknięcia przycisków lub wizyty na stronie jako kluczowe zdarzenia.",
+          "Skonfiguruj, jakie akcje śledzić. Możesz zdefiniować kliknięcia przycisków lub wizyty na stronie jako kluczowe zdarzenia.",
       },
       table: {
         name: "Nazwa zdarzenia",
@@ -1495,7 +1497,7 @@ export const translations = {
       botUTM: {
         title: "Konstruktor UTM dla Telegrama",
         subtitle:
-        "Generuj deep-link z unikalnym 12-znakowym symbolem do śledzenia subskrypcji.",
+          "Generuj deep-link z unikalnym 12-znakowym symbolem do śledzenia subskrypcji.",
         botUsername: "Nazwa bota (@)",
         source: "Źródło ruchu",
         medium: "Kanał (Medium)",
@@ -1505,6 +1507,7 @@ export const translations = {
         copy: "Kopiuj",
         snippet: "Fragment integracji",
         close: "Zamknij konstruktor",
+        error_db: "Błąd bazy danych: Nie udało się zapisać linku."
       },
     },
     tags: {
@@ -1514,7 +1517,7 @@ export const translations = {
       help: {
         title: "Zarządzanie tagami",
         content:
-        "Zarządzaj analityką zewnętrzną (FB Pixel, GA4) w jednym miejscu.",
+          "Zarządzaj analityką zewnętrzną (FB Pixel, GA4) w jednym miejscu.",
       },
       table: {
         name: "Nazwa tagu",
@@ -1524,7 +1527,7 @@ export const translations = {
       snippet: {
         title: "Standardowy kontener",
         description:
-        "Wstaw ten skrypt do <head> swojej strony. Wszystkie aktywne tagi powyżej będą ładowane dynamicznie.",
+          "Wstaw ten skrypt do <head> swojej strony. Wszystkie aktywne tagi powyżej będą ładowane dynamicznie.",
       },
     },
     settings: {
@@ -1541,7 +1544,7 @@ export const translations = {
       help: {
         title: "Ustawienia",
         content:
-        "Skonfiguruj tutaj globalne preferencje systemu i tokeny bezpieczeństwa.",
+          "Skonfiguruj tutaj globalne preferencje systemu i tokeny bezpieczeństwa.",
       },
       checkUpdate: "Sprawdź aktualizacje",
       upToDate: "System jest aktualny",
@@ -1565,7 +1568,7 @@ export const translations = {
       help: {
         title: "Eksplorator analityczny",
         content:
-        "Użyj tej sekcji, aby filtrować dane o ruchu. Filtry pozwalają skupić się na konkretnych źródłach, urządzeniach lub ramach czasowych.",
+          "Użyj tej sekcji, aby filtrować dane o ruchu. Filtry pozwalają skupić się na konkretnych źródłach, urządzeniach lub ramach czasowych.",
       },
       metrics: {
         visitors: "Wizyty",
@@ -1612,18 +1615,18 @@ export const translations = {
       help: {
         title: "Dostęp",
         content:
-        "Użyj poświadczeń administratora, aby uzyskać dostęp do bezpiecznego obszaru.",
+          "Użyj poświadczeń administratora, aby uzyskać dostęp do bezpiecznego obszaru.",
       },
     },
     features_block: {
       tracking: "Uniwersalne śledzenie",
       trackingDesc:
-      "Śledź interakcje na dowolnej platformie — stronach, aplikacjach lub API.",
+        "Śledź interakcje na dowolnej platformie — stronach, aplikacjach lub API.",
       realtime: "Przetwarzanie w czasie rzeczywistym",
       realtimeDesc: "Oparte na ClickHouse dla błyskawicznych wniosków.",
       ownership: "Suwerenność danych",
       ownershipDesc:
-      "Twoje dane pozostają na Twojej infrastrukturze. Własność telemetryczna 100%.",
+        "Twoje dane pozostają na Twojej infrastrukturze. Własność telemetryczna 100%.",
     },
     footer: {
       copyright: "© 2025 OpenTrace Analytics",
@@ -1638,7 +1641,7 @@ export const translations = {
         badge: "Self-Hosted • Prywatność • Open Source",
         title: "Twoje Dane, Twoja Kontrola",
         subtitle:
-        "Potężna alternatywa open-source dla Google Analytics. Śledź wszystko bez naruszania prywatności użytkowników. Wdróż na własnej infrastrukturze w kilka minut.",
+          "Potężna alternatywa open-source dla Google Analytics. Śledź wszystko bez naruszania prywatności użytkowników. Wdróż na własnej infrastrukturze w kilka minut.",
         cta: "Zacznij za darmo",
         github: "Zobacz na GitHub",
       },
@@ -1650,7 +1653,7 @@ export const translations = {
       features: {
         title: "Wszystko, czego potrzebujesz",
         subtitle:
-        "Potężna platforma analityczna z funkcjami korporacyjnymi, zbudowana dla prywatności i wydajności.",
+          "Potężna platforma analityczna z funkcjami korporacyjnymi, zbudowana dla prywatności i wydajności.",
         analytics: {
           title: "Zaawansowana Analityka",
           desc: "Głębokie wglądy z niestandardowymi filtrami, lejkami i śledzeniem konwersji. Analizuj zachowanie użytkowników.",
@@ -1752,428 +1755,429 @@ export const translations = {
         api: "Dostęp do API"
       },
     },
-  module_store: {
-    version: "Wersja",
-    status: {
-      available: "Dostępny",
-      installed: "Zainstalowany",
-      disabled: "Wyłączony"
+    module_store: {
+      version: "Wersja",
+      status: {
+        available: "Dostępny",
+        installed: "Zainstalowany",
+        disabled: "Wyłączony"
+      },
+      settings: "Ustawienia",
+      enable: "Włącz",
+      disable: "Wyłącz",
+      details: "Szczegóły"
     },
-    settings: "Ustawienia",
-    enable: "Włącz",
-    disable: "Wyłącz",
-    details: "Szczegóły"
+    smart_reports: {
+      title: "Konfiguracja Smart Reports",
+      subtitle: "Skonfiguruj automatyczne raporty wydajności.",
+      channels: "Kanały dostawy",
+      resources: "Zasoby docelowe",
+      telegram: "Token bota Telegram",
+      chat_id: "ID czatu Telegram",
+      discord: "Discord Webhook URL",
+      email: "Odbiorcy e-mail (розділені комою)",
+      frequency: "Częstotliwość raportów",
+      daily: "Codziennie",
+      weekly: "Co 7 dni",
+      time: "Czas dostawy (czas serwera)",
+      save: "Zapisz ustawienia",
+      saving: "Zapisywanie...",
+      cancel: "Anuluj"
+    },
   },
-  smart_reports: {
-    title: "Konfiguracja Smart Reports",
-    subtitle: "Skonfiguruj automatyczne raporty wydajności.",
-    channels: "Kanały dostawy",
-    resources: "Zasoby docelowe",
-    telegram: "Token bota Telegram",
-    chat_id: "ID czatu Telegram",
-    discord: "Discord Webhook URL",
-    email: "Odbiorcy e-mail (розділені комою)",
-    frequency: "Częstotliwość raportów",
-    daily: "Codziennie",
-    weekly: "Co 7 dni",
-    time: "Czas dostawy (czas serwera)",
-    save: "Zapisz ustawienia",
-    saving: "Zapisywanie...",
-    cancel: "Anuluj"
-  },
-  },
-de: {
-  nav: {
-    dashboard: "Dashboard",
+  de: {
+    nav: {
+      dashboard: "Dashboard",
       views: "Übersicht",
-        resources: "Ressourcen",
-          campaigns: "Kampagnen-Links",
-            events: "Event-Tracking",
-              tags: "Tag-Manager",
-                settings: "Einstellungen",
-                  users: "Team",
-                    modules: "Module",
-                      analytics: "Analyse",
-                        funnels: "Conversion-Trichter",
-                          live: "Echtzeit",
-                            customAnalytics: "Berichte",
-                              docs: "API-Dokumentation",
-                                signIn: "Anmelden",
-                                  features: "Funktionen",
-                                    modules: "Module",
-                                      groups: {
-      analytics: "Einblicke",
+      resources: "Ressourcen",
+      campaigns: "Kampagnen-Links",
+      events: "Event-Tracking",
+      tags: "Tag-Manager",
+      settings: "Einstellungen",
+      users: "Team",
+      modules: "Module",
+      analytics: "Analyse",
+      funnels: "Conversion-Trichter",
+      live: "Echtzeit",
+      customAnalytics: "Berichte",
+      docs: "API-Dokumentation",
+      signIn: "Anmelden",
+      features: "Funktionen",
+      modules: "Module",
+      groups: {
+        analytics: "Einblicke",
         tracking: "Datenerfassung",
-          system: "Konfiguration",
+        system: "Konfiguration",
       },
-  },
-  hero: {
-    tag: "Self-Hosted • Privatsphäre",
+    },
+    hero: {
+      tag: "Self-Hosted • Privatsphäre",
       title: "Besitzen Sie Ihre Analysedaten.",
-        subtitle:
-    "Eine leistungsstarke Open-Source-Alternative zu Google Analytics. Tracken Sie alles, ohne die Privatsphäre zu verletzen.",
+      subtitle:
+        "Eine leistungsstarke Open-Source-Alternative zu Google Analytics. Tracken Sie alles, ohne die Privatsphäre zu verletzen.",
       ctaPrimary: "Loslegen",
-        ctaSecondary: "Auf GitHub ansehen",
-          help: {
-      title: "Willkommen bei OpenTrace",
+      ctaSecondary: "Auf GitHub ansehen",
+      help: {
+        title: "Willkommen bei OpenTrace",
         content:
-      "OpenTrace ist eine Analyseplattform der nächsten Generation. Sie können damit Websites, mobile Apps und Telegram-Bots tracken.",
+          "OpenTrace ist eine Analyseplattform der nächsten Generation. Sie können damit Websites, mobile Apps und Telegram-Bots tracken.",
       },
-  },
-  dashboard: {
-    title: "Leistungsübersicht",
+    },
+    dashboard: {
+      title: "Leistungsübersicht",
       subtitle: "Echtzeit-Verkehrsüberwachung",
-        stats: {
-      visitors: "Besucher gesamt",
+      stats: {
+        visitors: "Besucher gesamt",
         views: "Seitenaufrufe",
-          session: "Durchschn. Sitzung",
-            bounce: "Absprungrate",
+        session: "Durchschn. Sitzung",
+        bounce: "Absprungrate",
       },
-    help: {
-      title: "Über das Dashboard",
+      help: {
+        title: "Über das Dashboard",
         content:
-      "Das Dashboard bietet einen Überblick über Ihre gesamte Infrastruktur.",
+          "Das Dashboard bietet einen Überblick über Ihre gesamte Infrastruktur.",
       },
-  },
-  resources: {
-    title: "Ihre Ressourcen",
+    },
+    resources: {
+      title: "Ihre Ressourcen",
       subtitle: "Websites und Bots verwalten",
-        add: "Ressource hinzufügen",
-          help: {
-      title: "Ressourcen-Management",
+      add: "Ressource hinzufügen",
+      help: {
+        title: "Ressourcen-Management",
         content: "Ressourcen sind der Kern Ihres Trackings.",
       },
-    table: {
-      name: "Ressourcenname",
+      table: {
+        name: "Ressourcenname",
         type: "Typ",
-          id: "Interne ID",
-            status: "Status",
+        id: "Interne ID",
+        status: "Status",
       },
-    types: {
-      website: "Website",
+      types: {
+        website: "Website",
         bot: "Telegram-Bot",
-          app: "Mobile App",
+        app: "Mobile App",
       },
-    fields: {
-      name: "Name",
+      fields: {
+        name: "Name",
         type: "Ressourcentyp",
-          token: "Bot-Token",
-            bundleId: "App-Bundle-ID",
-              url: "Website-URL",
+        token: "Bot-Token",
+        bundleId: "App-Bundle-ID",
+        url: "Website-URL",
       },
-  },
-  campaigns: {
-    title: "Kampagnen-Links",
+    },
+    campaigns: {
+      title: "Kampagnen-Links",
       subtitle: "UTM-Tags und Bot-Deep-Links",
-        create: "Link erstellen",
-          help: {
-      title: "Kampagnen-Tracking",
+      create: "Link erstellen",
+      help: {
+        title: "Kampagnen-Tracking",
         content: "Erstellen Sie getrackte Links für Ihre Anzeigen.",
       },
-    table: {
-      source: "Quelle",
+      table: {
+        source: "Quelle",
         medium: "Medium",
-          campaign: "Kampagne",
-            clicks: "Klicks",
-              conversion: "Konv. %",
+        campaign: "Kampagne",
+        clicks: "Klicks",
+        conversion: "Konv. %",
       },
-  },
-  events: {
-    title: "Event-Tracking",
+    },
+    events: {
+      title: "Event-Tracking",
       subtitle: "Klicks, Ansichten und Aktionen definieren",
-        add: "Event hinzufügen",
-          help: {
-      title: "Event-Regulierung",
+      add: "Event hinzufügen",
+      help: {
+        title: "Event-Regulierung",
         content: "Konfigurieren Sie, welche Aktionen getrackt werden sollen.",
       },
-    table: {
-      name: "Eventname",
+      table: {
+        name: "Eventname",
         trigger: "Triggertyp",
-          source: "Zielressource",
-            count: "Treffer gesamt",
+        source: "Zielressource",
+        count: "Treffer gesamt",
       },
-    botUTM: {
-      title: "Telegram Bot UTM Konstruktor",
+      botUTM: {
+        title: "Telegram Bot UTM Konstruktor",
         subtitle:
-      "Generieren Sie einen Deep-Link mit einem eindeutigen 12-Zeichen-Label, um Bot-Abonnements zu verfolgen.",
+          "Generieren Sie einen Deep-Link mit einem eindeutigen 12-Zeichen-Label, um Bot-Abonnements zu verfolgen.",
         botUsername: "Bot-Benutzername (@)",
-          source: "Verkehrsquelle",
-            medium: "Medium",
-              campaign: "Kampagnenname",
-                generate: "Tracking-Link generieren",
-                  yourLink: "Ihr Deep-Link",
-                    copy: "Kopieren",
-                      snippet: "Integrations-Beispiel",
-                        close: "Konstruktor schließen",
+        source: "Verkehrsquelle",
+        medium: "Medium",
+        campaign: "Kampagnenname",
+        generate: "Tracking-Link generieren",
+        yourLink: "Ihr Deep-Link",
+        copy: "Kopieren",
+        snippet: "Integrations-Beispiel",
+        close: "Konstruktor schließen",
+        error_db: "Datenbankfehler: Tracking-Link konnte nicht gespeichert werden."
       },
-  },
-  tags: {
-    title: "Tag-Manager",
+    },
+    tags: {
+      title: "Tag-Manager",
       subtitle: "Pixel und Metriken ohne Code injizieren",
-        add: "Tag hinzufügen",
-          help: {
-      title: "Tag-Management",
+      add: "Tag hinzufügen",
+      help: {
+        title: "Tag-Management",
         content: "Verwalten Sie Drittanbieter-Analysen an einem Ort.",
       },
-    table: {
-      name: "Tag-Name",
+      table: {
+        name: "Tag-Name",
         provider: "Anbieter",
-          active: "Aktiv",
+        active: "Aktiv",
       },
-    snippet: {
-      title: "Standard-Container",
+      snippet: {
+        title: "Standard-Container",
         description:
-      "Fügen Sie dieses Skript in den <head> Ihrer Website ein. Alle oben aktiven Tags werden dynamisch bereitgestellt.",
+          "Fügen Sie dieses Skript in den <head> Ihrer Website ein. Alle oben aktiven Tags werden dynamisch bereitgestellt.",
       },
-  },
-  settings: {
-    title: "Systemkonfiguration",
+    },
+    settings: {
+      title: "Systemkonfiguration",
       subtitle: "Verwalten Sie Ihren Analyse-Arbeitsbereich",
-        general: "Allgemeine Einstellungen",
-          generalDesc: "Workspace-Name und visuelle Vorlieben",
-            api: "API-Schlüssel",
-              apiDesc: "Schlüssel zur Authentifizierung in Ihren Apps",
-                language: "Sprache der Benutzeroberfläche",
-                  workspaceName: "Workspace-Name",
-                    ingestionKey: "Ingestion-Schlüssel",
-                      rotate: "Rotieren",
-                        help: {
-      title: "Einstellungen",
+      general: "Allgemeine Einstellungen",
+      generalDesc: "Workspace-Name und visuelle Vorlieben",
+      api: "API-Schlüssel",
+      apiDesc: "Schlüssel zur Authentifizierung in Ihren Apps",
+      language: "Sprache der Benutzeroberfläche",
+      workspaceName: "Workspace-Name",
+      ingestionKey: "Ingestion-Schlüssel",
+      rotate: "Rotieren",
+      help: {
+        title: "Einstellungen",
         content: "Konfigurieren Sie hier Ihre globalen Systemeinstellungen.",
       },
-    checkUpdate: "Auf Updates prüfen",
+      checkUpdate: "Auf Updates prüfen",
       upToDate: "System ist aktuell",
     },
-  modules: {
-    title: "Modul-Marktplatz",
+    modules: {
+      title: "Modul-Marktplatz",
       subtitle: "Erweitern Sie OpenTrace mit Plugins.",
-        activate: "Modul aktivieren",
-          keyPlaceholder: "Lizenzschlüssel eingeben...",
-            status: {
-      installed: "Installiert",
+      activate: "Modul aktivieren",
+      keyPlaceholder: "Lizenzschlüssel eingeben...",
+      status: {
+        installed: "Installiert",
         available: "Verfügbar",
-          premium: "Premium",
+        premium: "Premium",
       },
-  },
-  analytics: {
-    title: "Explorer",
+    },
+    analytics: {
+      title: "Explorer",
       subtitle: "Leistung mit Filtern analysieren.",
-        filters: "Erweiterte Filter",
-          apply: "Filter anwenden",
-            help: {
-      title: "Analyse-Explorer",
+      filters: "Erweiterte Filter",
+      apply: "Filter anwenden",
+      help: {
+        title: "Analyse-Explorer",
         content: "Nutzen Sie diesen Bereich, um Verkehrsdaten zu filtern.",
       },
-    metrics: {
-      visitors: "Besucher",
+      metrics: {
+        visitors: "Besucher",
         views: "Seitenaufrufe",
-          conv: "Konversion %",
-            arpu: "ARPU",
-              cac: "CAC",
-                roi: "ROI",
+        conv: "Konversion %",
+        arpu: "ARPU",
+        cac: "CAC",
+        roi: "ROI",
       },
-    dateRange: "Zeitraum",
+      dateRange: "Zeitraum",
       startDate: "Startdatum",
-        endDate: "Enddatum",
-          trafficSource: "Verkehrsquelle",
-            deviceType: "Gerätetyp",
-              allSources: "Alle Quellen",
-                direct: "Direkt",
-                  googleAds: "Google Ads",
-                    facebook: "Facebook",
-                      allDevices: "Alle Geräte",
-                        mobile: "Mobil",
-                          desktop: "Desktop",
-                            live: {
-      title: "Echtzeit-Aktivität",
+      endDate: "Enddatum",
+      trafficSource: "Verkehrsquelle",
+      deviceType: "Gerätetyp",
+      allSources: "Alle Quellen",
+      direct: "Direkt",
+      googleAds: "Google Ads",
+      facebook: "Facebook",
+      allDevices: "Alle Geräte",
+      mobile: "Mobil",
+      desktop: "Desktop",
+      live: {
+        title: "Echtzeit-Aktivität",
         subtitle: "Nutzerverteilung rund um den Globus",
-          online: "Jetzt online",
-            map: "Globale Präsenz",
-              recent: "Letzte Ereignisse",
+        online: "Jetzt online",
+        map: "Globale Präsenz",
+        recent: "Letzte Ereignisse",
       },
-  },
-  custom: {
-    title: "Bericht-Baukasten",
+    },
+    custom: {
+      title: "Bericht-Baukasten",
       subtitle: "Visuelle Dashboards erstellen.",
-        create: "Bericht erstellen",
-          help: {
-      title: "Benutzerdefinierte Analyse",
+      create: "Bericht erstellen",
+      help: {
+        title: "Benutzerdefinierte Analyse",
         content: "Entwerfen Sie eigene Visualisierungs-Widgets.",
       },
-  },
-  auth: {
-    title: "Identitätszugriff",
+    },
+    auth: {
+      title: "Identitätszugriff",
       email: "Dienst-E-Mail",
-        password: "Sicherheitstoken",
-          submit: "Authentifizieren",
-            help: {
-      title: "Zugriff",
+      password: "Sicherheitstoken",
+      submit: "Authentifizieren",
+      help: {
+        title: "Zugriff",
         content: "Verwenden Sie Ihre Administrator-Anmeldedaten.",
       },
-  },
-  features_block: {
-    tracking: "Universelles Tracking",
+    },
+    features_block: {
+      tracking: "Universelles Tracking",
       trackingDesc: "Tracken Sie Interaktionen auf jeder Plattform.",
-        realtime: "Echtzeit-Verarbeitung",
-          realtimeDesc: "Basiert auf ClickHouse für sofortige Einblicke.",
-            ownership: "Datensouveränität",
-              ownershipDesc: "Ihre Daten bleiben auf Ihrer Infrastruktur.",
+      realtime: "Echtzeit-Verarbeitung",
+      realtimeDesc: "Basiert auf ClickHouse für sofortige Einblicke.",
+      ownership: "Datensouveränität",
+      ownershipDesc: "Ihre Daten bleiben auf Ihrer Infrastruktur.",
     },
-  footer: {
-    copyright: "© 2025 OpenTrace Analytics",
+    footer: {
+      copyright: "© 2025 OpenTrace Analytics",
     },
-  landing: {
-    nav: {
-      features: "Funktionen",
+    landing: {
+      nav: {
+        features: "Funktionen",
         opensource: "Open Source",
-          modules: "Module",
+        modules: "Module",
       },
-    hero: {
-      badge: "Self-Hosted • Datenschutz • Open Source",
+      hero: {
+        badge: "Self-Hosted • Datenschutz • Open Source",
         title: "Ihre Daten gehören Ihnen",
-          subtitle:
-      "Eine leistungsstarke Open-Source-Alternative zu Google Analytics. Tracken Sie alles ohne Kompromisse beim Datenschutz. In Minuten auf Ihrer Infrastruktur bereitgestellt.",
-        cta: "Kostenlos starten",
-          github: "Auf GitHub ansehen",
-      },
-    stats: {
-      opensource: "Open Source",
-        languages: "Sprachen",
-          events: "Ereignisse pro Sekunde",
-      },
-    features: {
-      title: "Alles was Sie brauchen",
         subtitle:
-      "Leistungsstarke Analyseplattform mit Enterprise-Funktionen, gebaut für Datenschutz und Leistung.",
+          "Eine leistungsstarke Open-Source-Alternative zu Google Analytics. Tracken Sie alles ohne Kompromisse beim Datenschutz. In Minuten auf Ihrer Infrastruktur bereitgestellt.",
+        cta: "Kostenlos starten",
+        github: "Auf GitHub ansehen",
+      },
+      stats: {
+        opensource: "Open Source",
+        languages: "Sprachen",
+        events: "Ereignisse pro Sekunde",
+      },
+      features: {
+        title: "Alles was Sie brauchen",
+        subtitle:
+          "Leistungsstarke Analyseplattform mit Enterprise-Funktionen, gebaut für Datenschutz und Leistung.",
         analytics: {
-        title: "Erweiterte Analysen",
+          title: "Erweiterte Analysen",
           desc: "Tiefe Einblicke mit benutzerdefinierten Filtern, Trichtern und Conversion-Tracking.",
         },
-      live: {
-        title: "Echtzeit-Überwachung",
+        live: {
+          title: "Echtzeit-Überwachung",
           desc: "Beobachten Sie Benutzerinteraktionen in Echtzeit. Live-Karten, aktive Sitzungen und sofortige Event-Streams.",
         },
-      campaigns: {
-        title: "Kampagnen-Tracking",
+        campaigns: {
+          title: "Kampagnen-Tracking",
           desc: "Verfolgen Sie UTM-Parameter, Deep Links und Attribution. Wissen Sie genau, welche Kampagnen Ergebnisse liefern.",
         },
-      realtime: {
-        title: "Blitzschnell",
+        realtime: {
+          title: "Blitzschnell",
           desc: "Gebaut auf ClickHouse für sofortige Abfragen. Verarbeiten Sie Millionen von Ereignissen pro Sekunde mühelos.",
         },
-      privacy: {
-        title: "Datenschutz zuerst",
+        privacy: {
+          title: "Datenschutz zuerst",
           desc: "DSGVO-konform per Design. Keine Cookies, keine Tracking-Skripte, keine Datenweitergabe.",
         },
-      modules: {
-        title: "Erweiterbare Plattform",
+        modules: {
+          title: "Erweiterbare Plattform",
           desc: "Erweitern Sie die Funktionalität mit Modulen. Heatmaps, A/B-Tests, Sitzungswiedergabe und mehr im Marktplatz.",
         },
-    },
-    opensource: {
-      badge: "100% Open Source",
-        title: "Gebaut von der Community",
-          desc: "OpenTrace ist vollständig Open Source unter MIT-Lizenz. Kein Vendor Lock-in, keine versteckten Kosten. Forken, anpassen, nutzen.",
-            freedom: "Vollständige Freiheit zum Ändern und Verteilen",
-              community: "Aktive Community von Mitwirkenden",
-                transparency: "Transparenter Entwicklungsprozess",
-                  extensible: "Plugin-Architektur für eigene Funktionen",
-                    cta: "Auf GitHub sternen",
       },
-    modules: {
-      title: "Mit Modulen erweitern",
+      opensource: {
+        badge: "100% Open Source",
+        title: "Gebaut von der Community",
+        desc: "OpenTrace ist vollständig Open Source unter MIT-Lizenz. Kein Vendor Lock-in, keine versteckten Kosten. Forken, anpassen, nutzen.",
+        freedom: "Vollständige Freiheit zum Ändern und Verteilen",
+        community: "Aktive Community von Mitwirkenden",
+        transparency: "Transparenter Entwicklungsprozess",
+        extensible: "Plugin-Architektur für eigene Funktionen",
+        cta: "Auf GitHub sternen",
+      },
+      modules: {
+        title: "Mit Modulen erweitern",
         desc: "Schalten Sie erweiterte Funktionen mit unserem Marktplatz für Plugins frei. Von Heatmaps bis zu KI-Insights.",
-          heatmaps: {
-        title: "Heatmaps & Aufnahmen",
+        heatmaps: {
+          title: "Heatmaps & Aufnahmen",
           desc: "Visualisieren Sie Klicks, Scrollen und Benutzersitzungen",
         },
-      ab_testing: {
-        title: "A/B-Tests",
+        ab_testing: {
+          title: "A/B-Tests",
           desc: "Führen Sie Experimente durch und optimieren Sie Conversions",
         },
-      funnels: {
-        title: "Erweiterte Trichter",
+        funnels: {
+          title: "Erweiterte Trichter",
           desc: "Mehrstufige Conversion-Analyse",
         },
-      attribution: {
-        title: "Attributionsmodelle",
+        attribution: {
+          title: "Attributionsmodelle",
           desc: "Multi-Touch-Attribution und ROI-Tracking",
         },
-      cta: "Module durchsuchen",
+        cta: "Module durchsuchen",
       },
-    languages: {
-      title: "Sprechen Sie Ihre Sprache",
+      languages: {
+        title: "Sprechen Sie Ihre Sprache",
         desc: "OpenTrace unterstützt Englisch, Ukrainisch, Polnisch und Deutsch direkt nach der Installation.",
       },
-    cta: {
-      title: "Bereit, die Kontrolle zu übernehmen?",
+      cta: {
+        title: "Bereit, die Kontrolle zu übernehmen?",
         desc: "Schließen Sie sich Tausenden von Unternehmen an, die OpenTrace nutzen, um ihre Benutzer zu verstehen und deren Privatsphäre zu respektieren.",
-          button: "Tracking starten",
+        button: "Tracking starten",
       },
-    footer: {
-      tagline: "Datenschutzfreundliche Analyse für moderne Teams",
+      footer: {
+        tagline: "Datenschutzfreundliche Analyse für moderne Teams",
         product: "Produkt",
-          resources: "Ressourcen",
-            community: "Community",
+        resources: "Ressourcen",
+        community: "Community",
       },
-    stats_block: {
-      speed: "Abfragegeschwindigkeit",
+      stats_block: {
+        speed: "Abfragegeschwindigkeit",
         integrity: "Datenintegrität",
-          scalability: "Skalierbarkeit",
-            events: "Milliarden+ Ereignisse"
-    },
-    tech_stack: {
-      title: "Für Skalierung gebaut",
+        scalability: "Skalierbarkeit",
+        events: "Milliarden+ Ereignisse"
+      },
+      tech_stack: {
+        title: "Für Skalierung gebaut",
         subtitle: "Entwickelt mit dem fortschrittlichsten technischen Stack, um Stabilität und Leistung zu gewährleisten.",
-          fastapi: {
-        title: "FastAPI Engine",
+        fastapi: {
+          title: "FastAPI Engine",
           desc: "Asynchroner Kern, der Tausende von Anfragen pro Sekunde mit minimalem Overhead verarbeitet."
-      },
-      clickhouse: {
-        title: "ClickHouse Speicher",
+        },
+        clickhouse: {
+          title: "ClickHouse Speicher",
           desc: "Die weltweit schnellste spaltenorientierte Datenbank für analytische Workloads und Echtzeit-Reporting."
-      },
-      nextjs: {
-        title: "Next.js Oberfläche",
+        },
+        nextjs: {
+          title: "Next.js Oberfläche",
           desc: "Reaktionsschnelles und modernes Frontend, gebaut mit den neuesten React-Mustern für ein flüssiges Erlebnis."
-      }
-    },
-    enterprise: {
-      tier: "Tier-1 Infrastruktur",
+        }
+      },
+      enterprise: {
+        tier: "Tier-1 Infrastruktur",
         dashboards: "Eigene Dashboards",
-          retention: "Unendliche Datenspeicherung",
-            security: "Sichere Architektur",
-              api: "API-Zugriff"
+        retention: "Unendliche Datenspeicherung",
+        security: "Sichere Architektur",
+        api: "API-Zugriff"
+      },
     },
-  },
-  module_store: {
-    version: "Version",
+    module_store: {
+      version: "Version",
       status: {
-      available: "Verfügbar",
+        available: "Verfügbar",
         installed: "Installiert",
-          disabled: "Deaktiviert"
-    },
-    settings: "Einstellungen",
+        disabled: "Deaktiviert"
+      },
+      settings: "Einstellungen",
       enable: "Aktivieren",
-        disable: "Deaktivieren",
-          details: "Details"
-  },
-  smart_reports: {
-    title: "Smart Reports Konfiguration",
+      disable: "Deaktivieren",
+      details: "Details"
+    },
+    smart_reports: {
+      title: "Smart Reports Konfiguration",
       subtitle: "Richten Sie Ihre automatisierten Leistungsberichte ein.",
-        channels: "Zustellungskanäle",
-          resources: "Zielressourcen",
-            telegram: "Telegram-Bot-Token",
-              chat_id: "Telegram-Chat-ID",
-                discord: "Discord-Webhook-URL",
-                  email: "E-Mail-Empfänger (kommagetrennt)",
-                    frequency: "Berichtsfrequenz",
-                      daily: "Täglich",
-                        weekly: "Alle 7 Tage",
-                          time: "Zustellungszeit (Serverzeit)",
-                            save: "Einstellungen speichern",
-                              saving: "Speichern...",
-                                cancel: "Abbrechen"
+      channels: "Zustellungskanäle",
+      resources: "Zielressourcen",
+      telegram: "Telegram-Bot-Token",
+      chat_id: "Telegram-Chat-ID",
+      discord: "Discord-Webhook-URL",
+      email: "E-Mail-Empfänger (kommagetrennt)",
+      frequency: "Berichtsfrequenz",
+      daily: "Täglich",
+      weekly: "Alle 7 Tage",
+      time: "Zustellungszeit (Serverzeit)",
+      save: "Einstellungen speichern",
+      saving: "Speichern...",
+      cancel: "Abbrechen"
+    },
   },
-},
 };

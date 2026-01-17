@@ -56,10 +56,12 @@ export default function EventsPage() {
         if (!selectedResource) return;
         setLoading(true);
         try {
+            const token = localStorage.getItem('access_token');
+            const headers = { 'Authorization': `Bearer ${token}` };
             const [evRes, resRes, actionsRes] = await Promise.all([
-                fetch(`${API_URL}/events?resource_id=${selectedResource.id}`),
-                fetch(`${API_URL}/resources`),
-                fetch(`${API_URL}/event-actions`)
+                fetch(`${API_URL}/events?resource_id=${selectedResource.id}`, { headers }),
+                fetch(`${API_URL}/resources`, { headers }),
+                fetch(`${API_URL}/event-actions`, { headers })
             ]);
             if (evRes.ok) setEvents(await evRes.json());
             if (resRes.ok) setResources(await resRes.json());
@@ -121,9 +123,13 @@ export default function EventsPage() {
             const method = editingEvent ? 'PUT' : 'POST';
             const url = editingEvent ? `${API_URL}/events/${editingEvent.id}` : `${API_URL}/events`;
 
+            const token = localStorage.getItem('access_token');
             const res = await fetch(url, {
                 method: method,
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
                 body: JSON.stringify(form)
             });
 
@@ -131,11 +137,15 @@ export default function EventsPage() {
                 const eventData = await res.json();
 
                 if (!editingEvent) {
+                    const token = localStorage.getItem('access_token');
                     // Create actions for this event only if it's NEW
                     for (const action of actions) {
                         await fetch(`${API_URL}/event-actions`, {
                             method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}`
+                            },
                             body: JSON.stringify({
                                 event_id: eventData.id,
                                 ...action
@@ -178,9 +188,13 @@ export default function EventsPage() {
                 resource_id: selectedResource?.id
             };
 
+            const token = localStorage.getItem('access_token');
             const res = await fetch(`${API_URL}/campaigns`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
                 body: JSON.stringify(campaignData)
             });
 
@@ -229,9 +243,13 @@ ot.track_event(
         e.preventDefault();
         setDeleteData({ ...deleteData, loading: true });
         try {
+            const token = localStorage.getItem('access_token');
             const res = await fetch(`${API_URL}/events/${deleteData.id}`, {
                 method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
                 body: JSON.stringify({ password: deletePassword })
             });
             if (res.ok) {

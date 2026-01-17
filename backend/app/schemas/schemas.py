@@ -45,6 +45,7 @@ class CampaignBase(BaseModel):
     bot_id: Optional[str] = None
     bot_start_param: Optional[str] = None
     resource_id: Optional[int] = None
+    project_id: Optional[str] = None
 
 class CampaignCreate(CampaignBase): pass
 class Campaign(CampaignBase):
