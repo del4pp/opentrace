@@ -118,6 +118,9 @@ export default function Layout({ children }) {
             items: userRole === 'admin' ? [
                 { label: t('nav.settings'), href: '/settings' },
                 { label: t('nav.modules'), href: '/modules' },
+                { label: t('nav.users'), href: '/users' },
+                { label: t('nav.monitor'), href: '/monitor' },
+                { label: t('nav.docs'), href: '/docs' },
             ] : []
         }
     ];

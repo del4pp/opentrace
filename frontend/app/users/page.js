@@ -1,10 +1,11 @@
 "use client";
-import { useState, useEffect } from 'react';
-import Layout from '../../components/Layout';
+import { useTranslation } from '../../context/LanguageContext';
+import HelpButton from '../../components/HelpButton';
 
 const API_URL = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api'}`;
 
 export default function UsersPage() {
+    const { t } = useTranslation();
     const [email, setEmail] = useState('');
     const [loading, setLoading] = useState(false);
     const [role, setRole] = useState('admin');
@@ -34,10 +35,10 @@ export default function UsersPage() {
             const data = await res.json();
 
             if (res.ok) {
-                setMsg(`Invitation sent to ${email}`);
+                setMsg(t('users_page.success') || `Invitation sent to ${email}`);
                 setEmail('');
             } else {
-                setError(data.detail || "Failed to send invitation");
+                setError(data.detail || t('users_page.error_failed'));
             }
         } catch (err) {
             setError("Network error");
@@ -48,15 +49,21 @@ export default function UsersPage() {
 
     return (
         <div style={{ maxWidth: '1200px' }}>
-            <div style={{ marginBottom: '40px' }}>
-                <h1 style={{ fontSize: '32px', fontWeight: 900, letterSpacing: '-0.04em', marginBottom: '8px' }}>
-                    Team Management
-                </h1>
-                <p style={{ color: '#64748b', fontSize: '16px' }}>Invite your colleagues to join OpenTrace</p>
+            <div style={{ marginBottom: '40px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                <div>
+                    <h1 style={{ fontSize: '32px', fontWeight: 900, letterSpacing: '-0.04em', marginBottom: '8px' }}>
+                        {t('users_page.title') || 'Team Management'}
+                    </h1>
+                    <p style={{ color: '#64748b', fontSize: '16px' }}>{t('users_page.subtitle') || 'Invite your colleagues to join OpenTrace'}</p>
+                </div>
+                <HelpButton
+                    title={t('users_page.help.title')}
+                    content={t('users_page.help.content')}
+                />
             </div>
 
             <div className="card-lux" style={{ maxWidth: '600px' }}>
-                <h2 style={{ fontSize: '18px', fontWeight: 800, marginBottom: '24px' }}>Invite New Member</h2>
+                <h2 style={{ fontSize: '18px', fontWeight: 800, marginBottom: '24px' }}>{t('users_page.invite_title') || 'Invite New Member'}</h2>
 
                 <form onSubmit={handleInvite}>
                     {msg && (
@@ -71,11 +78,11 @@ export default function UsersPage() {
                     )}
 
                     <div className="form-field">
-                        <label>Email Address</label>
+                        <label>{t('users_page.email_label') || 'Email Address'}</label>
                         <input
                             type="email"
                             className="input-lux"
-                            placeholder="colleague@company.com"
+                            placeholder={t('users_page.placeholder') || "colleague@company.com"}
                             value={email}
                             onChange={e => setEmail(e.target.value)}
                             required
@@ -106,11 +113,11 @@ export default function UsersPage() {
                         disabled={loading}
                         style={{ width: '100%', marginTop: '8px' }}
                     >
-                        {loading ? 'Sending...' : 'Send Invitation'}
+                        {loading ? t('users_page.loading') : t('users_page.send_btn')}
                     </button>
 
                     <p style={{ fontSize: '12px', color: '#94a3b8', marginTop: '16px', textAlign: 'center' }}>
-                        An invitation email will be sent with a link to set up their account.
+                        {t('users_page.footer_note')}
                     </p>
                 </form>
             </div>

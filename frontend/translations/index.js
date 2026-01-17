@@ -669,6 +669,10 @@ export const translations = {
       placeholder: "colleague@company.com",
       footer_note:
         "An invitation email will be sent with a link to set up their account.",
+      help: {
+        title: "Team Management",
+        content: "Invite your team members to collaborate on analytics. Admins have full access to configuration, while Demo users can only view data without making changes.",
+      },
     },
     monitor: {
       title: "Resource Monitor",
@@ -684,6 +688,10 @@ export const translations = {
       avail_mem: "Available RAM",
       total_disk: "Total Disk Space",
       avail_disk: "Available Disk Space",
+      help: {
+        title: "Infrastructure Monitoring",
+        content: "Real-time health status of your OpenTrace instance. Monitor CPU, RAM, and Disk usage along with database connectivity and system uptime.",
+      },
     },
     common: {
       actions: "Actions",
@@ -1360,6 +1368,10 @@ export const translations = {
       placeholder: "colleague@company.com",
       footer_note:
         "На вказану пошту буде надіслано лист із посиланням для створення акаунту.",
+      help: {
+        title: "Керування командою",
+        content: "Запрошуйте учасників вашої команди для спільної роботи. Адміністратори мають повний доступ до конфігурації, тоді як користувачі з роллю 'Демо' можуть лише переглядати дані.",
+      },
     },
     monitor: {
       title: "Моніторинг ресурсів",
@@ -1375,6 +1387,10 @@ export const translations = {
       avail_mem: "Доступно RAM",
       total_disk: "Всього на диску",
       avail_disk: "Вільно на диску",
+      help: {
+        title: "Моніторинг інфраструктури",
+        content: "Стан вашого інстансу OpenTrace у реальному часі. Відстежуйте навантаження на процесор, пам'ять та диск, а також статус підключення до баз даних.",
+      },
     },
     common: {
       actions: "Дії",
@@ -1627,6 +1643,39 @@ export const translations = {
       ownership: "Suwerenność danych",
       ownershipDesc:
         "Twoje dane pozostają na Twojej infrastrukturze. Własność telemetryczna 100%.",
+    },
+    users_page: {
+      title: "Zarządzanie zespołem",
+      subtitle: "Zaproś i zarządzaj członkami swojego zespołu",
+      invite_title: "Zaproś nowego członka",
+      email_label: "Adres Email",
+      send_btn: "Wyślij zaproszenie",
+      loading: "Wysyłanie...",
+      success: "Zaproszenie wysłane pomyślnie!",
+      placeholder: "colleague@company.com",
+      footer_note: "Na podany adres e-mail zostanie wysłana wiadomość z linkiem do konfiguracji konta.",
+      help: {
+        title: "Zarządzanie zespołem",
+        content: "Zaproś członków swojego zespołu do współpracy. Administratorzy mają pełny dostęp do konfiguracji, podczas gdy użytkownicy 'Demo' mogą tylko przeglądać dane.",
+      },
+    },
+    monitor: {
+      title: "Monitor zasobów",
+      subtitle: "Stan infrastruktury i wydajność serwera",
+      cpu: "Obciążenie procesora",
+      memory: "Użycie pamięci",
+      disk: "Przestrzeń dyskowa",
+      uptime: "Czas pracy serwera",
+      total_disk: "Całkowity dysk",
+      avail_disk: "Dostępny dysk",
+      help: {
+        title: "Monitorowanie infrastruktury",
+        content: "Stan zdrowia Twojej instancji OpenTrace w czasie rzeczywistym. Monitoruj użycie procesora, pamięci RAM i dysku oraz łączność z bazami danych.",
+      },
+    },
+    common: {
+      actions: "Akcje",
+      delete: "Usuń",
     },
     footer: {
       copyright: "© 2025 OpenTrace Analytics",
@@ -2022,6 +2071,39 @@ export const translations = {
       realtimeDesc: "Basiert auf ClickHouse für sofortige Einblicke.",
       ownership: "Datensouveränität",
       ownershipDesc: "Ihre Daten bleiben auf Ihrer Infrastruktur.",
+    },
+    users_page: {
+      title: "Teamverwaltung",
+      subtitle: "Laden Sie Teammitglieder ein und verwalten Sie diese",
+      invite_title: "Neues Mitglied einladen",
+      email_label: "E-Mail-Adresse",
+      send_btn: "Einladung senden",
+      loading: "Wird gesendet...",
+      success: "Einladung erfolgreich gesendet!",
+      placeholder: "kollege@firma.de",
+      footer_note: "Eine E-Mail mit einem Link zur Kontoeinrichtung wird gesendet.",
+      help: {
+        title: "Teamverwaltung",
+        content: "Laden Sie Teammitglieder zur Zusammenarbeit ein. Admins haben vollen Zugriff, während Demo-Nutzer Daten nur einsehen, aber nicht ändern können.",
+      },
+    },
+    monitor: {
+      title: "Ressourcen-Monitor",
+      subtitle: "Infrastruktur-Status und Serverleistung",
+      cpu: "Prozessorauslastung",
+      memory: "Speicherauslastung",
+      disk: "Festplattenplatz",
+      uptime: "Server-Uptime",
+      total_disk: "Gesamtspeicher",
+      avail_disk: "Verfügbarer Speicher",
+      help: {
+        title: "Infrastruktur-Überwachung",
+        content: "Echtzeit-Status Ihrer OpenTrace-Instanz. Überwachen Sie CPU-, RAM- und Festplattenauslastung sowie die Datenbankverbindung.",
+      },
+    },
+    common: {
+      actions: "Aktionen",
+      delete: "Löschen",
     },
     footer: {
       copyright: "© 2025 OpenTrace Analytics",

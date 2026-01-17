@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from 'react';
 import { useTranslation } from '../../context/LanguageContext';
+import HelpButton from '../../components/HelpButton';
 
 const API_URL = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api'}`;
 
@@ -78,9 +79,15 @@ export default function MonitorPage() {
 
     return (
         <div className="fade-in">
-            <div style={{ marginBottom: '40px' }}>
-                <h1 style={{ fontSize: '32px', fontWeight: 800 }}>{t('monitor.title') || 'Resource Monitor'}</h1>
-                <p className="subtitle">{t('monitor.subtitle') || 'Infrastructure health and performance metrics'}</p>
+            <div style={{ marginBottom: '40px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                <div>
+                    <h1 style={{ fontSize: '32px', fontWeight: 800 }}>{t('monitor.title') || 'Resource Monitor'}</h1>
+                    <p className="subtitle">{t('monitor.subtitle') || 'Infrastructure health and performance metrics'}</p>
+                </div>
+                <HelpButton
+                    title={t('monitor.help.title')}
+                    content={t('monitor.help.content')}
+                />
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px', marginBottom: '40px' }}>
