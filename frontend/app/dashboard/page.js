@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from '../../context/LanguageContext';
 import { useResource } from '../../context/ResourceContext';
+import { apiFetch } from '../../utils/api';
 import HelpButton from '../../components/HelpButton';
 
 const API_URL = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api'}`;
@@ -26,7 +27,7 @@ export default function DashboardPage() {
     const fetchStats = async () => {
         if (!selectedResource) return;
         try {
-            let url = `${API_URL}/dashboard/stats?resource_id=${selectedResource.uid}`;
+            let url = `/dashboard/stats?resource_id=${selectedResource.uid}`;
 
             if (dateRange !== '24h') {
                 let start = new Date();
@@ -59,8 +60,8 @@ export default function DashboardPage() {
                 url += `&start=${startStr}&end=${endStr}`;
             }
 
-            const res = await fetch(url);
-            if (res.ok) {
+            const res = await apiFetch(url);
+            if (res && res.ok) {
                 const data = await res.json();
                 setStats(data);
             }

@@ -12,7 +12,7 @@ from ..database import get_clickhouse_client
 from ..config import settings
 from ..conversion_apis import process_event_actions
 from ..database import get_db
-from ..security import verify_token
+from ..security import verify_token, get_current_user
 from .. import models
 
 router = APIRouter(tags=["Analytics"])
@@ -108,7 +108,7 @@ async def send_to_conversion_api(event_name: str, data: dict, fbclid: str = None
         await log_system("ERROR", "CAPI", str(e))
 
 @router.get("/api/dashboard/stats")
-async def get_dashboard_stats(resource_id: Optional[str] = None, start: Optional[str] = None, end: Optional[str] = None, db: AsyncSession = Depends(get_db)):
+async def get_dashboard_stats(resource_id: Optional[str] = None, start: Optional[str] = None, end: Optional[str] = None, db: AsyncSession = Depends(get_db), current_user = Depends(get_current_user)):
     try:
         client = get_clickhouse_client()
         params = {}
@@ -234,7 +234,7 @@ async def collect_telemetry(request: Request, background_tasks: BackgroundTasks)
         return {"status": "error", "message": str(e)}
 
 @router.get("/api/analytics/live")
-async def get_live_analytics(resource_id: Optional[str] = None, db: AsyncSession = Depends(get_db)):
+async def get_live_analytics(resource_id: Optional[str] = None, db: AsyncSession = Depends(get_db), current_user = Depends(get_current_user)):
     try:
         r_pattern = resource_id if resource_id and resource_id != 'undefined' else '*'
         pattern = f"ot:heartbeat:{r_pattern}:*"
@@ -265,7 +265,7 @@ async def get_live_analytics(resource_id: Optional[str] = None, db: AsyncSession
         return {"online": 0, "locations": [], "error": str(e)}
 
 @router.get("/api/logs")
-async def get_logs():
+async def get_logs(current_user = Depends(get_current_user)):
     try:
         client = get_clickhouse_client()
         result = client.query("SELECT * FROM system_logs ORDER BY timestamp DESC LIMIT 50")
@@ -273,7 +273,7 @@ async def get_logs():
     except: return []
 
 @router.get("/api/analytics/explore")
-async def explore_analytics(resource_id: Optional[str] = None, start: Optional[str] = None, end: Optional[str] = None, db: AsyncSession = Depends(get_db)):
+async def explore_analytics(resource_id: Optional[str] = None, start: Optional[str] = None, end: Optional[str] = None, db: AsyncSession = Depends(get_db), current_user = Depends(get_current_user)):
     try:
         client = get_clickhouse_client()
         params, conditions = {}, []

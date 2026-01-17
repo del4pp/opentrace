@@ -152,7 +152,7 @@ async def create_backup(admin = Depends(requires_admin)):
         raise HTTPException(status_code=500, detail=f"Backup failed: {str(e)}")
 
 @router.get("/api/system/backups")
-async def list_backups():
+async def list_backups(admin = Depends(requires_admin)):
     backup_dir = "/app/data/backups"
     if not os.path.exists(backup_dir):
         return []

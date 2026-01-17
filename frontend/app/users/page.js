@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect } from 'react';
 import { useTranslation } from '../../context/LanguageContext';
 import HelpButton from '../../components/HelpButton';
 
@@ -6,11 +7,19 @@ const API_URL = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api
 
 export default function UsersPage() {
     const { t } = useTranslation();
+    const [userRole, setUserRole] = useState('demo');
     const [email, setEmail] = useState('');
     const [loading, setLoading] = useState(false);
     const [role, setRole] = useState('admin');
     const [msg, setMsg] = useState('');
     const [error, setError] = useState('');
+
+    useEffect(() => {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user && user.role) {
+            setUserRole(user.role);
+        }
+    }, []);
 
     const handleInvite = async (e) => {
         e.preventDefault();
@@ -62,65 +71,73 @@ export default function UsersPage() {
                 />
             </div>
 
-            <div className="card-lux" style={{ maxWidth: '600px' }}>
-                <h2 style={{ fontSize: '18px', fontWeight: 800, marginBottom: '24px' }}>{t('users_page.invite_title') || 'Invite New Member'}</h2>
+            {userRole === 'admin' ? (
+                <div className="card-lux" style={{ maxWidth: '600px' }}>
+                    <h2 style={{ fontSize: '18px', fontWeight: 800, marginBottom: '24px' }}>{t('users_page.invite_title') || 'Invite New Member'}</h2>
 
-                <form onSubmit={handleInvite}>
-                    {msg && (
-                        <div style={{ padding: '12px', background: '#ecfdf5', color: '#047857', borderRadius: '8px', marginBottom: '20px', fontSize: '14px', fontWeight: 600 }}>
-                            {msg}
+                    <form onSubmit={handleInvite}>
+                        {msg && (
+                            <div style={{ padding: '12px', background: '#ecfdf5', color: '#047857', borderRadius: '8px', marginBottom: '20px', fontSize: '14px', fontWeight: 600 }}>
+                                {msg}
+                            </div>
+                        )}
+                        {error && (
+                            <div style={{ padding: '12px', background: '#fef2f2', color: '#991b1b', borderRadius: '8px', marginBottom: '20px', fontSize: '14px', fontWeight: 600 }}>
+                                {error}
+                            </div>
+                        )}
+
+                        <div className="form-field">
+                            <label>{t('users_page.email_label') || 'Email Address'}</label>
+                            <input
+                                type="email"
+                                className="input-lux"
+                                placeholder={t('users_page.placeholder') || "colleague@company.com"}
+                                value={email}
+                                onChange={e => setEmail(e.target.value)}
+                                required
+                            />
                         </div>
-                    )}
-                    {error && (
-                        <div style={{ padding: '12px', background: '#fef2f2', color: '#991b1b', borderRadius: '8px', marginBottom: '20px', fontSize: '14px', fontWeight: 600 }}>
-                            {error}
+
+                        <div className="form-field" style={{ marginTop: '20px' }}>
+                            <label>User Role</label>
+                            <select
+                                className="input-lux"
+                                value={role}
+                                onChange={e => setRole(e.target.value)}
+                                style={{ width: '100%', padding: '12px' }}
+                            >
+                                <option value="admin">Admin (Full Access)</option>
+                                <option value="demo">Demo (View Only)</option>
+                            </select>
+                            <p style={{ fontSize: '11px', color: '#94a3b8', marginTop: '4px' }}>
+                                {role === 'admin'
+                                    ? 'Admin can manage resources, campaigns, and settings.'
+                                    : 'Demo users can only view charts and reports.'}
+                            </p>
                         </div>
-                    )}
 
-                    <div className="form-field">
-                        <label>{t('users_page.email_label') || 'Email Address'}</label>
-                        <input
-                            type="email"
-                            className="input-lux"
-                            placeholder={t('users_page.placeholder') || "colleague@company.com"}
-                            value={email}
-                            onChange={e => setEmail(e.target.value)}
-                            required
-                        />
-                    </div>
-
-                    <div className="form-field" style={{ marginTop: '20px' }}>
-                        <label>User Role</label>
-                        <select
-                            className="input-lux"
-                            value={role}
-                            onChange={e => setRole(e.target.value)}
-                            style={{ width: '100%', padding: '12px' }}
+                        <button
+                            type="submit"
+                            className="btn-premium"
+                            disabled={loading}
+                            style={{ width: '100%', marginTop: '8px' }}
                         >
-                            <option value="admin">Admin (Full Access)</option>
-                            <option value="demo">Demo (View Only)</option>
-                        </select>
-                        <p style={{ fontSize: '11px', color: '#94a3b8', marginTop: '4px' }}>
-                            {role === 'admin'
-                                ? 'Admin can manage resources, campaigns, and settings.'
-                                : 'Demo users can only view charts and reports.'}
+                            {loading ? t('users_page.loading') : t('users_page.send_btn')}
+                        </button>
+
+                        <p style={{ fontSize: '12px', color: '#94a3b8', marginTop: '16px', textAlign: 'center' }}>
+                            {t('users_page.footer_note')}
                         </p>
-                    </div>
-
-                    <button
-                        type="submit"
-                        className="btn-premium"
-                        disabled={loading}
-                        style={{ width: '100%', marginTop: '8px' }}
-                    >
-                        {loading ? t('users_page.loading') : t('users_page.send_btn')}
-                    </button>
-
-                    <p style={{ fontSize: '12px', color: '#94a3b8', marginTop: '16px', textAlign: 'center' }}>
-                        {t('users_page.footer_note')}
-                    </p>
-                </form>
-            </div>
+                    </form>
+                </div>
+            ) : (
+                <div className="card-lux" style={{ maxWidth: '600px', textAlign: 'center', padding: '40px' }}>
+                    <div style={{ fontSize: '48px', marginBottom: '16px' }}>🛡️</div>
+                    <h2 style={{ fontWeight: 800, marginBottom: '8px' }}>Access Restricted</h2>
+                    <p style={{ color: '#64748b' }}>Only administrators can invite new team members.</p>
+                </div>
+            )}
         </div>
     );
 }

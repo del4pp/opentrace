@@ -4,7 +4,7 @@ from sqlalchemy import select, delete, func
 from .. import models
 from ..schemas import schemas
 from ..database import get_db
-from ..security import verify_password, get_password_hash, create_access_token
+from ..security import verify_password, get_password_hash, create_access_token, requires_admin
 from ..email_utils import send_email
 import secrets
 import string
@@ -178,7 +178,7 @@ async def reset_password(req: schemas.PasswordResetConfirm, db: AsyncSession = D
     return {"status": "success", "message": "Password has been reset successfully."}
 
 @router.post("/api/invite")
-async def invite_user(req: schemas.InvitationRequest, db: AsyncSession = Depends(get_db)):
+async def invite_user(req: schemas.InvitationRequest, db: AsyncSession = Depends(get_db), admin = Depends(requires_admin)):
     # 1. Check if user already exists
     res = await db.execute(select(models.User).where(models.User.email == req.email))
     if res.scalars().first():

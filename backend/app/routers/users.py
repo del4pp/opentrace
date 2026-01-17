@@ -5,6 +5,7 @@ from typing import List, Optional
 import json
 from .. import models
 from ..database import get_db, get_clickhouse_client
+from ..security import get_current_user
 from pydantic import BaseModel
 from datetime import datetime
 
@@ -34,7 +35,8 @@ async def get_user_timeline(
     date_to: Optional[str] = None,
     event_name: Optional[str] = None,
     limit: int = 100,
-    db: AsyncSession = Depends(get_db)
+    db: AsyncSession = Depends(get_db),
+    current_user = Depends(get_current_user)
 ):
     # 1. Resolve Resource
     res_obj = await db.execute(select(models.Resource).where(models.Resource.id == resource_id))

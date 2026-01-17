@@ -3,6 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from typing import List, Optional
 from ..database import get_db, get_clickhouse_client
+from ..security import get_current_user
 from .. import models
 from pydantic import BaseModel
 from ..security import get_current_user

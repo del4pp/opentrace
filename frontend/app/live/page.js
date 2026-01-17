@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from '../../context/LanguageContext';
+import { apiFetch } from '../../utils/api';
 import { useResource } from '../../context/ResourceContext';
 import { ComposableMap, Geographies, Geography, Marker, ZoomableGroup } from "react-simple-maps";
 
@@ -34,8 +35,8 @@ export default function LivePage() {
     const fetchLive = async () => {
         if (!selectedResource) return;
         try {
-            const res = await fetch(`${API_URL}/analytics/live?resource_id=${selectedResource.uid}`);
-            if (res.ok) {
+            const res = await apiFetch(`/analytics/live?resource_id=${selectedResource.uid}`);
+            if (res && res.ok) {
                 const data = await res.json();
                 setLiveData(data);
                 setPulse(true);

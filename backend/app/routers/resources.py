@@ -5,12 +5,12 @@ from typing import List
 from .. import models
 from ..schemas import schemas
 from ..database import get_db
-from ..security import check_admin_auth, requires_admin
+from ..security import check_admin_auth, requires_admin, get_current_user
 
 router = APIRouter(tags=["Resources"])
 
 @router.get("/api/resources", response_model=List[schemas.Resource])
-async def get_resources(db: AsyncSession = Depends(get_db)):
+async def get_resources(db: AsyncSession = Depends(get_db), current_user = Depends(get_current_user)):
     result = await db.execute(select(models.Resource).order_by(models.Resource.created_at.desc()))
     return result.scalars().all()
 

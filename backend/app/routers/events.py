@@ -5,12 +5,12 @@ from typing import List, Optional
 from .. import models
 from ..schemas import schemas
 from ..database import get_db
-from ..security import check_admin_auth, requires_admin
+from ..security import check_admin_auth, requires_admin, get_current_user
 
 router = APIRouter(tags=["Events"])
 
 @router.get("/api/events")
-async def get_events(resource_id: Optional[int] = None, db: AsyncSession = Depends(get_db)):
+async def get_events(resource_id: Optional[int] = None, db: AsyncSession = Depends(get_db), current_user = Depends(get_current_user)):
     from ..database import get_clickhouse_client
     
     query = select(models.Event)

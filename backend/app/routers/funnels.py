@@ -5,6 +5,7 @@ from sqlalchemy.orm import selectinload
 from typing import List, Optional
 from .. import models
 from ..database import get_db, get_clickhouse_client
+from ..security import get_current_user
 from pydantic import BaseModel
 from datetime import datetime
 import json
@@ -25,7 +26,7 @@ class FunnelCreate(BaseModel):
     steps: List[StepCreate]
 
 @router.get("/api/funnels")
-async def get_funnels(resource_id: int, db: AsyncSession = Depends(get_db)):
+async def get_funnels(resource_id: int, db: AsyncSession = Depends(get_db), current_user = Depends(get_current_user)):
     result = await db.execute(
         select(models.Funnel).where(models.Funnel.resource_id == resource_id).options(selectinload(models.Funnel.steps))
     )
@@ -41,7 +42,7 @@ async def get_funnels(resource_id: int, db: AsyncSession = Depends(get_db)):
     ]
 
 @router.post("/api/funnels")
-async def create_funnel(req: FunnelCreate, db: AsyncSession = Depends(get_db)):
+async def create_funnel(req: FunnelCreate, db: AsyncSession = Depends(get_db), current_user = Depends(get_current_user)):
     funnel = models.Funnel(name=req.name, resource_id=req.resource_id)
     db.add(funnel)
     await db.flush()
@@ -62,7 +63,7 @@ async def create_funnel(req: FunnelCreate, db: AsyncSession = Depends(get_db)):
     return {"status": "success", "id": funnel.id}
 
 @router.delete("/api/funnels/{id}")
-async def delete_funnel(id: int, db: AsyncSession = Depends(get_db)):
+async def delete_funnel(id: int, db: AsyncSession = Depends(get_db), current_user = Depends(get_current_user)):
     result = await db.execute(select(models.Funnel).where(models.Funnel.id == id))
     funnel = result.scalars().first()
     if not funnel:
@@ -73,7 +74,7 @@ async def delete_funnel(id: int, db: AsyncSession = Depends(get_db)):
     return {"status": "success"}
 
 @router.get("/api/funnels/{id}/stats")
-async def get_funnel_stats(id: int, db: AsyncSession = Depends(get_db)):
+async def get_funnel_stats(id: int, db: AsyncSession = Depends(get_db), current_user = Depends(get_current_user)):
     # 1. Fetch Funnel with steps
     res = await db.execute(select(models.Funnel).where(models.Funnel.id == id).options(selectinload(models.Funnel.steps)))
     funnel = res.scalars().first()
