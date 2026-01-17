@@ -148,7 +148,7 @@ export default function Layout({ children }) {
                     )}
                 </div>
 
-                <nav style={{ flex: 1, paddingBottom: '20px' }} className="thin-scrollbar">
+                <nav style={{ flex: 1, paddingBottom: '20px', overflowY: 'auto' }} className="thin-scrollbar">
                     {navGroups.map((group, gidx) => (
                         <div key={gidx} style={{ marginBottom: '32px' }}>
                             <div style={{
@@ -176,9 +176,10 @@ export default function Layout({ children }) {
                 </nav>
 
                 <div style={{
-                    padding: '20px 16px',
+                    padding: '20px 16px 0',
                     borderTop: '1px solid var(--border)',
-                    marginTop: 'auto'
+                    marginTop: 'auto',
+                    flexShrink: 0
                 }}>
                     <div className="lang-switcher" style={{ marginBottom: '12px' }}>
                         {['en', 'ua', 'pl', 'de'].map(l => (
