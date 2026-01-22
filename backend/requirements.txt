@@ -13,7 +13,7 @@ certifi==2025.11.12
 cffi==2.0.0
 click==8.3.1
 clickhouse-connect==0.10.0
-email-validator==2.2.0
+email-validator==2.3.0
 cryptography==46.0.3
 ecdsa==0.19.1
 fastapi==0.128.0
